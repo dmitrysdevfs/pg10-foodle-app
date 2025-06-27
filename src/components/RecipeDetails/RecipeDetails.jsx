@@ -1,7 +1,8 @@
 import { useState } from 'react';
-import { useAuth } from '../hooks/useAuth'; // кастомний хук
+import { useAuth } from '../hooks/useAuth';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { toast } from 'react-toastify';
 
 const RecipeDetails = ({ recipe }) => {
   const { user, token } = useAuth();
@@ -9,21 +10,27 @@ const RecipeDetails = ({ recipe }) => {
   const navigate = useNavigate();
 
   const handleSave = async () => {
-    if (!user) return navigate('/auth/login');
+    if (!user) {
+      navigate('/auth/login');
+      return;
+    }
+
     try {
       if (saved) {
         await axios.delete(`/api/favorites/${recipe._id}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
+        toast.info('Recipe removed from favorites');
       } else {
         await axios.post(`/api/favorites/${recipe._id}`, null, {
           headers: { Authorization: `Bearer ${token}` },
         });
+        toast.success('Recipe added to favorites');
       }
       setSaved(!saved);
-    } catch (err) {
-      alert('Error saving recipe');
-    }
+    } catch (error) {
+  toast.error('An error occurred while updating favorites');
+}
   };
 
   return (
@@ -50,7 +57,6 @@ const RecipeDetails = ({ recipe }) => {
       </div>
 
       <button onClick={handleSave}>
-        {/* {saved ? 'Saved' : 'Save'} */}
         {saved ? 'Remove' : 'Save'}
       </button>
     </div>
