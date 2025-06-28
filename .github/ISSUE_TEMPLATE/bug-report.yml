@@ -1,0 +1,29 @@
+name: 🐞 Bug Report
+description: Повідомити про помилку у роботі застосунку
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Дякуємо, що допомагаєш покращити проєкт 🙌
+  - type: input
+    id: summary
+    attributes:
+      label: Короткий опис проблеми
+      placeholder: Наприклад, кнопка "Login" не працює...
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Кроки для відтворення
+      description: Опиши як можна повторити ситуацію
+  - type: dropdown
+    id: browser
+    attributes:
+      label: Браузер
+      options:
+        - Chrome
+        - Firefox
+        - Safari
+        - Інше
