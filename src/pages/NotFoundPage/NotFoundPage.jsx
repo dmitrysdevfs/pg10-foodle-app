@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
-import css from './NotFound.module.css';
+import css from './NotFoundPage.module.css';
 
-export default function NotFound() {
+export default function NotFoundPage() {
   return (
     <div className={css.container}>
       <h1 className={css.title}>404</h1>
