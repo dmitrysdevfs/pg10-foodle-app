@@ -1,24 +1,18 @@
 import { useParams } from 'react-router-dom';
-import { useEffect, useState } from 'react';
-import RecipeDetails from '../components/RecipeDetails';
-import NotFound from '../components/NotFound';
-import axios from 'axios';
 
-const RecipeViewPage = () => {
+import css from './RecipeViewPage.module.css';
+
+export default function RecipeViewPage() {
   const { id } = useParams();
-  const [recipe, setRecipe] = useState(null);
-  const [error, setError] = useState(false);
 
-  useEffect(() => {
-    axios.get(`/api/recipes/${id}`)
-      .then(res => setRecipe(res.data))
-      .catch(() => setError(true));
-  }, [id]);
+  return (
+    <div className={css.container}>
+      <h1 className={css.title}>Recipe #{id}</h1>
+      <div className={css.content}>
+        <p>Detailed recipe information will be here</p>
+        <p>Recipe ID: {id}</p>
+      </div>
+    </div>
+  );
+} 
 
-  if (error) return <NotFound />;
-  if (!recipe) return <p>Loading...</p>;
-
-  return <RecipeDetails recipe={recipe} />;
-};
-
-export default RecipeViewPage;

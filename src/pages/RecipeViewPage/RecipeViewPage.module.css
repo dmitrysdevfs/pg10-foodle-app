@@ -1,0 +1,17 @@
+.container {
+  padding: 2rem;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.title {
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+  color: #333;
+}
+
+.content {
+  background: #f9f9f9;
+  padding: 1.5rem;
+  border-radius: 8px;
+}
