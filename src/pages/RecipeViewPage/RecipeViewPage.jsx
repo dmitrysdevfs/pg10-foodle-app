@@ -13,4 +13,4 @@ export default function RecipeViewPage() {
       </div>
     </div>
   );
-} 
+};
