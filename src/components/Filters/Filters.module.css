@@ -1,0 +1,98 @@
+.pcFilter {
+  display: none;
+}
+
+.mobFilterBtn {
+  background-color: transparent;
+  border: none;
+  font-family: Montserrat;
+  font-weight: 600;
+  font-size: 12px;
+  color: rgb(0, 0, 0);
+  cursor: pointer;
+}
+
+/* .count {
+  font-size: 16px;
+  color: var(--color-text-dark);
+  margin: 0;
+}
+
+.number {
+  font-weight: 600;
+  color: var(--color-primary);
+}
+
+.controls {
+  display: flex;
+  gap: 16px;
+  align-items: end;
+  flex-wrap: wrap;
+}
+
+.filterGroup {
+  display: flex;
+  flex-direction: column;
+  min-width: 200px;
+}
+
+.label {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--color-text-dark);
+  margin-bottom: 8px;
+}
+
+.select {
+  padding: 10px 12px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius-md);
+  font-size: 14px;
+  background-color: var(--color-bg-white);
+  transition: border-color 0.3s ease;
+}
+
+.select:focus {
+  outline: none;
+  border-color: var(--color-primary);
+}
+
+.resetButton {
+  padding: 10px 20px;
+  background-color: transparent;
+  color: var(--color-text-gray);
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius-md);
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  height: fit-content;
+}
+
+.resetButton:hover {
+  background-color: var(--color-error);
+  color: var(--color-text-light);
+  border-color: var(--color-error);
+}
+
+@media screen and (max-width: 767px) {
+  .filters {
+    padding: 16px;
+    margin-bottom: 24px;
+  }
+
+  .controls {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .filterGroup {
+    min-width: 100%;
+  }
+
+  .resetButton {
+    width: 100%;
+    padding: 12px;
+  }
+} */
