@@ -14,8 +14,10 @@ export default function HomePage() {
       <h1 className={css.title}>PG10-Foodle 🍲</h1>
       <p className={css.subtitle}>All Recipes</p>
       <div className={css.content}>
+
         <RecipesList recipes={recipes} />
       </div>
     </div>
   );
 }
+
