@@ -1,0 +1,132 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  padding: 16px;
+  background-color: #fff;
+  color: #1a1a1a;
+  font-family: 'Segoe UI', sans-serif;
+  max-width: 100%;
+}
+
+.title {
+  font-size: 24px;
+  font-weight: 600;
+  margin: 16px 0;
+}
+
+.image {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+.sectionTitle {
+  font-size: 18px;
+  margin: 24px 0 8px;
+  font-weight: 600;
+}
+
+.description,
+.instructions {
+  font-size: 16px;
+  line-height: 1.5;
+  margin-bottom: 24px;
+}
+
+.ingredientsList {
+  list-style: disc inside;
+  margin-bottom: 16px;
+  padding-left: 16px;
+}
+
+.infoBox {
+  background-color: #fef7e5;
+  border-radius: 8px;
+  padding: 16px;
+  margin: 16px 0;
+  font-size: 14px;
+}
+
+.infoItem {
+  margin-bottom: 8px;
+}
+
+.button {
+  margin-top: 8px;
+  background-color: #9c6b44;
+  color: white;
+  font-size: 14px;
+  padding: 10px 16px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  width: 100%;
+  transition: background-color 0.3s ease;
+}
+
+.button:hover {
+  background-color: #815533;
+}
+
+/* ================== TABLET ================== */
+@media screen and (min-width: 600px) {
+  .title {
+    font-size: 28px;
+  }
+
+  .sectionTitle {
+    font-size: 20px;
+  }
+
+  .button {
+    font-size: 15px;
+    width: auto;
+  }
+
+  .infoBox {
+    max-width: 300px;
+    margin-top: 24px;
+  }
+}
+
+/* ================== DESKTOP ================== */
+@media screen and (min-width: 1024px) {
+  .container {
+    flex-direction: row;
+    gap: 32px;
+    max-width: 1200px;
+    margin: 32px auto;
+    padding: 32px;
+  }
+
+  .content {
+    flex: 2;
+  }
+
+  .sidebar {
+    flex: 1;
+    max-width: 300px;
+  }
+
+  .title {
+    font-size: 32px;
+  }
+
+  .sectionTitle {
+    font-size: 22px;
+  }
+
+  .image {
+    max-height: 400px;
+  }
+
+  .infoBox {
+    padding: 20px;
+    font-size: 15px;
+  }
+
+  .button {
+    width: 100%;
+  }
+}
