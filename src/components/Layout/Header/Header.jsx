@@ -1,6 +1,5 @@
 import { NavLink } from 'react-router-dom';
 import css from './Header.module.css';
-import Logo from '../../assets/icon-layout';
 import clsx from 'clsx';
 
 const buildLinkClass = ({ isActive }) => {
@@ -11,26 +10,18 @@ export default function Header() {
   return (
     <>
       <header className={css.headerNav}>
-        <nav className={css.nav}>
-          <ul className={css.navList}>
-            <li className={css.navItem}>
-              <NavLink to="/">
-                <img className={css.logoNav} src={Logo} alt="logo" />
-              </NavLink>
-              Tasteorama
-            </li>
-            <li>
-              <NavLink to="/" className={buildLinkClass}>
-                Home Page
-              </NavLink>
-            </li>
-            <li className={css.navItem}>
-              <NavLink to="/movies" className={buildLinkClass}>
-                Movie Page
-              </NavLink>
-            </li>
-          </ul>
-        </nav>
+        <div className={css.inner}>
+          <NavLink to="/" className={css.logoLink}>
+            <span className={css.logoText}>Tasteorama</span>
+          </NavLink>
+          <nav className={css.nav}>
+            <NavLink to="/" className={buildLinkClass}>
+              Recipes
+            </NavLink>
+            <NavLink to='/login' className={buildLinkClass}>Log in</NavLink>
+            <NavLink to='/register' className={buildLinkClass}>Register</NavLink>
+          </nav>
+        </div>
       </header>
     </>
   );
