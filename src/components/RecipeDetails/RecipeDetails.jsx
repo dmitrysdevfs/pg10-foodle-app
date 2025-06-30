@@ -30,7 +30,7 @@ const RecipeDetails = ({ recipe }) => {
         toast.success('Recipe added to favorites');
       }
       setSaved(!saved);
-    } catch (error) {
+    } catch {
       toast.error('An error occurred while updating favorites');
     }
   };
