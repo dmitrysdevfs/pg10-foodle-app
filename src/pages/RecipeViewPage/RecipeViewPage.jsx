@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
-import RecipeDetails from '../components/RecipeDetails';
-import NotFound from '../components/NotFound';
+import RecipeDetails from '../../components/RecipeDetails/RecipeDetails.jsx';
+import NotFound from '../NotFoundPage/NotFoundPage.jsx';
 import css from './RecipeViewPage.module.css';
 
 export default function RecipeViewPage() {
