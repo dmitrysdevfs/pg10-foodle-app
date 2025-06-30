@@ -13,7 +13,6 @@ const HomePage = () => {
   const [page, setPage] = useState(1);
   const { recipes, isLoading, error } = useRecipes();
 
-  // if (isLoading) return <p>Loading...</p>;
   if (error) return <>Error: {error}</>;
 
   const handleSearch = useCallback(query => {
@@ -48,7 +47,7 @@ const HomePage = () => {
           <span className={s.recipesCount}>12 recipes</span>
           <Filters onChange={handleFiltersChange} />
         </div>
-        <RecipesList recipes={recipes} />
+        {isLoading ? <p>Loading...</p> : <RecipesList recipes={recipes} />}
 
         <LoadMoreBtn onClick={handleLoadMore} />
       </section>

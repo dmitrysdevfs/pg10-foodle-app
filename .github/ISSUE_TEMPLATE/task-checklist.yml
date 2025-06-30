@@ -10,7 +10,7 @@ body:
     id: goal
     attributes:
       label: Загальна мета задачі
-      placeholder: Наприклад: реалізувати компонент Sidebar з базовою логікою
+      placeholder: 'Наприклад: реалізувати компонент Sidebar з базовою логікою'
   - type: checkboxes
     id: subtasks
     attributes:
