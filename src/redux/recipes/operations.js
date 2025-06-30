@@ -8,8 +8,8 @@ console.log('API Base URL:', API_BASE_URL);
 
 export const fetchRecipes = async () => {
   try {
-    console.log('Fetching recipes from:', `${API_BASE_URL}/api/recipes/search`);
-    const response = await axios.get('/api/recipes/search');
+    console.log('Fetching recipes from:', `${API_BASE_URL}/api/recipes`);
+    const response = await axios.get('/api/recipes');
     console.log('API Response:', response);
 
     const { data } = response.data;
