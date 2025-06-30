@@ -30,6 +30,7 @@ const HomePage = () => {
   };
 
   return (
+
     <main className={s.main}>
       <section className={clsx(s.hero, s.container)}>
         <div className={s.heroContent}>
