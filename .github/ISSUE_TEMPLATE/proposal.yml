@@ -5,12 +5,13 @@ body:
   - type: markdown
     attributes:
       value: |
-        Якщо у тебе є ідея або сумнів щодо технічного рішення — опиши її тут. Це допоможе проговорити все в одному місці й зберегти хронологію рішень.
+        Якщо у тебе є ідея або сумнів щодо технічного рішення - опиши її тут. Це допоможе проговорити все в одному місці й зберегти хронологію рішень.
   - type: input
     id: topic
     attributes:
       label: Коротка тема
-      placeholder: Наприклад: "Пропозиція перейти на Zustand замість Redux Toolkit"
+      placeholder:
+        'Наприклад: "Пропозиція перейти на Zustand замість Redux Toolkit"'
     validations:
       required: true
   - type: textarea
@@ -22,7 +23,7 @@ body:
     id: proscons
     attributes:
       label: Плюси та мінуси
-      description: Якщо можливо — вкажи аргументи за і проти
+      description: Якщо можливо - вкажи аргументи за і проти
   - type: textarea
     id: suggestions
     attributes:
