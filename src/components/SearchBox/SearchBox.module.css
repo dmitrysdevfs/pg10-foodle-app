@@ -8,37 +8,27 @@
 .input {
   border: 1px solid rgb(217, 217, 217);
   border-radius: 8px;
-  background-color: rgb(255, 255, 255);
+  background-color: var(--white);
   width: 100%;
-  padding: 10px 12px;
-  color: rgb(159, 159, 159);
-  font-family: Montserrat;
-  font-size: 16px;
-  font-weight: 400;
+  padding: 10px 10px;
+  color: var(--light-grey);
   line-height: 22px;
 }
 
 .inputBtn {
   width: 100%;
-  border-radius: 8px;
-  border: none;
-  background-color: rgb(155, 108, 67);
-  padding: 10px 14px;
-  color: rgb(255, 255, 255);
-  font-family: Montserrat;
-  font-size: 16px;
-  font-weight: 600;
-  line-height: 20px;
+  padding: 10px 12px;
 }
 
 .error {
   position: absolute;
   max-width: 190px;
   width: 100%;
+  top: 35%;
   left: 50%;
   transform: translate(-50%);
   color: rgb(255, 255, 255);
-  font-size: 12px;
+  font-size: 11px;
   margin-top: 4px;
 }
 
@@ -54,7 +44,7 @@
   }
 
   .error {
-    font-size: 14px;
+    font-size: 12px;
     max-width: 220px;
   }
 }
@@ -75,8 +65,26 @@
   }
 
   .error {
-    font-size: 18px;
+    font-size: 16px;
     max-width: 280px;
-    left: 35%;
+    left: 21%;
+    top: 90%;
+  }
+}
+
+@media screen and (min-width: 1440px) {
+  .form {
+    gap: 12px;
+  }
+
+  .inputBtn {
+    max-width: 190px;
+    width: 100%;
+  }
+
+  .error {
+    font-size: 16px;
+    max-width: 280px;
+    left: 12%;
   }
 }

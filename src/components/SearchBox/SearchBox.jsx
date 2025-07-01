@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import Button from '../Button/Button';
 import s from './SearchBox.module.css';
 
 const SearchBox = () => {
@@ -28,11 +29,14 @@ const SearchBox = () => {
           placeholder="Search recipres"
           className={s.input}
         />
-        <button type="submit" className={s.inputBtn}>
-          Search
-        </button>
+        {error && <p className={s.error}>{error}</p>}
+        <Button
+          onClick={handleSearch}
+          type="submit"
+          text="Search"
+          className={s.inputBtn}
+        />
       </form>
-      {error && <p className={s.error}>{error}</p>}
     </div>
   );
 };

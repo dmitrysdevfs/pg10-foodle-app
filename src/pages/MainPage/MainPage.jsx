@@ -3,8 +3,8 @@ import { useRecipes } from '../../hooks/useRecipes';
 import SearchBox from '../../components/SearchBox/SearchBox';
 import Filters from '../../components/Filters/Filters';
 import RecipesList from '../../components/RecipesList/RecipesList';
-import LoadMoreBtn from '../../components/LoadMoreBtn/LoadMoreBtn';
-import s from './HomePage.module.css';
+import LoadMoreBtn from '../../components/Button/Button';
+import s from './MainePage.module.css';
 import clsx from 'clsx';
 
 const HomePage = () => {
@@ -30,7 +30,6 @@ const HomePage = () => {
   };
 
   return (
-
     <main className={s.main}>
       <section className={clsx(s.hero, s.container)}>
         <div className={s.heroContent}>
@@ -50,7 +49,11 @@ const HomePage = () => {
         </div>
         {isLoading ? <p>Loading...</p> : <RecipesList recipes={recipes} />}
 
-        <LoadMoreBtn onClick={handleLoadMore} />
+        <LoadMoreBtn
+          onClick={handleLoadMore}
+          text="Load More"
+          className={s.loadMoreBtn}
+        />
       </section>
     </main>
   );
