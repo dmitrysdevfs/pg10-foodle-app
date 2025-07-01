@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useEffect } from 'react';
 import { useRecipes } from '../../hooks/useRecipes';
 import SearchBox from '../../components/SearchBox/SearchBox';
 import Filters from '../../components/Filters/Filters';
@@ -7,26 +7,33 @@ import LoadMoreBtn from '../../components/Button/Button';
 import s from './MainePage.module.css';
 import clsx from 'clsx';
 
-const HomePage = () => {
-  const [searchQuery, setSearchQuery] = useState('');
-  const [filters, setFilters] = useState({ category: '', ingredient: '' });
-  const [page, setPage] = useState(1);
-  const { recipes, isLoading, error } = useRecipes();
+const MainPage = () => {
+  const {
+    recipes,
+    isLoading,
+    error,
+    hasNextPage,
+    totalItems,
+    searchRecipes,
+    updateFilters,
+    loadMore,
+    loadRecipes,
+  } = useRecipes();
 
-  if (error) return <>Error: {error}</>;
-
-  const handleSearch = useCallback(query => {
-    setSearchQuery(query);
-    setPage(1);
+  useEffect(() => {
+    loadRecipes();
   }, []);
 
-  const handleFiltersChange = useCallback(newFilters => {
-    setFilters(newFilters);
-    setPage(1);
-  }, []);
+  const handleSearch = query => {
+    searchRecipes(query);
+  };
+
+  const handleFiltersChange = newFilters => {
+    updateFilters(newFilters);
+  };
 
   const handleLoadMore = () => {
-    setPage(prev => prev + 1);
+    loadMore();
   };
 
   return (
@@ -44,19 +51,24 @@ const HomePage = () => {
       <section className={clsx(s.recipesSection, s.container)}>
         <h2 className={s.recipesTitle}>Recipes</h2>
         <div className={s.filterContainer}>
-          <span className={s.recipesCount}>12 recipes</span>
+          <span className={s.recipesCount}>
+            {totalItems > 0 ? `${totalItems} recipes` : 'No recipes'}
+          </span>
           <Filters onChange={handleFiltersChange} />
         </div>
-        {isLoading ? <p>Loading...</p> : <RecipesList recipes={recipes} />}
-
-        <LoadMoreBtn
-          onClick={handleLoadMore}
-          text="Load More"
-          className={s.loadMoreBtn}
-        />
+        {isLoading && <p>Loading...</p>}
+        {error && <div className={s.error}>Error: {error}</div>}
+        <RecipesList recipes={recipes} />
+        {!isLoading && hasNextPage && (
+          <LoadMoreBtn
+            onClick={handleLoadMore}
+            text="Load More"
+            className={s.loadMoreBtn}
+          />
+        )}
       </section>
     </main>
   );
 };
 
-export default HomePage;
+export default MainPage;

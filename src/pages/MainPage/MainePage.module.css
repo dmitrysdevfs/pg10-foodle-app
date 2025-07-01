@@ -152,5 +152,9 @@
     width: 100%;
     line-height: 22px;
     margin: 0 auto;
+    transition: border 0.3s ease-in-out;
+    &:is(:hover, :focus) {
+      border: 2px solid var(--dark-brown);
+    }
   }
 }

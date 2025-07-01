@@ -1,5 +1,6 @@
 import css from './App.module.css';
 import { Routes, Route } from 'react-router-dom';
+import toast, { Toaster } from 'react-hot-toast';
 import MainPage from '../../pages/MainPage/MainPage';
 import RecipeViewPage from '../../pages/RecipeViewPage/RecipeViewPage';
 import LoginPage from '../../pages/LoginPage/LoginPage';
@@ -19,6 +20,26 @@ export default function App() {
           <Route path="*" element={<NotFoundPage />} />
         </Route>
       </Routes>
+      <Toaster
+        position="top-center"
+        toastOptions={{
+          duration: 2000,
+          style: {
+            background: '#363636',
+            color: '#fff',
+          },
+          success: {
+            style: {
+              background: 'var(--dark-brown)',
+            },
+          },
+          error: {
+            style: {
+              background: '#920505',
+            },
+          },
+        }}
+      />
     </div>
   );
 }

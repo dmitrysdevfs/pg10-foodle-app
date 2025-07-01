@@ -1,15 +1,11 @@
 .baseStyle {
   display: block;
   border-radius: 8px;
-  border: none;
+  border: 2px solid transparent;
   background-color: var(--light-brown);
   color: var(--white);
   padding: 10px 16px;
   font-size: 16px;
   line-height: 20px;
   width: 100%;
-  transition: transform 0.4s ease-in-out;
-  &:is(:hover, :focus) {
-    transform: scale(1.1);
-  }
 }
