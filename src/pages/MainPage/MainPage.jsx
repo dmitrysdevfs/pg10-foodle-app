@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { useRecipes } from '../../hooks/useRecipes';
+import { useSearchParams } from 'react-router-dom';
 import SearchBox from '../../components/SearchBox/SearchBox';
 import Filters from '../../components/Filters/Filters';
 import RecipesList from '../../components/RecipesList/RecipesList';
@@ -8,6 +9,9 @@ import s from './MainPage.module.css';
 import clsx from 'clsx';
 
 const MainPage = () => {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const searchValue = searchParams.get('search') || '';
+
   const {
     recipes,
     isLoading,
@@ -21,10 +25,23 @@ const MainPage = () => {
   } = useRecipes();
 
   useEffect(() => {
-    loadRecipes();
-  }, []);
+    if (searchValue) {
+      searchRecipes(searchValue);
+    } else {
+      loadRecipes();
+    }
+  }, [searchValue]);
 
   const handleSearch = query => {
+    setSearchParams(prev => {
+      const params = new URLSearchParams(prev);
+      if (query) {
+        params.set('search', query);
+      } else {
+        params.delete('search');
+      }
+      return params;
+    });
     searchRecipes(query);
   };
 
@@ -45,7 +62,7 @@ const MainPage = () => {
             <br />
             Share Your Flavors
           </h1>
-          <SearchBox onSearch={handleSearch} />
+          <SearchBox onSearch={handleSearch} value={searchValue} />
         </div>
       </section>
       <section className={clsx(s.recipesSection, s.container)}>
