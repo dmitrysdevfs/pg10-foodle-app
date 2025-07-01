@@ -10,7 +10,9 @@ body:
     id: title
     attributes:
       label: Коротка назва фічі
-      placeholder: Наприклад: "Додати автосейв у форму"
+
+      placeholder: 'Наприклад: "Додати автосейв у форму"'
+
     validations:
       required: true
   - type: textarea
@@ -26,4 +28,6 @@ body:
     id: implementation
     attributes:
       label: Ідеї щодо реалізації (необов’язково)
+
       placeholder: Можна згадати існуючі компоненти, API, тощо
+
