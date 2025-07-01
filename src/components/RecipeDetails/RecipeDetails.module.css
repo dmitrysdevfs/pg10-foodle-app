@@ -1,63 +1,63 @@
 .container {
   display: flex;
   flex-direction: column;
-  padding: 16px;
+  padding: 24px;
   background-color: #fff;
   color: #1a1a1a;
   font-family: 'Segoe UI', sans-serif;
-  max-width: 100%;
 }
 
 .title {
-  font-size: 24px;
+  font-size: 32px;
   font-weight: 600;
-  margin: 16px 0;
+  margin: 24px 0 16px;
 }
 
 .image {
   width: 100%;
   height: auto;
-  border-radius: 8px;
+  border-radius: 12px;
   object-fit: cover;
+  margin-bottom: 24px;
 }
 
 .sectionTitle {
-  font-size: 18px;
-  margin: 24px 0 8px;
+  font-size: 20px;
   font-weight: 600;
+  margin: 32px 0 12px;
 }
 
 .description,
 .instructions {
   font-size: 16px;
-  line-height: 1.5;
+  line-height: 1.6;
   margin-bottom: 24px;
 }
 
 .ingredientsList {
   list-style: disc inside;
-  margin-bottom: 16px;
   padding-left: 16px;
+  margin-bottom: 32px;
 }
 
 .infoBox {
   background-color: #fef7e5;
   border-radius: 8px;
-  padding: 16px;
-  margin: 16px 0;
-  font-size: 14px;
+  padding: 20px;
+  font-size: 15px;
+  margin-top: 32px;
+  width: 100%;
 }
 
 .infoItem {
-  margin-bottom: 8px;
+  margin-bottom: 12px;
 }
 
 .button {
-  margin-top: 8px;
   background-color: #9c6b44;
   color: white;
   font-size: 14px;
-  padding: 10px 16px;
+  padding: 12px;
   border: none;
   border-radius: 6px;
   cursor: pointer;
@@ -69,35 +69,13 @@
   background-color: #815533;
 }
 
-/* ================== TABLET ================== */
-@media screen and (min-width: 600px) {
-  .title {
-    font-size: 28px;
-  }
-
-  .sectionTitle {
-    font-size: 20px;
-  }
-
-  .button {
-    font-size: 15px;
-    width: auto;
-  }
-
-  .infoBox {
-    max-width: 300px;
-    margin-top: 24px;
-  }
-}
-
 /* ================== DESKTOP ================== */
 @media screen and (min-width: 1024px) {
   .container {
     flex-direction: row;
-    gap: 32px;
     max-width: 1200px;
     margin: 32px auto;
-    padding: 32px;
+    gap: 32px;
   }
 
   .content {
@@ -107,26 +85,23 @@
   .sidebar {
     flex: 1;
     max-width: 300px;
+    margin-top: 48px;
   }
 
   .title {
-    font-size: 32px;
+    font-size: 36px;
   }
 
   .sectionTitle {
-    font-size: 22px;
-  }
-
-  .image {
-    max-height: 400px;
+    font-size: 24px;
   }
 
   .infoBox {
-    padding: 20px;
     font-size: 15px;
+    padding: 24px;
   }
 
   .button {
-    width: 100%;
+    font-size: 16px;
   }
 }
