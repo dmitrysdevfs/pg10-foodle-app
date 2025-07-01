@@ -14,7 +14,7 @@ import {
   selectSearchQuery,
   selectFilters,
   selectTotalItems,
-} from '../redux/recipesSlice';
+} from '../redux/recipes/recipesSlice';
 
 export const useRecipes = () => {
   const dispatch = useDispatch();
