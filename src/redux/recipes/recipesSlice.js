@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { fetchRecipes as fetchRecipesAPI } from './recipes/operations';
+import { fetchRecipes as fetchRecipesAPI } from './operations';
 
 // Async thunk для отримання рецептів
 export const fetchRecipes = createAsyncThunk(
@@ -35,30 +35,30 @@ const recipesSlice = createSlice({
     setFilters: (state, action) => {
       state.filters = action.payload;
     },
-    clearRecipes: (state) => {
+    clearRecipes: state => {
       state.items = [];
       state.currentPage = 1;
     },
-    resetError: (state) => {
+    resetError: state => {
       state.error = null;
     },
   },
-  extraReducers: (builder) => {
+  extraReducers: builder => {
     builder
-      .addCase(fetchRecipes.pending, (state) => {
+      .addCase(fetchRecipes.pending, state => {
         state.isLoading = true;
         state.error = null;
       })
       .addCase(fetchRecipes.fulfilled, (state, action) => {
         state.isLoading = false;
         const { data, page, hasNextPage, totalItems } = action.payload;
-        
+
         if (page === 1) {
           state.items = data;
         } else {
           state.items = [...state.items, ...data];
         }
-        
+
         state.currentPage = page;
         state.hasNextPage = hasNextPage;
         state.totalItems = totalItems;
@@ -70,16 +70,17 @@ const recipesSlice = createSlice({
   },
 });
 
-export const { setSearchQuery, setFilters, clearRecipes, resetError } = recipesSlice.actions;
+export const { setSearchQuery, setFilters, clearRecipes, resetError } =
+  recipesSlice.actions;
 
 // Селектори
-export const selectRecipes = (state) => state.recipes.items;
-export const selectIsLoading = (state) => state.recipes.isLoading;
-export const selectError = (state) => state.recipes.error;
-export const selectHasNextPage = (state) => state.recipes.hasNextPage;
-export const selectCurrentPage = (state) => state.recipes.currentPage;
-export const selectSearchQuery = (state) => state.recipes.searchQuery;
-export const selectFilters = (state) => state.recipes.filters;
-export const selectTotalItems = (state) => state.recipes.totalItems;
+export const selectRecipes = state => state.recipes.items;
+export const selectIsLoading = state => state.recipes.isLoading;
+export const selectError = state => state.recipes.error;
+export const selectHasNextPage = state => state.recipes.hasNextPage;
+export const selectCurrentPage = state => state.recipes.currentPage;
+export const selectSearchQuery = state => state.recipes.searchQuery;
+export const selectFilters = state => state.recipes.filters;
+export const selectTotalItems = state => state.recipes.totalItems;
 
 export default recipesSlice.reducer;
