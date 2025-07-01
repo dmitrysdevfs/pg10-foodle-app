@@ -5,26 +5,26 @@
   justify-content: center;
   min-height: 60vh;
   text-align: center;
-  padding: 2rem;
+  padding: 32px;
 }
 
 .title {
-  font-size: 6rem;
+  font-size: 96px;
   font-weight: bold;
   color: #e74c3c;
-  margin-bottom: 1rem;
+  margin-bottom: 16px;
 }
 
 .subtitle {
-  font-size: 1.5rem;
+  font-size: 24px;
   color: #333;
-  margin-bottom: 1rem;
+  margin-bottom: 16px;
 }
 
 .description {
-  font-size: 1rem;
+  font-size: 16px;
   color: #666;
-  margin-bottom: 2rem;
+  margin-bottom: 32px;
   max-width: 400px;
 }
 

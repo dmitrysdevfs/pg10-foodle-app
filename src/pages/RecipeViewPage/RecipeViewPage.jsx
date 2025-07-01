@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import axios from 'axios';
+import { fetchRecipeByID } from '../../redux/recipes/operations.js';
 import RecipeDetails from '../../components/RecipeDetails/RecipeDetails.jsx';
 import NotFound from '../NotFoundPage/NotFoundPage.jsx';
 import css from './RecipeViewPage.module.css';
@@ -11,42 +11,26 @@ export default function RecipeViewPage() {
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(true);
 
-//   useEffect(() => {
-//     const fetchRecipe = async () => {
-//       try {
-//         const { data } = await axios.get(`/api/recipes/${id}`);
-//         setRecipe(data);
-//       } catch {
-        
-//         setError(true);
-//       } finally {
-//         setLoading(false);
-//       }
-//     };
+  useEffect(() => {
+    const getRecipe = async () => {
+      try {
+        const { data } = await fetchRecipeByID(id);
+        setRecipe(data);
+      } catch (error) {
+        console.error('Error fetching recipe:', error);
+        setError(true);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-//     fetchRecipe();
-//   }, [id]);
-
-useEffect(() => {
-  const fetchRecipe = async () => {
-    try {
-      const { data } = await axios.get(`/api/recipes/${id}`);
-      setRecipe(data);
-    } catch (error) {
-      console.error('Failed to fetch recipe:', error);
+    if (id) {
+      getRecipe();
+    } else {
       setError(true);
-    } finally {
       setLoading(false);
     }
-  };
-
-  if (id) { // валідація ID
-    fetchRecipe();
-  } else {
-    setError(true);
-    setLoading(false);
-  }
-}, [id]);
+  }, [id]);
 
   if (loading) return <p className={css.message}>Loading...</p>;
   if (error || !recipe) return <NotFound />;
