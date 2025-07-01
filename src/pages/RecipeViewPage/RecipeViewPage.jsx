@@ -11,21 +11,42 @@ export default function RecipeViewPage() {
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const fetchRecipe = async () => {
-      try {
-        const { data } = await axios.get(`/api/recipes/${id}`);
-        setRecipe(data);
-      } catch {
+//   useEffect(() => {
+//     const fetchRecipe = async () => {
+//       try {
+//         const { data } = await axios.get(`/api/recipes/${id}`);
+//         setRecipe(data);
+//       } catch {
         
-        setError(true);
-      } finally {
-        setLoading(false);
-      }
-    };
+//         setError(true);
+//       } finally {
+//         setLoading(false);
+//       }
+//     };
 
+//     fetchRecipe();
+//   }, [id]);
+
+useEffect(() => {
+  const fetchRecipe = async () => {
+    try {
+      const { data } = await axios.get(`/api/recipes/${id}`);
+      setRecipe(data);
+    } catch (error) {
+      console.error('Failed to fetch recipe:', error);
+      setError(true);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  if (id) { // валідація ID
     fetchRecipe();
-  }, [id]);
+  } else {
+    setError(true);
+    setLoading(false);
+  }
+}, [id]);
 
   if (loading) return <p className={css.message}>Loading...</p>;
   if (error || !recipe) return <NotFound />;
