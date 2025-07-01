@@ -4,7 +4,7 @@ import SearchBox from '../../components/SearchBox/SearchBox';
 import Filters from '../../components/Filters/Filters';
 import RecipesList from '../../components/RecipesList/RecipesList';
 import LoadMoreBtn from '../../components/Button/Button';
-import s from './MainePage.module.css';
+import s from './MainPage.module.css';
 import clsx from 'clsx';
 
 const MainPage = () => {
