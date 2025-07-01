@@ -7,7 +7,7 @@ import LoadMoreBtn from '../../components/Button/Button';
 import s from './MainePage.module.css';
 import clsx from 'clsx';
 
-const HomePage = () => {
+const MainPage = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [filters, setFilters] = useState({ category: '', ingredient: '' });
   const [page, setPage] = useState(1);
@@ -59,4 +59,4 @@ const HomePage = () => {
   );
 };
 
-export default HomePage;
+export default MainPage;
