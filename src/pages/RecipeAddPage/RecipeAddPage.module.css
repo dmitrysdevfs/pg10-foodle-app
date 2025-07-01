@@ -1,0 +1,52 @@
+
+
+
+
+@media screen and (max-width: 767px) {
+
+  .container {
+      max-width: 361px;
+      margin: 0 auto;  
+      
+    }
+
+  .title {
+    font-family: "Montserrat", sans-serif;
+    font-weight: 600;
+    font-size: 40px;
+    color: #000;
+    margin-bottom: 16px;
+    }
+}
+
+@media screen and (min-width: 768px) {
+
+  .container {
+    max-width: 361px;
+    margin: 0 auto;
+  }
+
+  .title {
+    font-family: "Montserrat", sans-serif;
+    font-weight: 600;
+    font-size: 48px;
+    line-height: 1.1;
+    color: #000;
+    margin-bottom: 16px;
+  }
+
+
+}
+
+@media screen and (min-width: 1440px) {
+
+  .container {
+    max-width: 361px;
+    margin: 0 auto;
+  }
+
+  .title {
+    margin-bottom: 40px;
+  }
+
+}

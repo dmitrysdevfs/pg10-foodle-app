@@ -1,0 +1,197 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+.title{
+  font-family: "Montserrat", sans-serif;
+  font-weight: 600;
+  font-size: 24px;
+  color: #000;
+}
+
+.container {
+  width: 100%;
+}
+
+.calories,
+.category {
+  
+ 
+  box-sizing: border-box;
+}
+
+@media screen and (max-width: 767px) {
+
+  .inputImage {
+    display: block;
+    width: 100%;
+    max-width: 361px;
+    box-sizing: border-box;
+    }
+
+  .previewImage{
+    
+    height: auto;
+    display: block;
+    width: 100%;
+    max-width: 361px;
+    box-sizing: border-box;
+    object-fit: cover;
+    margin-bottom: 24px;
+  }
+
+  .titleText{
+    font-family: "Montserrat", sans-serif;
+    font-weight: 600;
+    font-size: 24px;
+    color: #000;
+  }
+
+  .generalInformation{
+    margin-bottom: 40px;
+  }
+
+  .titleGeneral{
+    margin-bottom: 16px;
+  }
+
+  .titleText{
+    font-family: "Montserrat", sans-serif;
+    font-weight: 400;
+    font-size: 18px;
+    color: #000;
+    margin-bottom: 8px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .input{
+    padding: 12px;
+    overflow: scroll;
+    border-radius: 8px;
+    border: 1px solid #d9d9d9;
+    outline: none;
+    font-family: "Montserrat", sans-serif;
+    font-weight: 400;
+    font-size: 18px;
+    color: #000;
+  }
+
+    .nameRecipe{
+
+    }
+
+    .descriptionRecipe{
+      max-width: 361px;
+      height: 144px;
+    }
+
+    .containerFood {
+      display: flex;
+      gap: 16px;
+      max-width: 361px;
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    
+    .calories{
+      max-width: 160px;
+      flex: 1 1 0;
+      width: 100%;
+    }
+
+    .category{
+      max-width: 160px;
+      flex: 1 1 0;
+      border: 1px solid #d9d9d9;
+      outline: none;
+      font-family: "Montserrat", sans-serif;
+      font-weight: 400;
+      font-size: 18px;
+      color: #000;
+      border: 1px solid #d9d9d9;
+      border-radius: 8px;
+      padding: 12px;
+      width: 172px;
+      height: 48px;
+    }
+
+    .ingredientName{
+      border: 1px solid #d9d9d9;
+      border-radius: 8px;
+      padding: 12px;
+      max-width: 361px;
+      height: 48px;
+      outline: none;
+      font-family: "Montserrat", sans-serif;
+      font-weight: 400;
+      font-size: 18px;
+      color: #000;
+    }
+
+
+    .buttonRemove{
+      width: 100%;
+      max-width: 361px;
+      border: 1px solid #d9d9d9;
+      border-radius: 8px;
+      padding: 12px 16px;
+      height: 44px;
+      margin-bottom: 16px;
+      font-family: "Montserrat", sans-serif;
+      font-weight: 600;
+      font-size: 16px;
+      text-align: center;
+      color: #000;
+    }
+
+    .buttonAdd{
+      border-radius: 8px;
+      padding: 12px 16px;
+      width: 100%;
+      max-width: 361px;
+      height: 44px;
+      background: #9b6c43;
+      font-family: "Montserrat", sans-serif;
+      font-weight: 600;
+      font-size: 16px;
+      text-align: center;
+      color: #fff;
+      outline: none;
+    }
+
+    .instructions{
+      height: 144px;
+      max-width:361px;
+    }
+
+    .buttonSubmit{
+      font-family: "Montserrat", sans-serif;
+      font-weight: 600;
+      font-size: 16px;
+      color: #fff;
+      border-radius: 8px;
+      padding: 12px 16px;
+      outline: none;
+      height: 44px;
+      background: #9b6c43;
+      max-width: 361px;
+      width: 100%;
+    }
+}
+
+@media screen and (min-width: 768px) {
+
+  
+
+
+}
+
+@media screen and (min-width: 1440px) {
+
+ 
+
+}
