@@ -13,6 +13,7 @@ export default function Header() {
         <div className={css.inner}>
           <NavLink to="/" className={css.logoLink}>
             <span className={css.logoText}>Tasteorama</span>
+            <button className={css.burgerButton}></button>
           </NavLink>
           <nav className={css.nav}>
             <NavLink to="/" className={buildLinkClass}>

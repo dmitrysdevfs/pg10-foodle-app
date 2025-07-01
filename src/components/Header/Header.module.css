@@ -1,99 +1,85 @@
-/* .header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 16px 32px;
-  background-color: #fff;
-  border-bottom: 1px solid #ddd;
-}
-
-.nav {
-  display: flex;
-  gap: 16px;
-}
-
-.link {
-  color: #333;
-  text-decoration: none;
-  font-weight: 500;
-}
-
-.link.active {
-  color: #ff6600;
-} */
 .headerNav {
-  background-color: #fff;
-  border-bottom: 1px solid #eee;
-  padding: 12px 24px;
+  padding: 14px 16px;
+  background-color: #3d2218;
 }
 
-.nav {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.navList {
-  list-style: none;
+.inner {
   display: flex;
   align-items: center;
-  gap: 24px;
-  margin: 0;
-  padding: 0;
-}
-
-.navItem {
-  display: flex;
-  align-items: center;
+  justify-content: flex-start;
+  flex-direction: row;
+  gap: 144px;
 }
 
 .logoLink {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  text-decoration: none;
-}
-
-.logoNav {
-  height: 32px;
 }
 
 .logoText {
-  font-size: 20px;
-  font-weight: bold;
-  color: #333;
-}
-
-.link {
-  text-decoration: none;
-  color: #555;
-  font-weight: 500;
-  transition: color 0.3s;
-}
-
-.link:hover,
-.link.active {
-  color: #ff6600;
-}
-
-.userIcon {
-  background-color: #ff6600;
+  font-family: var(--main-font-family);
+  font-weight: 600;
+  font-size: 18px;
+  letter-spacing: -0.03em;
   color: #fff;
-  border-radius: 50%;
-   width: 32px;
-  height: 32px;
-  display: flex;
-    /* display: inline-flex; */
-
-  align-items: center;
-  justify-content: center;
-  font-weight: bold;
-  font-size: 14px;
-  text-transform: uppercase;
 }
 
-.userName {
-  margin-left: 8px;
-  font-weight: 500;
+.burgerButton {
 }
 
+.nav {
+  display: none;
+}
+
+@media screen and (min-width: 768px) {
+  .headerNav {
+    max-width: var(--desktop);
+    padding: 15px 32px;
+  }
+
+  .inner {
+    justify-content: space-between;
+    gap: 32px;
+  }
+
+  .burgerButton {
+    display: none;
+  }
+
+  .nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: row;
+  }
+
+  .link {
+    font-family: var(--main-font-family);
+    font-size: 12px;
+    font-weight: 600;
+    color: #fff;
+    text-decoration: none;
+    padding: 12px 16px;
+    border: 1px solid transparent;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+  }
+
+  .link:hover {
+    font-size: 16px;
+    color: #d39c6a;
+  }
+
+  .link[href='/'].active {
+    text-decoration: underline;
+    text-underline-offset: 4px;
+    text-decoration-thickness: 2px;
+    text-decoration-color: #fff;
+    border: none;
+  }
+
+  .link[href='/login'].active,
+  .link[href='/register'].active {
+    font-size: 16px;
+    background-color: #9b6c43;
+    color: #fff;
+  }
+}
