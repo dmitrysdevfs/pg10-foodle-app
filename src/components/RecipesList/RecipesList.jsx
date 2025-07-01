@@ -12,7 +12,7 @@ export default function RecipesList({ recipes }) {
   return (
     <ul className={css.list}>
       {recipes.map(recipe => (
-        <li key={recipe.id} className={css.item}>
+        <li key={recipe._id} className={css.item}>
           <h3>{recipe.title}</h3>
           <p>{recipe.description}</p>
         </li>

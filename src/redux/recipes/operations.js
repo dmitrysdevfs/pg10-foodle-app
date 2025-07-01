@@ -6,10 +6,21 @@ axios.defaults.baseURL = API_BASE_URL;
 // Diagnostics
 console.log('API Base URL:', API_BASE_URL);
 
-export const fetchRecipes = async () => {
+export const fetchRecipes = async ({
+  search = '',
+  category = '',
+  ingredient = '',
+  page = 1,
+}) => {
   try {
+    const params = {};
+    if (search) params.title = search;
+    if (category) params.category = category;
+    if (ingredient) params.ingredient = ingredient;
+    if (page) params.page = page;
+
     console.log('Fetching recipes from:', `${API_BASE_URL}`);
-    const response = await axios.get('/api/recipes');
+    const response = await axios.get('/api/recipes', { params });
     console.log('API Response:', response);
     console.log('Total recipes count:', response.data.data.length);
     console.log('First recipe structure:', response.data.data[0]);
