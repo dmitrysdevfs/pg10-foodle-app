@@ -179,3 +179,37 @@
   margin-top: 2px;
   margin-left: 2px;
 }
+
+@media screen and (min-width: 768px) and (max-width: 1024px){
+  .wrap {
+    width: 522px;
+  }
+   .title {
+      width: 458px;
+    }
+  .input {
+    width: 458px;
+    }
+  .submitButton {
+    width: 458px;
+    padding: 8px 205px;
+  }
+}
+@media screen and (min-width: 1025px) {
+
+  .wrap {
+    width: 420px;
+ 
+  }
+    .title {
+      width: 356px;
+     }
+  .input {
+    width: 356px;
+  }
+    .submitButton {
+      width: 356px;
+      padding: 8px 154px;
+    }
+    
+}

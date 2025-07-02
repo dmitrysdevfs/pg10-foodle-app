@@ -1,0 +1,11 @@
+.baseStyle {
+  display: block;
+  border-radius: 8px;
+  border: 2px solid transparent;
+  background-color: var(--light-brown);
+  color: var(--white);
+  padding: 10px 16px;
+  font-size: 16px;
+  line-height: 20px;
+  width: 100%;
+}

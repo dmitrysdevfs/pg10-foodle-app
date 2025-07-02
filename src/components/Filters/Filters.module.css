@@ -5,94 +5,60 @@
 .mobFilterBtn {
   background-color: transparent;
   border: none;
-  font-family: Montserrat;
-  font-weight: 600;
+  font-weight: var(--semibold-font-weight);
   font-size: 12px;
-  color: rgb(0, 0, 0);
+  color: var(--black);
   cursor: pointer;
-}
-
-/* .count {
-  font-size: 16px;
-  color: var(--color-text-dark);
-  margin: 0;
-}
-
-.number {
-  font-weight: 600;
-  color: var(--color-primary);
-}
-
-.controls {
   display: flex;
-  gap: 16px;
-  align-items: end;
-  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px;
 }
 
-.filterGroup {
-  display: flex;
-  flex-direction: column;
-  min-width: 200px;
+.filterIcon {
+  width: 16px;
+  height: 16px;
 }
 
-.label {
-  font-size: 14px;
-  font-weight: 500;
-  color: var(--color-text-dark);
-  margin-bottom: 8px;
-}
-
-.select {
-  padding: 10px 12px;
-  border: 1px solid var(--color-border);
-  border-radius: var(--border-radius-md);
-  font-size: 14px;
-  background-color: var(--color-bg-white);
-  transition: border-color 0.3s ease;
-}
-
-.select:focus {
-  outline: none;
-  border-color: var(--color-primary);
-}
-
-.resetButton {
-  padding: 10px 20px;
-  background-color: transparent;
-  color: var(--color-text-gray);
-  border: 1px solid var(--color-border);
-  border-radius: var(--border-radius-md);
-  font-size: 14px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  height: fit-content;
-}
-
-.resetButton:hover {
-  background-color: var(--color-error);
-  color: var(--color-text-light);
-  border-color: var(--color-error);
-}
-
-@media screen and (max-width: 767px) {
-  .filters {
-    padding: 16px;
-    margin-bottom: 24px;
+@media screen and (min-width: 1440px) {
+  .pcFilter {
+    display: flex;
+    gap: 24px;
   }
-
-  .controls {
-    flex-direction: column;
-    gap: 12px;
-  }
-
-  .filterGroup {
-    min-width: 100%;
+  .mobFilter {
+    display: none;
   }
 
   .resetButton {
-    width: 100%;
-    padding: 12px;
+    font-size: 12px;
+    font-weight: var(--semibold-font-weight);
+    line-height: 15px;
+    background: transparent;
+    border-bottom: 2px solid var(--black);
   }
-} */
+
+  .filterGroup {
+    margin-right: 1px;
+  }
+
+  .select {
+    width: 179px;
+    border: 1px solid var(--light-grey);
+    padding: 4px 8px;
+    border-radius: 4px;
+    color: var(--gray);
+    line-height: 155%;
+    outline: none;
+    cursor: pointer;
+    transition: border 0.3s ease-in-out;
+    & option {
+      border-radius: 12px;
+      padding: 8px;
+      color: var(--black);
+      box-shadow: 0px 0px 1px 0px rgba(0, 0, 0, 0.4),
+        0px 8px 24px -6px rgba(0, 0, 0, 0.16);
+    }
+    &:focus {
+      border: 1px solid #7c3aed;
+    }
+  }
+}
