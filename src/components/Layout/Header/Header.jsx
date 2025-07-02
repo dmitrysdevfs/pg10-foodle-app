@@ -18,8 +18,8 @@ export default function Header() {
             <NavLink to="/" className={buildLinkClass}>
               Recipes
             </NavLink>
-            <NavLink to='/login' className={buildLinkClass}>Log in</NavLink>
-            <NavLink to='/register' className={buildLinkClass}>Register</NavLink>
+            <NavLink to='/auth/login' className={buildLinkClass}>Log in</NavLink>
+            <NavLink to='/auth/register' className={buildLinkClass}>Register</NavLink>
           </nav>
         </div>
       </header>
