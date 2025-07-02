@@ -61,3 +61,17 @@ export const fetchRecipeByID = async id => {
     throw error;
   }
 };
+
+export const fetchCategories = async () => {
+  const response = await axios.get('/api/categories');
+  console.log('Fetched categories:', response.data);
+
+  return response.data.data;
+};
+
+export const fetchIngredients = async () => {
+  const response = await axios.get('/api/ingredients');
+  console.log('Fetched ingredients:', response.data);
+
+  return response.data.data;
+};
