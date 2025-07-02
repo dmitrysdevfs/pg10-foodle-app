@@ -3,7 +3,8 @@ import { useState } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import { useNavigate, Link } from 'react-router-dom';
-
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const initialValues = {
   name: '',
@@ -46,10 +47,11 @@ const RegistrationForm = () => {
         throw new Error(data.message || 'Something went wrong...');
       }
 
+      toast.success('Registration successful!');
       navigate('/');
       resetForm();
     } catch (error) {
-      alert(error.message); // replace with toast in real project
+      toast.error(error.message);
     } finally {
       setSubmitting(false);
     }
@@ -70,7 +72,6 @@ const RegistrationForm = () => {
       >
         {({ isSubmitting }) => (
           <Form className={css.form}>
-
             <div className={css.inputGroup}>
               <label htmlFor="email" className={css.label}>Enter your email address</label>
               <div className={css.inputWrapper}>
@@ -113,6 +114,7 @@ const RegistrationForm = () => {
                   type="button"
                   className={css.eyeButton}
                   onClick={() => setShowPassword(prev => !prev)}
+                  aria-label={showPassword ? 'Hide password' : 'Show password'}
                 >
                   👁
                 </button>
@@ -134,6 +136,7 @@ const RegistrationForm = () => {
                   type="button"
                   className={css.eyeButton}
                   onClick={() => setShowConfirm(prev => !prev)}
+                  aria-label={showConfirm ? 'Hide password' : 'Show password'}
                 >
                   👁
                 </button>
@@ -160,10 +163,13 @@ const RegistrationForm = () => {
 
       <p className={css.bottomText}>
         Already have an account?{' '}
-        <Link to="/login" className={css.loginLink}>
+        <Link to="/auth/login" className={css.loginLink}>
           Log in
         </Link>
       </p>
+
+     
+      <ToastContainer position="top-right" autoClose={3000} />
     </div>
   );
 };

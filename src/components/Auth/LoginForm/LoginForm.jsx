@@ -3,6 +3,9 @@ import { useState } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import { Link } from 'react-router-dom';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 const initialValues = {
   email: '',
   password: '',
@@ -30,9 +33,9 @@ export default function LoginForm() {
         throw new Error(data.message || 'Login failed');
       }
 
-      alert('Login successful!');
+      toast.success('Login successful!');
     } catch (error) {
-      alert(error.message);
+      toast.error(error.message);
     } finally {
       setSubmitting(false);
     }
@@ -41,6 +44,7 @@ export default function LoginForm() {
   return (
     <div className={css.wrap}>
       <h2 className={css.title}>Login</h2>
+
       <Formik
         initialValues={initialValues}
         validationSchema={validationSchema}
@@ -56,6 +60,7 @@ export default function LoginForm() {
                 {({ field }) => (
                   <input
                     {...field}
+                    id="email"
                     type="email"
                     placeholder="email@gmail.com"
                     className={`${css.input} ${
@@ -76,6 +81,7 @@ export default function LoginForm() {
                   {({ field }) => (
                     <input
                       {...field}
+                      id="password"
                       type={showPassword ? 'text' : 'password'}
                       placeholder="*********"
                       className={`${css.input} ${
@@ -88,6 +94,7 @@ export default function LoginForm() {
                   type="button"
                   className={css.eyeButton}
                   onClick={() => setShowPassword((prev) => !prev)}
+                  aria-label={showPassword ? 'Hide password' : 'Show password'}
                 >
                   {showPassword ? '🙈' : '👁'}
                 </button>
@@ -104,8 +111,11 @@ export default function LoginForm() {
 
       <p className={css.bottomText}>
         Don’t have an account?
-        <Link to="/register" className={css.registerLink}> Register</Link>
+        <Link to="/auth/register" className={css.registerLink}> Register</Link>
       </p>
+
+
+      <ToastContainer position="top-right" autoClose={3000} />
     </div>
   );
 }
