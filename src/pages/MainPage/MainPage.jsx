@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useRecipes } from '../../hooks/useRecipes';
 import { useSearchParams } from 'react-router-dom';
 import SearchBox from '../../components/SearchBox/SearchBox';
@@ -11,6 +11,7 @@ import clsx from 'clsx';
 const MainPage = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const searchValue = searchParams.get('search') || '';
+  const [filters, setFilters] = useState({ category: '', ingredient: '' });
 
   const {
     recipes,
@@ -71,7 +72,7 @@ const MainPage = () => {
           <span className={s.recipesCount}>
             {totalItems > 0 ? `${totalItems} recipes` : 'No recipes'}
           </span>
-          <Filters onChange={handleFiltersChange} />
+          <Filters onChange={handleFiltersChange} filters={filters} />
         </div>
         {isLoading && <p>Loading...</p>}
         {error && <div className={s.error}>Error: {error}</div>}
