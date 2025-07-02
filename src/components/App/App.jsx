@@ -2,8 +2,7 @@ import css from './App.module.css';
 import { Routes, Route } from 'react-router-dom';
 import HomePage from '../../pages/HomePage/HomePage';
 import RecipeViewPage from '../../pages/RecipeViewPage/RecipeViewPage';
-import LoginPage from '../../pages/LoginPage/LoginPage';
-import RegisterPage from '../../pages/RegisterPage/RegisterPage';
+import AuthPage from '../../pages/AuthPage/AuthPage'; 
 import NotFoundPage from '../../pages/NotFoundPage/NotFoundPage';
 
 export default function App() {
@@ -12,8 +11,8 @@ export default function App() {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/recipe/:id" element={<RecipeViewPage />} />
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/register" element={<RegisterPage />} />
+        <Route path="/auth/login" element={<AuthPage />} />     
+        <Route path="/auth/register" element={<AuthPage />} />   
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </div>
