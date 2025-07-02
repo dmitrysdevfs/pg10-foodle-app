@@ -14,10 +14,9 @@ export default function App() {
         <Route path="/" element={<Layout />}>
           <Route index element={<MainPage />} />
           <Route path="/recipes/:id" element={<RecipeViewPage />} />
-          <Route path="/auth/login" element={<AuthPage />} />
-          <Route path="/auth/register" element={<AuthPage />} />
-          <Route path="*" element={<NotFoundPage />} />
+          <Route path="/auth/:authType" element={<AuthPage />} />
         </Route>
+        <Route path="*" element={<NotFoundPage />} />
       </Routes>
       <Toaster
         position="top-center"
