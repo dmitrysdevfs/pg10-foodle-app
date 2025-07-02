@@ -1,26 +1,50 @@
 import { NavLink } from 'react-router-dom';
 import css from './Header.module.css';
 import clsx from 'clsx';
+import { useState } from 'react';
+import { RxHamburgerMenu } from 'react-icons/rx';
+import { BsXCircle } from 'react-icons/bs';
+import LogoIcon from '../../assets/castom-icons/LogoIcon.svg';
 
 const buildLinkClass = ({ isActive }) => {
   return clsx(css.link, isActive && css.active);
 };
 
 export default function Header() {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
+  const closeMenu = () => setIsMenuOpen(false);
+
   return (
     <>
       <header className={css.headerNav}>
         <div className={css.inner}>
           <NavLink to="/" className={css.logoLink}>
+            <LogoIcon className={css.logo} />
             <span className={css.logoText}>Tasteorama</span>
-            <button className={css.burgerButton}></button>
           </NavLink>
-          <nav className={css.nav}>
+          <button
+            className={css.burgerButton}
+            onClick={toggleMenu}
+            aria-label="Menu"
+          >
+            {isMenuOpen ? <BsXCircle /> : <RxHamburgerMenu />}
+          </button>
+
+          <nav
+            className={clsx(css.nav, isMenuOpen && css.navMobileOpen)}
+            onClick={closeMenu}
+          >
             <NavLink to="/" className={buildLinkClass}>
               Recipes
             </NavLink>
-            <NavLink to='/login' className={buildLinkClass}>Log in</NavLink>
-            <NavLink to='/register' className={buildLinkClass}>Register</NavLink>
+            <NavLink to="/login" className={buildLinkClass}>
+              Log in
+            </NavLink>
+            <NavLink to="/register" className={buildLinkClass}>
+              Register
+            </NavLink>
           </nav>
         </div>
       </header>

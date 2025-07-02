@@ -1,7 +1,8 @@
 .footer {
   padding: 24px 59px;
-  background: #3d2218;
+  background-color: var(--dark-brown);
 }
+
 .footerWrapper {
   display: flex;
   flex-direction: column;
@@ -9,12 +10,19 @@
   justify-content: flex-start;
   gap: 32px;
 }
+
 .logoLink {
   text-decoration: none;
   display: flex;
   align-items: center;
-  gap: 8px;
 }
+
+.logo {
+  width: 32px;
+  height: 30px;
+  padding-right: 5px;
+}
+
 .logoText {
   font-family: var(--main-font-family);
   font-weight: 600;
@@ -31,6 +39,7 @@
   margin: 0;
   text-align: center;
 }
+
 .footerRoutesLink {
   display: flex;
   align-items: flex-start;
@@ -58,10 +67,6 @@
 }
 
 @media screen and (min-width: 768px) {
-  .footer {
-    max-width: var(--desktop);
-  }
-
   .footerRoutesLink {
     flex-direction: row;
     gap: 32px;
@@ -72,16 +77,11 @@
   .footer {
     min-width: var(--desktop);
     flex-direction: row;
-    gap: 346px;
   }
 
   .footerWrapper {
     flex-direction: row;
     justify-content: space-between;
-  }
-
-  .logoLink {
-    gap: 32px;
   }
 
   .footerTextSettings {

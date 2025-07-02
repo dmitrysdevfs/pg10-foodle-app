@@ -1,17 +1,26 @@
 .headerNav {
   padding: 14px 16px;
-  background-color: #3d2218;
+  background-color: var(--dark-brown);
 }
 
 .inner {
   display: flex;
   align-items: center;
-  justify-content: flex-start;
+  justify-content: space-between;
   flex-direction: row;
-  gap: 144px;
 }
 
 .logoLink {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-direction: row;
+}
+
+.logo {
+  width: 32px;
+  height: 30px;
+  padding-right: 5px;
 }
 
 .logoText {
@@ -23,21 +32,68 @@
 }
 
 .burgerButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  align-items: center;
+  width: 32px;
+  height: 32px;
+  cursor: pointer;
+  color: #fff;
+  font-size: 20px;
 }
 
 .nav {
   display: none;
 }
 
+.navMobileOpen {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  position: absolute;
+  top: 60px;
+  right: 0;
+  background-color: var(--dark-brown);
+  padding: 14px 16px 40px 16px;
+  width: 100%;
+  height: auto;
+  z-index: 1100;
+}
+
+.link {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+  font-family: var(--main-font-family);
+  font-size: 16px;
+  font-weight: 600;
+  color: #fff;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.link:hover {
+  color: #d39c6a;
+}
+
+.link[href='/login'].active,
+.link[href='/register'].active {
+  background-color: #9b6c43;
+  padding: 12px 16px;
+  border-radius: 8px;
+  color: #fff;
+}
+
 @media screen and (min-width: 768px) {
   .headerNav {
-    max-width: var(--desktop);
     padding: 15px 32px;
   }
 
   .inner {
     justify-content: space-between;
-    gap: 32px;
   }
 
   .burgerButton {
@@ -51,21 +107,19 @@
     flex-direction: row;
   }
 
+  .navMobileOpen {
+    display: none;
+  }
+
   .link {
-    font-family: var(--main-font-family);
     font-size: 12px;
-    font-weight: 600;
-    color: #fff;
-    text-decoration: none;
     padding: 12px 16px;
     border: 1px solid transparent;
-    border-radius: 8px;
     transition: all 0.3s ease;
   }
 
   .link:hover {
     font-size: 16px;
-    color: #d39c6a;
   }
 
   .link[href='/'].active {
@@ -79,7 +133,5 @@
   .link[href='/login'].active,
   .link[href='/register'].active {
     font-size: 16px;
-    background-color: #9b6c43;
-    color: #fff;
   }
 }
