@@ -1,107 +1,236 @@
-.container {
+
+
+.recipeContainer {
+  padding: 16px;
   display: flex;
   flex-direction: column;
-  padding: 24px;
-  background-color: #fff;
-  color: #1a1a1a;
-  font-family: 'Segoe UI', sans-serif;
+  gap: 24px;
 }
 
-.title {
-  font-size: 32px;
-  font-weight: 600;
-  margin: 24px 0 16px;
+.topSection {
+  display: flex;
+  flex-direction: column-reverse; /* мобілка: спочатку картинка, потім заголовок */
+  gap: 32px;
 }
 
 .image {
   width: 100%;
-  height: auto;
-  border-radius: 12px;
+  max-height: 400px;
   object-fit: cover;
-  margin-bottom: 24px;
+  border-radius: 12px;
 }
 
-.sectionTitle {
-  font-size: 20px;
-  font-weight: 600;
-  margin: 32px 0 12px;
+.title {
+  font-size: 28px;
+  font-weight: 700;
 }
 
-.description,
-.instructions {
-  font-size: 16px;
-  line-height: 1.6;
-  margin-bottom: 24px;
+.layoutWrapper {
+  display: flex;
+  flex-direction: column-reverse;
+  gap: 24px;
 }
 
-.ingredientsList {
-  list-style: disc inside;
-  padding-left: 16px;
-  margin-bottom: 32px;
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  flex: 2;
+  flex-direction: column;
+  gap: 40px;
+}
+
+/* .sidebar {
+  background-color: #fdf6e4;
+  padding: 16px;
+  border-radius: 8px;
+  flex: 1;
+}
+
+.infoBox p {
+  margin-bottom: 8px;
+}
+
+button {
+  width: 100%;
+  background-color: #8c5b36;
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 6px;
+  cursor: pointer;
+} */
+ .sidebar {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 16px;
 }
 
 .infoBox {
-  background-color: #fef7e5;
-  border-radius: 8px;
+  flex: 2;
+  background-color: #fff8e8;
+
+  border-radius: 12px;
   padding: 20px;
-  font-size: 15px;
-  margin-top: 32px;
-  width: 100%;
+  font-size: 14px;
+  gap: 15px;
+  line-height: 1.5;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
 }
 
-.infoItem {
-  margin-bottom: 12px;
+.informations {
+  color: black;
+}
+
+/* .infoBox p {
+  margin: 0 0 8px 0;
+} */
+
+.infoBox p:last-child {
+  margin-bottom: 0;
 }
 
 .button {
-  background-color: #9c6b44;
+  background-color: #a06a3e;
   color: white;
-  font-size: 14px;
-  padding: 12px;
+  padding: 12px 24px;
   border: none;
-  border-radius: 6px;
+  border-radius: 8px;
+  font-weight: 600;
   cursor: pointer;
-  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
   transition: background-color 0.3s ease;
 }
 
 .button:hover {
-  background-color: #815533;
+  background-color: #8d5933;
 }
 
-/* ================== DESKTOP ================== */
-@media screen and (min-width: 1024px) {
-  .container {
+
+/* Tablet & Desktop Layout */
+@media (min-width: 768px) {
+  .layoutWrapper {
     flex-direction: row;
-    max-width: 1200px;
-    margin: 32px auto;
-    gap: 32px;
+    gap: 24px;
   }
 
-  .content {
-    flex: 2;
+  .topSection {
+    flex-direction: column;
+  }
+
+  .layoutWrapper {
+    flex-direction: column-reverse;
+  }
+
+  
+.content {
+  flex: 2;
+}
+
+.sidebar {
+  flex: 1;
+  max-width: 300px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px; /* для відступу між блоками всередині sidebar */
+  flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+    width: 100%;
+   
+    gap: 24px;
+    width: 100%;            /* займає всю ширину батьківського контейнера */
+  max-width: 100%;  
+}
+
+.infoBox {
+  width: 431px;
+}
+
+.button {
+  width: 249px;
+}
+  /* .sidebar {
+    flex-direction: row;
+  } */
+}
+
+@media (min-width: 1158px) {
+
+  .layoutWrapper {
+    flex-direction: row;
+    gap: 24px;
   }
 
   .sidebar {
-    flex: 1;
-    max-width: 300px;
-    margin-top: 48px;
+    flex-direction: column;
+    width: 393px;
+    max-height: 302px;
   }
 
-  .title {
-    font-size: 36px;
-  }
+  /* .infoBox {
+    width: 100%;
+    height: 222px;
+  } */
 
-  .sectionTitle {
-    font-size: 24px;
-  }
+  /* .button {
+    width: 100%;
+    height: 56px;
+  } */
 
-  .infoBox {
-    font-size: 15px;
-    padding: 24px;
-  }
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+  margin-top: 0 auto;
+  max-height: 302px;
+  
+}
 
-  .button {
-    font-size: 16px;
-  }
+.infoBox {
+  background-color: #fdf7e3;
+  font-size: 16px;
+  border-radius: 12px;
+  width: 230px;
+  max-height: 222px;
+  
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+}
+
+.informations {
+  font-weight: 700;
+  font-size: 24px;
+}
+
+.button {
+  background-color: #9b673d;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 18px;
+  width: 230px;
+  height: 56px;
+  
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+}
+
+.button:hover {
+  background-color: #865731;
+}
+
+.icon {
+  font-size: 14px;
+}
+
 }
