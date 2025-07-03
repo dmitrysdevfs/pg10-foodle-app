@@ -5,7 +5,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { registerSchema } from '../../../utils/validationSchemas';
-import { registerUser } from '../../../redux/auth/operations';
+import { register } from '../../../redux/auth/operations';
 import css from './RegisterForm.module.css';
 
 
@@ -15,11 +15,11 @@ const RegistrationForm = () => {
   const navigate = useNavigate();
 
   const dispatch = useDispatch();
-  const { isLoading } = useSelector(state => state.auth);
+  const { loading } = useSelector(state => state.auth);
 
   const handleSubmit = async (values, { resetForm, setSubmitting }) => {
     try {
-      await dispatch(registerUser({
+      await dispatch(register({
         name: values.name,
         email: values.email,
         password: values.password,
@@ -137,9 +137,9 @@ const RegistrationForm = () => {
             <button
               type="submit"
               className={css.submitButton}
-              disabled={isSubmitting || isLoading}
+              disabled={isSubmitting || loading}
             >
-              {isLoading ? 'Creating account...' : 'Create account'}
+              {loading ? 'Creating account...' : 'Create account'}
             </button>
           </Form>
         )}
