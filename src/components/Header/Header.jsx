@@ -5,6 +5,9 @@ import { useState } from 'react';
 import { RxHamburgerMenu } from 'react-icons/rx';
 import { BsXCircle } from 'react-icons/bs';
 import LogoIcon from '../../assets/castom-icons/LogoIcon.svg';
+import UserMenu from '../UserMenu/UserMenu.jsx';
+import { useSelector } from 'react-redux';
+import { selectIsLoggedIn } from '../../redux/auth/selectors';
 
 const buildLinkClass = ({ isActive }) => {
   return clsx(css.link, isActive && css.active);
@@ -12,6 +15,7 @@ const buildLinkClass = ({ isActive }) => {
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const isLoggedIn = useSelector(selectIsLoggedIn);
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
   const closeMenu = () => setIsMenuOpen(false);
@@ -39,12 +43,19 @@ export default function Header() {
             <NavLink to="/" className={buildLinkClass}>
               Recipes
             </NavLink>
-            <NavLink to="/auth/login" className={buildLinkClass}>
-              Log in
-            </NavLink>
-            <NavLink to="/auth/register" className={buildLinkClass}>
-              Register
-            </NavLink>
+
+            {isLoggedIn ? (
+              <UserMenu />
+            ) : (
+              <>
+                <NavLink to="/auth/login" className={buildLinkClass}>
+                  Log in
+                </NavLink>
+                <NavLink to="/auth/register" className={buildLinkClass}>
+                  Register
+                </NavLink>
+              </>
+            )}
           </nav>
         </div>
       </header>
