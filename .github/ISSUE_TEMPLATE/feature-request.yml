@@ -10,7 +10,7 @@ body:
     id: title
     attributes:
       label: Коротка назва фічі
-      placeholder: Наприклад: "Додати автосейв у форму"
+      placeholder: 'Наприклад: "Додати автосейв у форму"'
     validations:
       required: true
   - type: textarea

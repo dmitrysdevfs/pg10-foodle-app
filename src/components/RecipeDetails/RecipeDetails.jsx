@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useAuth } from '../hooks/useAuth';
+import { useAuth } from '../../hooks/useAuth.js';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { toast } from 'react-toastify';
@@ -30,42 +30,42 @@ const RecipeDetails = ({ recipe }) => {
         toast.success('Recipe added to favorites');
       }
       setSaved(!saved);
-    } catch (error) {
+    } catch {
       toast.error('An error occurred while updating favorites');
     }
   };
 
   return (
     <div className={styles.container}>
-  <div className={styles.content}>
-    <h1 className={styles.title}>{recipe.title}</h1>
-    <img src={recipe.imageUrl} alt={recipe.title} className={styles.image} />
-    <h2 className={styles.sectionTitle}>About recipe</h2>
-    <p className={styles.description}>{recipe.description}</p>
+      <div className={styles.content}>
+        <h1 className={styles.title}>{recipe.title}</h1>
+        <img src={recipe.thumb} alt={recipe.title} className={styles.image} />
 
-    <h2 className={styles.sectionTitle}>Ingredients:</h2>
-    <ul className={styles.ingredientsList}>
-      {recipe.ingredients.map(({ name, amount }) => (
-        <li key={name}>{name} — {amount}</li>
-      ))}
-    </ul>
+        <h2 className={styles.sectionTitle}>About recipe</h2>
+        <p className={styles.description}>{recipe.description}</p>
 
-    <h2 className={styles.sectionTitle}>Preparation Steps:</h2>
-    <p className={styles.instructions}>{recipe.instructions}</p>
-  </div>
+        <h2 className={styles.sectionTitle}>Ingredients:</h2>
+        <ul className={styles.ingredientsList}>
+          {recipe.ingredients?.map(({ name, amount }) => (
+            <li key={name}>{name} — {amount}</li>
+          ))}
+        </ul>
 
-  <div className={styles.sidebar}>
-    <div className={styles.infoBox}>
-      <div className={styles.infoItem}><b>Category:</b> {recipe.category}</div>
-      <div className={styles.infoItem}><b>Cooking time:</b> {recipe.time} minutes</div>
-      <div className={styles.infoItem}><b>Calorie content:</b> {recipe.calories || 'N/A'}</div>
-      <button className={styles.button} onClick={handleSave}>
-        {saved ? 'Remove' : 'Save'}
-      </button>
+        <h2 className={styles.sectionTitle}>Preparation Steps:</h2>
+        <p className={styles.instructions}>{recipe.instructions}</p>
+      </div>
+
+      <div className={styles.sidebar}>
+        <div className={styles.infoBox}>
+          <div className={styles.infoItem}><b>Category:</b> {recipe.category}</div>
+          <div className={styles.infoItem}><b>Cooking time:</b> {recipe.time} minutes</div>
+          <div className={styles.infoItem}><b>Calorie content:</b> {recipe.calories || 'N/A'}</div>
+          <button className={styles.button} onClick={handleSave}>
+            {saved ? 'Remove' : 'Save'}
+          </button>
+        </div>
+      </div>
     </div>
-  </div>
-</div>
-
   );
 };
 

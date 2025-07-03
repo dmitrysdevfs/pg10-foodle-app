@@ -1,0 +1,13 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: #fdfdfc;
+  font-family: 'Poppins', sans-serif;
+}
+
+.main {
+  flex: 1;
+  padding-inline: 32px;
+  padding-block: 40px;
+}

@@ -7,6 +7,7 @@
   .container {
       max-width: 361px;
       margin: 0 auto;  
+      padding: 16px;
       
     }
 
@@ -16,13 +17,15 @@
     font-size: 40px;
     color: #000;
     margin-bottom: 16px;
+    text-align: start;
     }
 }
 
 @media screen and (min-width: 768px) {
 
   .container {
-    max-width: 361px;
+    width: 704px;
+    padding: 32px 0px;
     margin: 0 auto;
   }
 
@@ -33,6 +36,7 @@
     line-height: 1.1;
     color: #000;
     margin-bottom: 16px;
+    text-align: start;
   }
 
 
@@ -41,7 +45,7 @@
 @media screen and (min-width: 1440px) {
 
   .container {
-    max-width: 361px;
+    width: 1226px;
     margin: 0 auto;
   }
 

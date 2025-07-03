@@ -6,6 +6,7 @@ import Container from '../../assets/Container.png';
 import { Formik, Form, Field } from 'formik';
 import { useState } from 'react';
 import { clsx } from 'clsx';
+import RecipeAddIngredient from '../RecipeAddIngredient/RecipeAddIngredient';
 
 
 
@@ -66,17 +67,18 @@ const RecipeAddForm = () => {
           }}
       >
         <Form>
-                  
-          <h2 className={css.title}>Upload Photo</h2>
-          
-            <input type="file" accept="image/*" onChange={handleImageChange} className={css.inputImage} />
-          
-          <img
-            src={preview || Container}
-            alt="Preview"
-            className={css.previewImage}
-          />
-          <div className={css.generalInformation}>
+          <div className={css.boxUploadPhoto}>  
+            <div className={css.boxUploadInput}>
+              <h2 className={css.title}>Upload Photo</h2>
+              <input className={css.inputImage} type="file" accept="image/*" onChange={handleImageChange}  />
+              
+              <img
+                src={preview || Container}
+                alt="Preview"
+                className={css.previewImage}
+                  />
+            </div>
+      <div className={css.generalInformation}>
         <h2 className={clsx(css.title, css.titleGeneral)}>General Information</h2>
           <label className={css.titleText}>Recipe Title
           <Field
@@ -113,7 +115,9 @@ const RecipeAddForm = () => {
             </label>
           </div>
           </div>
-          <h2 className={css.title}>Ingredients</h2>
+          </div>
+          <h2 className={clsx(css.title, css.titleIngredients)}>Ingredients</h2>
+          <div className={css.nameAmount}>
           <label className={css.titleText}>Name
             <Field className={css.ingredientName} as="select" name="ingredientName">
             <option className={css.ingredientNameOption} value="red">Червоний</option>
@@ -123,13 +127,18 @@ const RecipeAddForm = () => {
             </Field>
           </label>
 
-          <label className={css.titleText}>Amount
-          <Field className={clsx(css.input, css.ingredientAmount)} type="text" name="ingredientAmount" placeholder="100g" />
-          </label>
+          <label className={clsx(css.titleText, css.titleTextAmount)}>Amount
+          <Field className={clsx(css.input, css.inputIngredients)} type="text" name="ingredientAmount" placeholder="100g" />
+            </label>
+           
           <button className={css.buttonRemove} type="button">Remove last Ingredient</button>
-          <button className={css.buttonAdd} type="button">Add new Ingredient</button>
-
-          <h2 className={css.title}>Instructions</h2>
+            <button className={css.buttonAdd} type="button">Add new Ingredient</button>
+            <div className={css.titleList}>
+              <p className={css.titleListName}>Name:</p>
+              <p className={css.titleListAmount}>Amount:</p></div>
+          </div>
+          <RecipeAddIngredient/>
+          <h2 className={clsx(css.title, css.titleInstructions)}>Instructions</h2>
           <label className={css.titleText} >
             <Field
             className={clsx(css.input, css.instructions)}
@@ -138,10 +147,12 @@ const RecipeAddForm = () => {
             placeholder="Enter a text"
             />
           </label>
-
+          <div className={css.buttonSubmitbox}>
           <button
             className={css.buttonSubmit}
-            type="submit">Publish Recipe</button>
+              type="submit">Publish Recipe
+            </button>
+          </div>
         </Form>
       </Formik>
   </div>

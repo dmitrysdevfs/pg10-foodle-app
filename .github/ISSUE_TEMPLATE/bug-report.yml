@@ -10,7 +10,7 @@ body:
     id: summary
     attributes:
       label: Короткий опис проблеми
-      placeholder: Наприклад, кнопка "Login" не працює...
+      placeholder: 'Наприклад, кнопка "Login" не працює...'
     validations:
       required: true
   - type: textarea
