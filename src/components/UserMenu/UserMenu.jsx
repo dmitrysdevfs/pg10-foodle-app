@@ -1,7 +1,7 @@
 import { useSelector, useDispatch } from 'react-redux';
 import css from './UserMenu.module.css';
 import { selectUser, selectIsLoggedIn } from '../../redux/auth/selectors';
-import { logout } from '../../redux/auth/authSlice';
+import { logOut } from '../../redux/auth/operations';
 
 export default function UserMenu() {
   const dispatch = useDispatch();
@@ -9,10 +9,9 @@ export default function UserMenu() {
   const isLoggedIn = useSelector(selectIsLoggedIn);
 
   const handleLogout = () => {
-    dispatch(logout());
+    dispatch(logOut());
   };
 
-  // Не рендеримо компонент, якщо користувач не залогінений
   if (!isLoggedIn) {
     return null;
   }

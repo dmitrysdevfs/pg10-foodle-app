@@ -34,18 +34,24 @@
 
 .mobMenu {
   width: 320px;
-  display: block;
+  display: none;
   background: var(--white);
   border-radius: 8px;
   margin-top: 8px;
   padding: 16px 12px;
-  display: flex;
   flex-direction: column;
   gap: 24px;
   box-shadow: 0px 0px 1px 0px rgba(0, 0, 0, 0.4),
     0px 8px 24px -6px rgba(0, 0, 0, 0.16);
   animation: slideDown 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   z-index: 1;
+  position: absolute;
+  right: 0;
+  top: 100%;
+}
+
+.mobMenuOpen {
+  display: flex;
 }
 
 @keyframes slideDown {
@@ -53,6 +59,7 @@
     opacity: 0;
     transform: translateY(-16px);
   }
+
   100% {
     opacity: 1;
     transform: translateY(0);
@@ -95,6 +102,7 @@
   .mobFilter {
     display: none;
   }
+
   .pcFilter {
     display: flex;
     gap: 24px;
@@ -122,6 +130,7 @@
     outline: none;
     cursor: pointer;
     transition: border 0.3s ease-in-out;
+
     & option {
       border-radius: 12px;
       padding: 8px;
@@ -129,6 +138,7 @@
       box-shadow: 0px 0px 1px 0px rgba(0, 0, 0, 0.4),
         0px 8px 24px -6px rgba(0, 0, 0, 0.16);
     }
+
     &:focus {
       border: 1px solid #7c3aed;
     }
