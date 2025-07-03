@@ -10,7 +10,8 @@ import {
   REGISTER,
 } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
-import authReducer from './authSlice';
+import authReducer from './auth/authSlice';
+import recipesReducer from './recipes/recipesSlice';
 
 const persistConfig = {
   key: 'user-token',
@@ -23,6 +24,7 @@ const persistedAuthReducer = persistReducer(persistConfig, authReducer);
 export const store = configureStore({
   reducer: {
     auth: persistedAuthReducer,
+    recipes: recipesReducer,
   },
   middleware: getDefaultMiddleware =>
     getDefaultMiddleware({

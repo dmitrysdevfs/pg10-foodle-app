@@ -1,0 +1,97 @@
+.footer {
+  padding: 24px 56px;
+  background-color: var(--dark-brown);
+}
+
+.footerWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 32px;
+}
+
+.logoLink {
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+}
+
+.logo {
+  width: 32px;
+  height: 30px;
+  padding-right: 5px;
+}
+
+.logoText {
+  font-family: var(--main-font-family);
+  font-weight: 600;
+  font-size: 18px;
+  letter-spacing: -0.03em;
+  color: #fff;
+}
+
+.footerTextSettings {
+  font-weight: 300;
+  font-size: 12px;
+  letter-spacing: -0.03em;
+  color: #fff;
+  margin: 0;
+  text-align: center;
+}
+
+.footerRoutesLink {
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex-direction: column;
+  gap: 40px;
+  font-family: var(--main-font-family);
+  font-weight: 600;
+  font-size: 16px;
+  color: #fff;
+}
+
+.footerLink {
+  font-size: 16px;
+  font-weight: 600;
+  color: #ffffff;
+  text-decoration: none;
+  position: relative;
+  padding-bottom: 2px;
+  transition: color 0.3s ease;
+}
+
+.footerLink:hover {
+  color: #d39c6a;
+}
+
+@media screen and (min-width: 768px) {
+  .footerRoutesLink {
+    flex-direction: row;
+    gap: 32px;
+  }
+}
+
+@media screen and (min-width: 1440px) {
+  .footer {
+    min-width: var(--desktop);
+    flex-direction: row;
+  }
+
+  .footerWrapper {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  .footerTextSettings {
+    font-weight: 400;
+  }
+}
+
+@media screen and (min-width: 1440px) {
+  .footer {
+    padding: 24px 108px;
+
+  }
+}
