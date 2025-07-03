@@ -1,10 +1,10 @@
 import css from './RegisterForm.module.css';
 import { useState } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
-import * as Yup from 'yup';
 import { useNavigate, Link } from 'react-router-dom';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { registerSchema } from '../../../utils/validationSchemas';
 
 const initialValues = {
   name: '',
@@ -13,16 +13,6 @@ const initialValues = {
   confirmPassword: '',
   terms: false,
 };
-
-const validationSchema = Yup.object({
-  name: Yup.string().required("Name is required"),
-  email: Yup.string().email('Invalid email').required('Email is required'),
-  password: Yup.string().min(6, 'Minimum 6 characters').required('Password is required'),
-  confirmPassword: Yup.string()
-    .oneOf([Yup.ref('password'), null], 'Passwords do not match')
-    .required('Confirmation is required'),
-  terms: Yup.boolean().oneOf([true], 'You must accept the terms'),
-});
 
 const RegistrationForm = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -67,7 +57,7 @@ const RegistrationForm = () => {
 
       <Formik
         initialValues={initialValues}
-        validationSchema={validationSchema}
+        validationSchema={registerSchema}
         onSubmit={handleSubmit}
       >
         {({ isSubmitting }) => (
@@ -168,7 +158,7 @@ const RegistrationForm = () => {
         </Link>
       </p>
 
-     
+
       <ToastContainer position="top-right" autoClose={3000} />
     </div>
   );

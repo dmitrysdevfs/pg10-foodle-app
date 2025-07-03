@@ -1,20 +1,16 @@
 import css from './LoginForm.module.css';
 import { useState } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
-import * as Yup from 'yup';
 import { Link } from 'react-router-dom';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { loginSchema } from '../../../utils/validationSchemas';
 
 const initialValues = {
   email: '',
   password: '',
 };
 
-const validationSchema = Yup.object({
-  email: Yup.string().email('Invalid email').required('Email is required'),
-  password: Yup.string().required('Password is required'),
-});
 
 export default function LoginForm() {
   const [showPassword, setShowPassword] = useState(false);
@@ -47,7 +43,7 @@ export default function LoginForm() {
 
       <Formik
         initialValues={initialValues}
-        validationSchema={validationSchema}
+        validationSchema={loginSchema}
         onSubmit={handleSubmit}
       >
         {({ isSubmitting, errors, touched }) => (
@@ -63,9 +59,8 @@ export default function LoginForm() {
                     id="email"
                     type="email"
                     placeholder="email@gmail.com"
-                    className={`${css.input} ${
-                      touched.email && errors.email ? css.inputError : ''
-                    }`}
+                    className={`${css.input} ${touched.email && errors.email ? css.inputError : ''
+                      }`}
                   />
                 )}
               </Field>
@@ -84,9 +79,8 @@ export default function LoginForm() {
                       id="password"
                       type={showPassword ? 'text' : 'password'}
                       placeholder="*********"
-                      className={`${css.input} ${
-                        touched.password && errors.password ? css.inputError : ''
-                      }`}
+                      className={`${css.input} ${touched.password && errors.password ? css.inputError : ''
+                        }`}
                     />
                   )}
                 </Field>
