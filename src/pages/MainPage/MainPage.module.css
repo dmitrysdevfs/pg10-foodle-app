@@ -109,6 +109,10 @@
     font-size: 40px;
     line-height: 49px;
   }
+  .loadMoreBtn {
+    max-width: 344px;
+    width: 100%;
+  }
 }
 
 @media screen and (min-width: 1440px) {
