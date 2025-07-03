@@ -79,8 +79,8 @@
   color: #d39c6a;
 }
 
-.link[href='/login'].active,
-.link[href='/register'].active {
+.link[href='/auth/login'].active,
+.link[href='/auth/register'].active {
   background-color: #9b6c43;
   padding: 12px 16px;
   border-radius: 8px;
@@ -130,8 +130,8 @@
     border: none;
   }
 
-  .link[href='/login'].active,
-  .link[href='/register'].active {
+  .link[href='/auth/login'].active,
+  .link[href='/auth/register'].active {
     font-size: 16px;
   }
 }
