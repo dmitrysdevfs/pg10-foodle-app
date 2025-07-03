@@ -1,5 +1,5 @@
 .footer {
-  padding: 24px 59px;
+  padding: 24px 56px;
   background-color: var(--dark-brown);
 }
 
@@ -86,5 +86,12 @@
 
   .footerTextSettings {
     font-weight: 400;
+  }
+}
+
+@media screen and (min-width: 1440px) {
+  .footer {
+    padding: 24px 108px;
+
   }
 }

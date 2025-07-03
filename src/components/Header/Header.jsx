@@ -39,10 +39,10 @@ export default function Header() {
             <NavLink to="/" className={buildLinkClass}>
               Recipes
             </NavLink>
-            <NavLink to="/login" className={buildLinkClass}>
+            <NavLink to="/auth/login" className={buildLinkClass}>
               Log in
             </NavLink>
-            <NavLink to="/register" className={buildLinkClass}>
+            <NavLink to="/auth/register" className={buildLinkClass}>
               Register
             </NavLink>
           </nav>

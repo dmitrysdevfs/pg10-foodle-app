@@ -135,3 +135,9 @@
     font-size: 16px;
   }
 }
+
+@media screen and (min-width: 1440px) {
+  .headerNav {
+    padding: 15px 108px;
+  }
+}

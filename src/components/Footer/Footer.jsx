@@ -14,10 +14,10 @@ export default function Footer() {
           &copy; 2025 CookingCompanion. All rights reserved.
         </p>
         <div className={css.footerRoutesLink}>
-          <NavLink to="/recipes" className={css.footerLink}>
+          <NavLink to="/" className={css.footerLink}>
             Recipes
           </NavLink>
-          <NavLink to="/profile" className={css.footerLink}>
+          <NavLink to="/auth/profile" className={css.footerLink}>
             Account
           </NavLink>
         </div>
