@@ -87,10 +87,11 @@ const Filters = ({ filters, onChange }) => {
           >
             <option value="">Ingredients</option>
             {ingredients.map((ingredient, index) => {
+              // Always use ObjectId as value for backend compatibility
               const ingredientValue =
                 typeof ingredient === 'string'
                   ? ingredient
-                  : ingredient._id || ingredient.name;
+                  : ingredient._id;
               const ingredientKey =
                 typeof ingredient === 'string'
                   ? ingredient

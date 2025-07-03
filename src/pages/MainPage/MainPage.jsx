@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useRecipes } from '../../hooks/useRecipes';
 import { useSearchParams } from 'react-router-dom';
 import SearchBox from '../../components/SearchBox/SearchBox';
@@ -7,11 +7,11 @@ import RecipesList from '../../components/RecipesList/RecipesList';
 import LoadMoreBtn from '../../components/Button/Button';
 import s from './MainPage.module.css';
 import clsx from 'clsx';
+import Loader from '../../components/Loader/Loader';
 
 const MainPage = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const searchValue = searchParams.get('search') || '';
-  const [filters, setFilters] = useState({ category: '', ingredient: '' });
 
   const {
     recipes,
@@ -19,6 +19,7 @@ const MainPage = () => {
     error,
     hasNextPage,
     totalItems,
+    filters,
     searchRecipes,
     updateFilters,
     loadMore,
@@ -55,7 +56,7 @@ const MainPage = () => {
   };
 
   return (
-    <main className={s.main}>
+    <>
       <section className={clsx(s.hero, s.container)}>
         <div className={s.heroContent}>
           <h1 className={s.heroTitle}>
@@ -74,7 +75,7 @@ const MainPage = () => {
           </span>
           <Filters onChange={handleFiltersChange} filters={filters} />
         </div>
-        {isLoading && <p>Loading...</p>}
+        {isLoading && <Loader />}
         {error && <div className={s.error}>Error: {error}</div>}
         <RecipesList recipes={recipes} />
         {!isLoading && hasNextPage && (
@@ -85,7 +86,7 @@ const MainPage = () => {
           />
         )}
       </section>
-    </main>
+    </>
   );
 };
 
