@@ -1,17 +1,21 @@
 import { useEffect } from 'react';
 import { useRecipes } from '../../hooks/useRecipes';
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams, useLocation } from 'react-router-dom';
 import SearchBox from '../../components/SearchBox/SearchBox';
 import Filters from '../../components/Filters/Filters';
 import RecipesList from '../../components/RecipesList/RecipesList';
 import LoadMoreBtn from '../../components/Button/Button';
+import Loader from '../../components/Loader/Loader';
 import s from './MainPage.module.css';
 import clsx from 'clsx';
-import Loader from '../../components/Loader/Loader';
+import { setSearchQuery, setFilters } from '../../redux/recipes/recipesSlice';
+import { useDispatch } from 'react-redux';
 
 const MainPage = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const searchValue = searchParams.get('search') || '';
+  const location = useLocation();
+  const dispatch = useDispatch();
 
   const {
     recipes,
@@ -33,6 +37,12 @@ const MainPage = () => {
       loadRecipes();
     }
   }, [searchValue]);
+
+  useEffect(() => {
+    dispatch(setSearchQuery(''));
+    dispatch(setFilters({ category: '', ingredient: '' }));
+    loadRecipes({ page: 1 });
+  }, [location.key]);
 
   const handleSearch = query => {
     setSearchParams(prev => {
