@@ -1,17 +1,21 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useRecipes } from '../../hooks/useRecipes';
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams, useLocation } from 'react-router-dom';
 import SearchBox from '../../components/SearchBox/SearchBox';
 import Filters from '../../components/Filters/Filters';
 import RecipesList from '../../components/RecipesList/RecipesList';
 import LoadMoreBtn from '../../components/Button/Button';
+import Loader from '../../components/Loader/Loader';
 import s from './MainPage.module.css';
 import clsx from 'clsx';
+import { setSearchQuery, setFilters } from '../../redux/recipes/recipesSlice';
+import { useDispatch } from 'react-redux';
 
 const MainPage = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const searchValue = searchParams.get('search') || '';
-  const [filters, setFilters] = useState({ category: '', ingredient: '' });
+  const location = useLocation();
+  const dispatch = useDispatch();
 
   const {
     recipes,
@@ -19,6 +23,7 @@ const MainPage = () => {
     error,
     hasNextPage,
     totalItems,
+    filters,
     searchRecipes,
     updateFilters,
     loadMore,
@@ -32,6 +37,12 @@ const MainPage = () => {
       loadRecipes();
     }
   }, [searchValue]);
+
+  useEffect(() => {
+    dispatch(setSearchQuery(''));
+    dispatch(setFilters({ category: '', ingredient: '' }));
+    loadRecipes({ page: 1 });
+  }, [location.key]);
 
   const handleSearch = query => {
     setSearchParams(prev => {
@@ -55,26 +66,29 @@ const MainPage = () => {
   };
 
   return (
-    <main className={s.main}>
-      <section className={clsx(s.hero, s.container)}>
-        <div className={s.heroContent}>
-          <h1 className={s.heroTitle}>
-            Plan, Cook, and
-            <br />
-            Share Your Flavors
-          </h1>
-          <SearchBox onSearch={handleSearch} value={searchValue} />
+    <>
+      <section className={s.hero}>
+        <div className={s.container}>
+          <div className={s.heroContent}>
+            <h1 className={s.heroTitle}>
+              Plan, Cook, and
+              <br />
+              Share Your Flavors
+            </h1>
+            <SearchBox onSearch={handleSearch} value={searchValue} />
+          </div>
         </div>
       </section>
       <section className={clsx(s.recipesSection, s.container)}>
         <h2 className={s.recipesTitle}>Recipes</h2>
         <div className={s.filterContainer}>
-          <span className={s.recipesCount}>
-            {totalItems > 0 ? `${totalItems} recipes` : 'No recipes'}
-          </span>
-          <Filters onChange={handleFiltersChange} filters={filters} />
+          <Filters
+            onChange={handleFiltersChange}
+            filters={filters}
+            totalItems={totalItems}
+          />
         </div>
-        {isLoading && <p>Loading...</p>}
+        {isLoading && <Loader />}
         {error && <div className={s.error}>Error: {error}</div>}
         <RecipesList recipes={recipes} />
         {!isLoading && hasNextPage && (
@@ -85,7 +99,7 @@ const MainPage = () => {
           />
         )}
       </section>
-    </main>
+    </>
   );
 };
 
