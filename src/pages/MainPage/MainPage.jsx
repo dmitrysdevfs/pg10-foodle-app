@@ -67,23 +67,26 @@ const MainPage = () => {
 
   return (
     <>
-      <section className={clsx(s.hero, s.container)}>
-        <div className={s.heroContent}>
-          <h1 className={s.heroTitle}>
-            Plan, Cook, and
-            <br />
-            Share Your Flavors
-          </h1>
-          <SearchBox onSearch={handleSearch} value={searchValue} />
+      <section className={s.hero}>
+        <div className={s.container}>
+          <div className={s.heroContent}>
+            <h1 className={s.heroTitle}>
+              Plan, Cook, and
+              <br />
+              Share Your Flavors
+            </h1>
+            <SearchBox onSearch={handleSearch} value={searchValue} />
+          </div>
         </div>
       </section>
       <section className={clsx(s.recipesSection, s.container)}>
         <h2 className={s.recipesTitle}>Recipes</h2>
         <div className={s.filterContainer}>
-          <span className={s.recipesCount}>
-            {totalItems > 0 ? `${totalItems} recipes` : 'No recipes'}
-          </span>
-          <Filters onChange={handleFiltersChange} filters={filters} />
+          <Filters
+            onChange={handleFiltersChange}
+            filters={filters}
+            totalItems={totalItems}
+          />
         </div>
         {isLoading && <Loader />}
         {error && <div className={s.error}>Error: {error}</div>}
