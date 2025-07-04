@@ -1,37 +1,54 @@
 import { useEffect, useState } from 'react';
-import { useFilters } from '../../hooks/useFilters';
+import { useDispatch, useSelector } from 'react-redux';
 import { FiFilter } from 'react-icons/fi';
+import {
+  fetchCategoriesAsync,
+  fetchIngredientsAsync,
+  setFilters,
+  selectCategories,
+  selectIngredients,
+  selectFiltersLoading,
+  selectFiltersError,
+  selectFilters,
+  selectIsLoading,
+} from '../../redux/recipes/recipesSlice';
 import s from './Filters.module.css';
 
-const Filters = ({ filters, onChange }) => {
-  const { categories, ingredients, loading, error } = useFilters();
-  const [selectedCategory, setSelectedCategory] = useState(
-    filters?.category || ''
-  );
-  const [selectedIngredient, setSelectedIngredient] = useState(
-    filters?.ingredient || ''
-  );
+const Filters = ({ totalItems }) => {
+  const dispatch = useDispatch();
+  const categories = useSelector(selectCategories);
+  const ingredients = useSelector(selectIngredients);
+  const filtersLoading = useSelector(selectFiltersLoading);
+  const error = useSelector(selectFiltersError);
+  const filters = useSelector(selectFilters);
+  const isLoading = useSelector(selectIsLoading);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
   useEffect(() => {
-    setSelectedCategory(filters?.category || '');
-    setSelectedIngredient(filters?.ingredient || '');
-  }, [filters]);
+    if (categories.length === 0) {
+      dispatch(fetchCategoriesAsync());
+    }
+    if (ingredients.length === 0) {
+      dispatch(fetchIngredientsAsync());
+    }
+  }, [dispatch, categories.length, ingredients.length]);
 
   const handleCategoryChange = e => {
     const value = e.target.value;
-    setSelectedCategory(value);
-    onChange({ ...filters, category: value });
+    dispatch(setFilters({ ...filters, category: value }));
   };
 
   const handleIngredientChange = e => {
     const value = e.target.value;
-    setSelectedIngredient(value);
-    onChange({ ...filters, ingredient: value });
+    dispatch(setFilters({ ...filters, ingredient: value }));
   };
 
   const handleReset = () => {
-    setSelectedCategory('');
-    setSelectedIngredient('');
-    onChange({ category: '', ingredient: '' });
+    dispatch(setFilters({ category: '', ingredient: '' }));
+  };
+
+  const toggleMobileMenu = () => {
+    setIsMobileMenuOpen(!isMobileMenuOpen);
   };
 
   if (error) {
@@ -40,11 +57,78 @@ const Filters = ({ filters, onChange }) => {
 
   return (
     <>
+      <span className={s.recipesCount}>
+        {isLoading ? 'Searching...' : totalItems > 0 ? `${totalItems} recipes` : 'No recipes'}
+      </span>
       <div className={s.mobFilter}>
-        <button className={s.mobFilterBtn}>
+        <button
+          className={s.mobFilterBtn}
+          onClick={toggleMobileMenu}
+        >
           Filters
           <FiFilter className={s.filterIcon} />
         </button>
+        <div className={`${s.mobMenu} ${isMobileMenuOpen ? s.mobMenuOpen : ''}`}>
+          <div className={s.filterGroup}>
+            <select
+              id="category-mob"
+              onChange={handleCategoryChange}
+              className={s.select}
+              value={filters?.category || ''}
+              disabled={filtersLoading}
+            >
+              <option value="">Category</option>
+              {categories.map((category, index) => {
+                const categoryValue =
+                  typeof category === 'string'
+                    ? category
+                    : category.name || category._id;
+                const categoryKey =
+                  typeof category === 'string'
+                    ? category
+                    : category._id || index;
+                return (
+                  <option key={categoryKey} value={categoryValue}>
+                    {categoryValue}
+                  </option>
+                );
+              })}
+            </select>
+          </div>
+          <div className={s.filterGroup}>
+            <select
+              id="ingredient-mob"
+              onChange={handleIngredientChange}
+              className={s.select}
+              value={filters?.ingredient || ''}
+              disabled={filtersLoading}
+            >
+              <option value="">Ingredients</option>
+              {ingredients.map((ingredient, index) => {
+                const ingredientValue =
+                  typeof ingredient === 'string'
+                    ? ingredient
+                    : ingredient._id;
+                const ingredientKey =
+                  typeof ingredient === 'string'
+                    ? ingredient
+                    : ingredient._id || index;
+                const ingredientLabel =
+                  typeof ingredient === 'string'
+                    ? ingredient
+                    : ingredient.name || ingredient._id;
+                return (
+                  <option key={ingredientKey} value={ingredientValue}>
+                    {ingredientLabel}
+                  </option>
+                );
+              })}
+            </select>
+          </div>
+          <button onClick={handleReset} className={s.resetButton}>
+            Reset filters
+          </button>
+        </div>
       </div>
 
       <div className={s.pcFilter}>
@@ -56,8 +140,8 @@ const Filters = ({ filters, onChange }) => {
             id="category"
             onChange={handleCategoryChange}
             className={s.select}
-            value={selectedCategory}
-            disabled={loading}
+            value={filters?.category || ''}
+            disabled={filtersLoading}
           >
             <option value="">Category</option>
             {categories.map((category, index) => {
@@ -82,15 +166,14 @@ const Filters = ({ filters, onChange }) => {
             id="ingredient"
             onChange={handleIngredientChange}
             className={s.select}
-            value={selectedIngredient}
-            disabled={loading}
+            value={filters?.ingredient || ''}
+            disabled={filtersLoading}
           >
             <option value="">Ingredients</option>
             {ingredients.map((ingredient, index) => {
+              // Always use ObjectId as value for backend compatibility
               const ingredientValue =
-                typeof ingredient === 'string'
-                  ? ingredient
-                  : ingredient._id || ingredient.name;
+                typeof ingredient === 'string' ? ingredient : ingredient._id;
               const ingredientKey =
                 typeof ingredient === 'string'
                   ? ingredient
