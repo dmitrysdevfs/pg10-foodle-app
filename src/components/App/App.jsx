@@ -4,8 +4,10 @@ import { Toaster } from 'react-hot-toast';
 import MainPage from '../../pages/MainPage/MainPage';
 import RecipeViewPage from '../../pages/RecipeViewPage/RecipeViewPage';
 import AuthPage from '../../pages/AuthPage/AuthPage';
+import RecipeAddPages from '../../pages/RecipeAddPage/RecipeAddPage.jsx';
 import NotFoundPage from '../../pages/NotFoundPage/NotFoundPage';
 import Layout from '../Layout/Layout.jsx';
+
 
 export default function App() {
   return (
@@ -15,6 +17,7 @@ export default function App() {
           <Route index element={<MainPage />} />
           <Route path="/recipes/:id" element={<RecipeViewPage />} />
           <Route path="/auth/:authType" element={<AuthPage />} />
+          <Route path="/add-recipe" element={<RecipeAddPages />} />
         </Route>
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
