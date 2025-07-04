@@ -3,6 +3,8 @@ import { useAuth } from '../../hooks/useAuth.js';
 // import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { toast } from 'react-toastify';
+// import { ReactComponent as  SaveIcon} from '../../assets/icons/saveFavorite.svg';
+import SaveIcon from '../../assets/icons/saveFavorite.svg';
 
 import styles from './RecipeDetails.module.css';
 
@@ -47,7 +49,9 @@ const RecipeDetails = ({ recipe }) => {
     <div className={styles.recipeContainer}>
       <div className={styles.topSection}>
         <h2 className={styles.title}>{recipe.title}</h2>
-        <img src={recipe.thumb} alt={recipe.title} className={styles.image} />
+        <div className={styles.imgContainer}>
+          <img src={recipe.thumb} alt={recipe.title} className={styles.image} />
+        </div>
       </div>
 
       <div className={styles.layoutWrapper}>
@@ -82,6 +86,7 @@ const RecipeDetails = ({ recipe }) => {
 
           <button className={styles.button} onClick={handleSave}>
             {saved ? 'Remove' : 'Save'}
+            <SaveIcon className={styles.icon} />
           </button>
         </aside>
       </div>
