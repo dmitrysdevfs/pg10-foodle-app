@@ -4,20 +4,22 @@ import { Toaster } from 'react-hot-toast';
 import MainPage from '../../pages/MainPage/MainPage';
 import RecipeViewPage from '../../pages/RecipeViewPage/RecipeViewPage';
 import AuthPage from '../../pages/AuthPage/AuthPage';
+import RecipeAddPages from '../../pages/RecipeAddPage/RecipeAddPage.jsx';
 import NotFoundPage from '../../pages/NotFoundPage/NotFoundPage';
-import RecipeAddPage from '../../pages/RecipeAddPage/RecipeAddPage';
+import Layout from '../Layout/Layout.jsx';
+
 
 export default function App() {
   return (
     <div className={css.container}>
       <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/recipe/:id" element={<RecipeViewPage />} />
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/register" element={<RegisterPage />} />
-        <Route path="/add-recipe" element={<RecipeAddPage />} />
+        <Route path="/" element={<Layout />}>
+          <Route index element={<MainPage />} />
+          <Route path="/recipes/:id" element={<RecipeViewPage />} />
+          <Route path="/auth/:authType" element={<AuthPage />} />
+          <Route path="/add-recipe" element={<RecipeAddPages />} />
+        </Route>
         <Route path="*" element={<NotFoundPage />} />
-        
       </Routes>
       <Toaster
         position="top-center"

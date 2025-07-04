@@ -121,10 +121,10 @@ const RecipeAddForm = () => {
                   </label>
                   <label className={css.titleText}>Category
                     <Field className={css.category} as="select" name="category">
-                     
+{/*                      
                       {categories.map(cat => (
                         <option key={cat._id} value={cat.name}>{cat.name}</option>
-                      ))} 
+                      ))}  */}
                     </Field>
                   </label>
                 </div>
@@ -136,9 +136,9 @@ const RecipeAddForm = () => {
               <label className={css.titleText}>Name
                 <Field className={css.ingredientName} as="select" name="ingredientName">
                   
-                  {ingredientsOptions.map(ing => (
+                  {/* {ingredientsOptions.map(ing => (
                     <option key={ing._id} value={ing.name}>{ing.name}</option>
-                  ))}
+                  ))} */}
                 </Field>
               </label>
               <label className={clsx(css.titleText, css.titleTextAmount)}>Amount
