@@ -9,7 +9,7 @@ export default function Navigation() {
     <nav className={css.nav}>
       <div className={css.container}>
         <Link to="/" className={css.logo}>
-          PG10-Foodle 🍲
+          Tasteorama
         </Link>
 
         <div className={css.links}>
@@ -20,8 +20,8 @@ export default function Navigation() {
             </>
           ) : (
             <>
-              <Link to="/login" className={css.link}>Login</Link>
-              <Link to="/register" className={css.link}>Register</Link>
+              <Link to="/auth/login" className={css.link}>Login</Link>
+              <Link to="/auth/register" className={css.link}>Register</Link>
             </>
           )}
         </div>

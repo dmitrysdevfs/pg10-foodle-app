@@ -44,13 +44,8 @@
   margin-bottom: 16px;
 }
 
-.recipesCount {
-  font-size: 18px;
-  font-weight: var(--semibold-font-weight);
-  line-height: 22px;
-}
-
 .filterContainer {
+  position: relative;
   display: flex;
   justify-content: space-between;
   margin-bottom: 16px;
@@ -108,6 +103,10 @@
   .recipesTitle {
     font-size: 40px;
     line-height: 49px;
+  }
+  .loadMoreBtn {
+    max-width: 344px;
+    width: 100%;
   }
 }
 

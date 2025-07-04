@@ -1,55 +1,35 @@
-import css from './RegisterForm.module.css';
+import { useDispatch, useSelector } from 'react-redux';
 import { useState } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
-import * as Yup from 'yup';
 import { useNavigate, Link } from 'react-router-dom';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { registerSchema } from '../../../utils/validationSchemas';
+import { register } from '../../../redux/auth/operations';
+import css from './RegisterForm.module.css';
 
-
-const initialValues = {
-  name: '',
-  email: '',
-  password: '',
-  confirmPassword: '',
-  terms: false,
-};
-
-const validationSchema = Yup.object({
-  name: Yup.string().required("Name is required"),
-  email: Yup.string().email('Invalid email').required('Email is required'),
-  password: Yup.string().min(6, 'Minimum 6 characters').required('Password is required'),
-  confirmPassword: Yup.string()
-    .oneOf([Yup.ref('password'), null], 'Passwords do not match')
-    .required('Confirmation is required'),
-  terms: Yup.boolean().oneOf([true], 'You must accept the terms'),
-});
 
 const RegistrationForm = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
   const navigate = useNavigate();
 
+  const dispatch = useDispatch();
+  const { loading } = useSelector(state => state.auth);
+
   const handleSubmit = async (values, { resetForm, setSubmitting }) => {
     try {
-      const response = await fetch('/api/auth/register', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          name: values.name,
-          email: values.email,
-          password: values.password,
-        }),
-      });
+      await dispatch(register({
+        name: values.name,
+        email: values.email,
+        password: values.password,
+      })).unwrap();
 
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.message || 'Something went wrong...');
-      }
-
+      toast.success('Registration successful!');
       navigate('/');
       resetForm();
     } catch (error) {
-      alert(error.message); // replace with toast in real project
+      toast.error(error.message || "Registration failed");
     } finally {
       setSubmitting(false);
     }
@@ -64,13 +44,18 @@ const RegistrationForm = () => {
       </p>
 
       <Formik
-        initialValues={initialValues}
-        validationSchema={validationSchema}
+        initialValues={{
+          name: '',
+          email: '',
+          password: '',
+          confirmPassword: '',
+          terms: false,
+        }}
+        validationSchema={registerSchema}
         onSubmit={handleSubmit}
       >
         {({ isSubmitting }) => (
           <Form className={css.form}>
-
             <div className={css.inputGroup}>
               <label htmlFor="email" className={css.label}>Enter your email address</label>
               <div className={css.inputWrapper}>
@@ -113,6 +98,7 @@ const RegistrationForm = () => {
                   type="button"
                   className={css.eyeButton}
                   onClick={() => setShowPassword(prev => !prev)}
+                  aria-label={showPassword ? 'Hide password' : 'Show password'}
                 >
                   👁
                 </button>
@@ -134,6 +120,7 @@ const RegistrationForm = () => {
                   type="button"
                   className={css.eyeButton}
                   onClick={() => setShowConfirm(prev => !prev)}
+                  aria-label={showConfirm ? 'Hide password' : 'Show password'}
                 >
                   👁
                 </button>
@@ -150,9 +137,9 @@ const RegistrationForm = () => {
             <button
               type="submit"
               className={css.submitButton}
-              disabled={isSubmitting}
+              disabled={isSubmitting || loading}
             >
-              Create account
+              {loading ? 'Creating account...' : 'Create account'}
             </button>
           </Form>
         )}
@@ -160,10 +147,13 @@ const RegistrationForm = () => {
 
       <p className={css.bottomText}>
         Already have an account?{' '}
-        <Link to="/login" className={css.loginLink}>
+        <Link to="/auth/login" className={css.loginLink}>
           Log in
         </Link>
       </p>
+
+
+      <ToastContainer position="top-right" autoClose={3000} />
     </div>
   );
 };
