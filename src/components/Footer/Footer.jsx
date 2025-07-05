@@ -3,8 +3,10 @@ import css from './Footer.module.css';
 import LogoIcon from '../../assets/castom-icons/LogoIcon.svg';
 
 export default function Footer() {
-  const location =useLocation();
-  const isAuthPage = location.pathname === '/auth/login' || location.pathname === '/auth/register';
+  const location = useLocation();
+  const isAuthPage =
+    location.pathname === '/auth/login' ||
+    location.pathname === '/auth/register';
   return (
     <footer className={css.footer}>
       <div className={css.footerWrapper}>
@@ -19,10 +21,11 @@ export default function Footer() {
           <NavLink to="/" className={css.footerLink}>
             Recipes
           </NavLink>
-          {!isAuthPage && (<NavLink to="/auth/profile" className={css.footerLink}>
-            Account
-          </NavLink>)}
-          
+          {!isAuthPage && (
+            <NavLink to="/auth/profile" className={css.footerLink}>
+              Account
+            </NavLink>
+          )}
         </div>
       </div>
     </footer>
