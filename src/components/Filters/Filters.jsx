@@ -6,13 +6,15 @@ import {
   fetchCategoriesAsync,
   fetchIngredientsAsync,
   setFilters,
+} from '../../redux/recipes/recipesSlice';
+import {
   selectCategories,
   selectIngredients,
   selectFiltersLoading,
   selectFiltersError,
   selectFilters,
   selectIsLoading,
-} from '../../redux/recipes/recipesSlice';
+} from '../../redux/recipes/selectors';
 import s from './Filters.module.css';
 
 const Filters = ({ totalItems }) => {
@@ -83,8 +85,8 @@ const Filters = ({ totalItems }) => {
         {isLoading
           ? 'Searching...'
           : totalItems > 0
-          ? `${totalItems} recipes`
-          : 'No recipes'}
+            ? `${totalItems} recipes`
+            : 'No recipes'}
       </span>
       <div className={s.mobFilter}>
         <button
