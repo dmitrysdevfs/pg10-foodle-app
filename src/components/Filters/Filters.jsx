@@ -1,6 +1,7 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { FiFilter } from 'react-icons/fi';
+import { IoMdCloseCircleOutline } from 'react-icons/io';
 import {
   fetchCategoriesAsync,
   fetchIngredientsAsync,
@@ -23,6 +24,8 @@ const Filters = ({ totalItems }) => {
   const filters = useSelector(selectFilters);
   const isLoading = useSelector(selectIsLoading);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const mobileMenuRef = useRef(null);
+  const filterButtonRef = useRef(null);
 
   useEffect(() => {
     if (categories.length === 0) {
@@ -32,6 +35,25 @@ const Filters = ({ totalItems }) => {
       dispatch(fetchIngredientsAsync());
     }
   }, [dispatch, categories.length, ingredients.length]);
+
+  useEffect(() => {
+    const handleClickOutside = event => {
+      if (
+        isMobileMenuOpen &&
+        mobileMenuRef.current &&
+        !mobileMenuRef.current.contains(event.target) &&
+        filterButtonRef.current &&
+        !filterButtonRef.current.contains(event.target)
+      ) {
+        setIsMobileMenuOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [isMobileMenuOpen]);
 
   const handleCategoryChange = e => {
     const value = e.target.value;
@@ -58,17 +80,29 @@ const Filters = ({ totalItems }) => {
   return (
     <>
       <span className={s.recipesCount}>
-        {isLoading ? 'Searching...' : totalItems > 0 ? `${totalItems} recipes` : 'No recipes'}
+        {isLoading
+          ? 'Searching...'
+          : totalItems > 0
+          ? `${totalItems} recipes`
+          : 'No recipes'}
       </span>
       <div className={s.mobFilter}>
         <button
+          ref={filterButtonRef}
           className={s.mobFilterBtn}
           onClick={toggleMobileMenu}
         >
           Filters
-          <FiFilter className={s.filterIcon} />
+          {isMobileMenuOpen ? (
+            <IoMdCloseCircleOutline className={s.filterIcon} />
+          ) : (
+            <FiFilter className={s.filterIcon} />
+          )}
         </button>
-        <div className={`${s.mobMenu} ${isMobileMenuOpen ? s.mobMenuOpen : ''}`}>
+        <div
+          ref={mobileMenuRef}
+          className={`${s.mobMenu} ${isMobileMenuOpen ? s.mobMenuOpen : ''}`}
+        >
           <div className={s.filterGroup}>
             <select
               id="category-mob"
@@ -106,9 +140,7 @@ const Filters = ({ totalItems }) => {
               <option value="">Ingredients</option>
               {ingredients.map((ingredient, index) => {
                 const ingredientValue =
-                  typeof ingredient === 'string'
-                    ? ingredient
-                    : ingredient._id;
+                  typeof ingredient === 'string' ? ingredient : ingredient._id;
                 const ingredientKey =
                   typeof ingredient === 'string'
                     ? ingredient

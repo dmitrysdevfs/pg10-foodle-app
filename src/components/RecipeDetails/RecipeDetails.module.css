@@ -1,11 +1,8 @@
-.container {
+.recipeContainer {
+  padding: 16px;
   display: flex;
   flex-direction: column;
-  padding: 16px;
-  background-color: #fff;
-  color: #1a1a1a;
-  font-family: 'Segoe UI', sans-serif;
-  max-width: 100%;
+  gap: 24px;
 }
 
 .backButton {
@@ -31,119 +28,193 @@
   margin: 16px 0;
 }
 
+.imgContainer {
+  display: flex;
+  justify-content: center;
+  background-color: #2B2D30;
+}
+
 .image {
-  width: 100%;
-  height: auto;
-  border-radius: 8px;
+  width: auto;
+  /* max-height: 400px; */
+  height: 100%;
+  justify-content: center;
   object-fit: cover;
+  overflow: hidden;
+
 }
 
-.sectionTitle {
-  font-size: 18px;
-  margin: 24px 0 8px;
-  font-weight: 600;
+.title {
+  font-size: 28px;
+  font-weight: 700;
 }
 
-.description,
-.instructions {
-  font-size: 16px;
-  line-height: 1.5;
-  margin-bottom: 24px;
+.layoutWrapper {
+  display: flex;
+  flex-direction: column-reverse;
+  gap: 24px;
 }
 
-.ingredientsList {
-  list-style: disc inside;
-  margin-bottom: 16px;
-  padding-left: 16px;
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  flex: 2;
+  flex-direction: column;
+  gap: 40px;
+}
+
+.sidebar {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 16px;
 }
 
 .infoBox {
-  background-color: #fef7e5;
-  border-radius: 8px;
-  padding: 16px;
-  margin: 16px 0;
+  flex: 2;
+  background-color: #fff8e8;
+
+  border-radius: 12px;
+  padding: 20px;
   font-size: 14px;
+  gap: 15px;
+  line-height: 1.5;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
 }
 
-.infoItem {
-  margin-bottom: 8px;
+.informations {
+  color: black;
+}
+
+.infoBox p:last-child {
+  margin-bottom: 0;
 }
 
 .button {
-  margin-top: 8px;
-  background-color: #9c6b44;
+  background-color: #a06a3e;
   color: white;
-  font-size: 14px;
-  padding: 10px 16px;
+  padding: 12px 24px;
   border: none;
-  border-radius: 6px;
+  border-radius: 8px;
+  font-weight: 600;
   cursor: pointer;
-  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
   transition: background-color 0.3s ease;
 }
 
 .button:hover {
-  background-color: #815533;
+  background-color: #8d5933;
 }
 
-/* ================== TABLET ================== */
-@media screen and (min-width: 600px) {
-  .title {
-    font-size: 28px;
-  }
-
-  .sectionTitle {
-    font-size: 20px;
-  }
-
-  .button {
-    font-size: 15px;
-    width: auto;
-  }
-
-  .infoBox {
-    max-width: 300px;
-    margin-top: 24px;
-  }
-}
-
-/* ================== DESKTOP ================== */
-@media screen and (min-width: 1024px) {
-  .container {
+@media (min-width: 768px) {
+  .layoutWrapper {
     flex-direction: row;
-    gap: 32px;
-    max-width: 1200px;
-    margin: 32px auto;
-    padding: 32px;
+    gap: 24px;
   }
 
+  .topSection {
+    flex-direction: column;
+  }
+
+  .layoutWrapper {
+    flex-direction: column-reverse;
+  }
+
+  
   .content {
-    flex: 2;
+  flex: 2;
   }
 
   .sidebar {
-    flex: 1;
-    max-width: 300px;
-  }
-
-  .title {
-    font-size: 32px;
-  }
-
-  .sectionTitle {
-    font-size: 22px;
-  }
-
-  .image {
-    max-height: 400px;
+  flex: 1;
+  max-width: 300px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px; /* для відступу між блоками всередині sidebar */
+  flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+    width: 100%;
+   
+    gap: 24px;
+    width: 100%;            /* займає всю ширину батьківського контейнера */
+  max-width: 100%;  
   }
 
   .infoBox {
-    padding: 20px;
-    font-size: 15px;
+  width: 431px;
   }
 
   .button {
-    width: 100%;
+  width: 249px;
   }
+}
+
+@media (min-width: 1158px) {
+
+  .layoutWrapper {
+    flex-direction: row;
+    gap: 24px;
+  }
+
+  .sidebar {
+    flex-direction: column;
+    width: 393px;
+    max-height: 302px;
+  }
+
+  .sidebar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+  margin-top: 0 auto;
+  max-height: 302px;
+  
+  }
+
+  .infoBox {
+  background-color: #fdf7e3;
+  font-size: 16px;
+  border-radius: 12px;
+  width: 230px;
+  max-height: 222px;
+  
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+  }
+
+  .informations {
+  font-weight: 700;
+  font-size: 24px;
+  }
+
+  .button {
+  background-color: #9b673d;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 18px;
+  width: 230px;
+  height: 56px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+  }
+
+  .button:hover {
+  background-color: #865731;
+  }
+
+  .icon {
+  font-size: 14px;
+  }
+
 }
