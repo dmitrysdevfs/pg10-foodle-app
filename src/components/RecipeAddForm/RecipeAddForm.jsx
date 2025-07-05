@@ -8,17 +8,7 @@ import * as Yup from 'yup';
 
 import Container from '../../assets/Container.png';
 import RecipeAddIngredient from '../RecipeAddIngredient/RecipeAddIngredient';
-
-const validationSchema = Yup.object({
-  title: Yup.string().min(3, 'Мінімум 3 символи').max(50, 'Максимум 50 символів').required("Обов'язкове поле"),
-  descriptionRecipe: Yup.string().min(10, 'Мінімум 10 символів').required("Обов'язкове поле"),
-  cookingTime: Yup.number().typeError('Має бути числом').min(1, 'Мінімум 1 хвилина').required("Обов'язкове поле"),
-  calories: Yup.number().typeError('Має бути числом').min(0, 'Не може бути менше 0'),
-  category: Yup.string().required("Оберіть категорію"),
-  ingredientName: Yup.string().required("Оберіть інгредієнт"),
-  ingredientAmount: Yup.string().matches(/^[0-9]+[a-zA-Z]*$/, 'Наприклад: 100g').required("Вкажіть кількість"),
-  instructions: Yup.string().min(10, 'Мінімум 10 символів').required("Обов'язкове поле"),
-});
+import { validationSchemaAddRecipe } from '../../utils/validationSchemas';
 
 const RecipeAddForm = () => {
   const [selectedImage, setSelectedImage] = useState(null);
@@ -66,7 +56,7 @@ const RecipeAddForm = () => {
           ingredientAmount: '',
           instructions: '',
         }}
-        validationSchema={validationSchema}
+        validationSchema={validationSchemaAddRecipe}
         onSubmit={(values) => {
           const formData = new FormData();
 
