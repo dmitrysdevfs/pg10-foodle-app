@@ -1,8 +1,7 @@
-import { useNavigate } from 'react-router-dom';
+import RecipeCard from '../RecipeCard/RecipeCard';
 import css from './RecipesList.module.css';
 
 export default function RecipesList({ recipes }) {
-  const navigate = useNavigate();
   console.log('Recipes: ', recipes);
 
   if (!recipes?.length) {
@@ -11,20 +10,11 @@ export default function RecipesList({ recipes }) {
     );
   }
 
-  const handleRecipeClick = (recipeId) => {
-    navigate(`/recipes/${recipeId}`);
-  };
-
   return (
     <ul className={css.list}>
       {recipes.map(recipe => (
-        <li
-          key={recipe._id}
-          className={css.item}
-          onClick={() => handleRecipeClick(recipe._id)}
-        >
-          <h3>{recipe.title}</h3>
-          <p>{recipe.description}</p>
+        <li key={recipe._id} className={css.item}>
+          <RecipeCard recipe={recipe} recipes={recipes} recipeId={recipe._id} />
         </li>
       ))}
     </ul>
