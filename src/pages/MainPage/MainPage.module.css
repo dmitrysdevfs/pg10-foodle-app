@@ -154,6 +154,7 @@
     transition: border 0.3s ease-in-out;
     &:is(:hover, :focus) {
       border: 2px solid var(--dark-brown);
+      filter: drop-shadow(0px 0px 4px var(--dark-brown));
     }
   }
 }
