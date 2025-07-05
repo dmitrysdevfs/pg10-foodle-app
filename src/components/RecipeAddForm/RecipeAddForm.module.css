@@ -199,6 +199,10 @@
       margin-top: 16px;
     }
 
+    .titleInstructions{
+      margin-bottom: 16px;
+    }
+
     .instructions{
       height: 144px;
       max-width:361px;
@@ -354,6 +358,7 @@
 
     .titleInstructions{
       margin-top: 40px;
+      margin-bottom: 16px;
     }
 
     .titleList{
