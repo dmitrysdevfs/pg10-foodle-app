@@ -1,3 +1,4 @@
+@import 'normalize.css';
 @import './styles/reset.css';
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap');
 
@@ -43,8 +44,13 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+* {
+  outline: 1px solid red;
+}
+
 body {
   margin: 0;
+  height: 100%;
   font-family: var(--main-font-family);
   color: var(--black);
   font-size: var(--font-size-base);
