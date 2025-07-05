@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useSearchParams } from 'react-router-dom';
 import SearchBox from '../../components/SearchBox/SearchBox';
@@ -11,6 +11,7 @@ import {
   fetchCategoriesAsync,
   fetchIngredientsAsync,
   setSearchQuery,
+  setFilters,
 } from '../../redux/recipes/recipesSlice';
 import {
   selectRecipes,
@@ -29,6 +30,8 @@ import clsx from 'clsx';
 const MainPage = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const searchValue = searchParams.get('search') || '';
+  const categoryValue = searchParams.get('category') || '';
+  const ingredientValue = searchParams.get('ingredient') || '';
   const dispatch = useDispatch();
 
   const recipes = useSelector(selectRecipes);
@@ -51,37 +54,73 @@ const MainPage = () => {
   }, [dispatch, categories.length, ingredients.length]);
 
   useEffect(() => {
+    const newFilters = {
+      category: categoryValue,
+      ingredient: ingredientValue,
+    };
+
+    if (
+      categoryValue !== filters.category ||
+      ingredientValue !== filters.ingredient
+    ) {
+      dispatch(setFilters(newFilters));
+    }
+
     if (searchValue !== searchQuery) {
       dispatch(setSearchQuery(searchValue));
     }
-  }, [searchValue, searchQuery, dispatch]);
+  }, [categoryValue, ingredientValue, searchValue, dispatch]);
 
   useEffect(() => {
-    dispatch(fetchRecipes({
-      search: searchQuery,
-      ...filters
-    }));
-  }, [searchQuery, filters, dispatch]);
+    dispatch(
+      fetchRecipes({
+        search: searchQuery,
+        ...filters,
+      })
+    );
+  }, [searchQuery, filters.category, filters.ingredient, dispatch]);
 
-  const handleSearch = query => {
+  const handleSearch = useCallback(
+    query => {
+      setSearchParams(prev => {
+        const params = new URLSearchParams(prev);
+        if (query) {
+          params.set('search', query);
+        } else {
+          params.delete('search');
+        }
+        return params;
+      });
+    },
+    [setSearchParams]
+  );
+
+  const handleFiltersChange = newFilters => {
     setSearchParams(prev => {
       const params = new URLSearchParams(prev);
-      if (query) {
-        params.set('search', query);
+      if (newFilters.category) {
+        params.set('category', newFilters.category);
       } else {
-        params.delete('search');
+        params.delete('category');
+      }
+      if (newFilters.ingredient) {
+        params.set('ingredient', newFilters.ingredient);
+      } else {
+        params.delete('ingredient');
       }
       return params;
     });
-    dispatch(setSearchQuery(query));
+    dispatch(setFilters(newFilters));
   };
 
   const handleLoadMore = () => {
-    dispatch(fetchRecipes({
-      search: searchQuery,
-      ...filters,
-      page: Math.ceil(recipes.length / 10) + 1
-    }));
+    dispatch(
+      fetchRecipes({
+        search: searchQuery,
+        ...filters,
+        page: Math.ceil(recipes.length / 10) + 1,
+      })
+    );
   };
 
   return (
@@ -99,9 +138,11 @@ const MainPage = () => {
         </div>
       </section>
       <section className={clsx(s.recipesSection, s.container)}>
-        <h2 className={s.recipesTitle}>Recipes</h2>
+        <h2 className={s.recipesTitle}>
+          {searchQuery ? `Search Results for "${searchQuery}"` : 'Recipes'}
+        </h2>
         <div className={s.filterContainer}>
-          <Filters totalItems={totalItems} />
+          <Filters totalItems={totalItems} onChange={handleFiltersChange} />
         </div>
         {isLoading && <Loader />}
         {error && <div className={s.error}>Error: {error}</div>}
