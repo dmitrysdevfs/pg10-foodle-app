@@ -1,7 +1,7 @@
 import { NavLink } from 'react-router-dom';
 import css from './Header.module.css';
 import clsx from 'clsx';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { RxHamburgerMenu } from 'react-icons/rx';
 import { BsXCircle } from 'react-icons/bs';
 import LogoIcon from '../../assets/castom-icons/LogoIcon.svg';
@@ -15,14 +15,26 @@ const buildLinkClass = ({ isActive }) => {
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
   const isLoggedIn = useSelector(selectIsLoggedIn);
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
   const closeMenu = () => setIsMenuOpen(false);
 
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 0);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+
   return (
     <>
-      <header className={css.headerNav}>
+      <header className={clsx(css.headerNav, isScrolled && css.scrolled)}>
         <div className={css.inner}>
           <NavLink to="/" className={css.logoLink}>
             <LogoIcon className={css.logo} />
@@ -37,7 +49,11 @@ export default function Header() {
           </button>
 
           <nav
-            className={clsx(css.nav, isMenuOpen && css.navMobileOpen)}
+            className={clsx(
+              css.nav,
+              isMenuOpen && css.navMobileOpen,
+              isScrolled && css.scrolled
+            )}
             onClick={closeMenu}
           >
             <NavLink to="/" className={buildLinkClass}>
