@@ -10,13 +10,15 @@ const RecipeAddIngredient = ({ ingredients, onRemove }) => {
       </div>
 
       {ingredients.map((item, index) => (
-        <div className={css.boxIngredient} key={index}>
-          <p className={css.ingredientName}>{item.name}</p>
-          <p className={css.ingredientcount}>{item.amount}</p>
-          <button className={css.button} onClick={() => onRemove(index)}>
-            <FaRegTrashCan />
-          </button>
-        </div>
+        <ul className={css.boxIngredient} key={index}>
+          <li className={css.boxIngredientItem}>
+            <p className={css.ingredientName}>{item.name}</p>
+            <p className={css.ingredientcount}>{item.amount}</p>
+            <button className={css.button} onClick={() => onRemove(index)}>
+              <FaRegTrashCan />
+            </button>
+          </li>
+        </ul>
       ))}
     </div>
   );

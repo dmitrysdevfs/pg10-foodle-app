@@ -34,6 +34,9 @@
     width: 100%;
     
     }
+  .boxIngredientItem{
+    width: 100%;
+  }
 
   .boxIngredient{
     display: flex;
@@ -100,6 +103,10 @@
 
   .amount {
     
+  }
+
+  .boxIngredientItem {
+    width: 100%;
   }
 
   .boxIngredient {
