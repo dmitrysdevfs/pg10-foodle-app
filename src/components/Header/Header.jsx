@@ -52,7 +52,7 @@ export default function Header() {
             className={clsx(
               css.nav,
               isMenuOpen && css.navMobileOpen,
-              isScrolled && css.scrolled
+              isMenuOpen && isScrolled && css.scrolled 
             )}
             onClick={closeMenu}
           >
