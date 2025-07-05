@@ -187,7 +187,7 @@
       width: 100%;
       max-width: 361px;
       height: 44px;
-      background: #9b6c43;
+      background: var(--light-brown);
       font-family: "Montserrat", sans-serif;
       font-weight: 600;
       font-size: 16px;
@@ -217,7 +217,7 @@
       outline: none;
       border: none;
       height: 44px;
-      background: #9b6c43;
+      background:var(--light-brown);
       max-width: 361px;
       width: 100%;
       margin-top: 40px;
@@ -226,12 +226,16 @@
 
 @media screen and (min-width: 768px) {
 
+  .titleInputImage{
+   
+  }
+
   .inputImage {
       display: block;
       width: 704px;
       height: 383px;
       position: absolute;
-      top: 50px;
+      top: 55px;
       left: 0;
       opacity: 0;
       cursor: pointer;
@@ -244,6 +248,7 @@
       box-sizing: border-box;
       object-fit: cover;
       margin-bottom: 24px;
+      margin-top: 24px;
     }
 
     .boxUploadInput {
@@ -406,7 +411,7 @@
       /* max-width: 361px; */
       border: none;
       height: 44px;
-      background: #9b6c43;
+      background: var(--light-brown);
       font-family: "Montserrat", sans-serif;
       font-weight: 600;
       font-size: 16px;
@@ -435,7 +440,7 @@
       outline: none;
       border: none;
       height: 44px;
-      background: #9b6c43;
+      background: var(--light-brown);
       width: 100%;
       margin-top: 40px;
     }

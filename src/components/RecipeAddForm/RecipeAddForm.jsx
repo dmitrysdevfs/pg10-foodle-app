@@ -98,8 +98,8 @@ const RecipeAddForm = () => {
           <Form>
             <div className={css.boxUploadPhoto}>
               <div className={css.boxUploadInput}>
-                <h2 className={css.title}>Upload Photo</h2>
-                <input className={css.inputImage} type="file" accept="image/*" onChange={handleImageChange} />
+                <label className={clsx(css.title, css.titleInputImage)} htmlFor='inputImage'>Upload Photo</label>
+                <input className={css.inputImage} id='inputImage' type="file" accept="image/*" onChange={handleImageChange} />
                 <img src={preview || Container} alt="Preview" className={css.previewImage} />
               </div>
 
