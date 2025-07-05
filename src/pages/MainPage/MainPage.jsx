@@ -11,6 +11,8 @@ import {
   fetchCategoriesAsync,
   fetchIngredientsAsync,
   setSearchQuery,
+} from '../../redux/recipes/recipesSlice';
+import {
   selectRecipes,
   selectIsLoading,
   selectError,
@@ -20,7 +22,7 @@ import {
   selectTotalItems,
   selectCategories,
   selectIngredients,
-} from '../../redux/recipes/recipesSlice';
+} from '../../redux/recipes/selectors';
 import s from './MainPage.module.css';
 import clsx from 'clsx';
 
