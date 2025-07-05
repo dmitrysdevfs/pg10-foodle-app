@@ -72,18 +72,34 @@ const RecipeDetails = ({ recipe }) => {
             </ul>
           </section>
 
-          <section className={styles.section}>
+          {/* <section className={styles.section}>
             <h3>Preparation Steps:</h3>
             <p>{recipe.instructions}</p>
+          </section> */}
+          <section className={styles.section}>
+            <h3 className={styles.stepsTitle}>Preparation Steps:</h3>
+           {recipe.instructions
+             ?.split('. ')
+             .filter(Boolean)
+             .map((step, index) => (
+               <p key={index} className={styles.stepText}>{step.trim()}.</p>
+            ))}
           </section>
+          {/* <section className={styles.section}>
+           <h3>Preparation Steps:</h3>
+            {recipe.instructions?.split('\n').map((step, index) => (
+            <p key={index}>{step}</p>
+           ))}
+          </section> */}
+
         </div>
 
         <aside className={styles.sidebar}>
           <div className={styles.infoBox}>
-            <h3>General informations</h3>
-            <p><b>Category:</b> {recipe.category}</p>
-            <p><b>Cooking time:</b> {recipe.time} minutes</p>
-            <p><b>Calorie content:</b> {recipe.calories || 'N/A'}</p>
+            <div className={styles.infoTitle}><h3>General informations</h3></div>
+            <div><p><b>Category:</b> <span className={styles.span}>{recipe.category}</span></p></div>
+            <div><p><b>Cooking time:</b> <span className={styles.span}>{recipe.time} minutes</span></p></div>
+            <div><p><b>Calorie content:</b> <span className={styles.span}>{recipe.calories || 'N/A'}</span></p></div>
           </div>
 
           <button className={styles.button} onClick={handleSave}>

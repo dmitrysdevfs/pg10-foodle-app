@@ -1,5 +1,5 @@
 .recipeContainer {
-  padding: 16px;
+
   display: flex;
   flex-direction: column;
   gap: 24px;
@@ -23,7 +23,7 @@
 }
 
 .title {
-  font-size: 24px;
+  font-size: 40px;
   font-weight: 600;
   margin: 16px 0;
 }
@@ -36,7 +36,6 @@
 
 .image {
   width: auto;
-  /* max-height: 400px; */
   height: 100%;
   justify-content: center;
   object-fit: cover;
@@ -64,6 +63,72 @@
   gap: 40px;
 }
 
+.stepsTitle {
+  font-weight: 700;
+  font-size: 18px;
+  margin-bottom: 12px;
+}
+
+.stepText {
+  margin-bottom: 16px;
+  font-size: 16px;
+  line-height: 1.5;
+  color: #2B2D30;
+}
+
+
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: center;
+}
+
+.infoBox {
+  background-color: #fdf7e3;
+  border-radius: 12px;
+  padding: 20px;
+  font-size: 14px;
+  width: 100%;
+  font-weight: 600;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+}
+
+.informations {
+  font-weight: 700;
+  font-size: 24px;
+  color: black;
+}
+
+.infoTitle {
+  font-weight: 600;
+  font-size: 24px;
+}
+
+.button {
+  background-color: #9b673d;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 18px;
+  width: 100%;
+  height: 56px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+  transition: background-color 0.3s ease;
+}
+
+.button:hover {
+  background-color: #865731;
+}
+
+.icon {
+  font-size: 14px;
+}
 .sidebar {
   display: flex;
   flex: 1;
@@ -78,10 +143,14 @@
 
   border-radius: 12px;
   padding: 20px;
-  font-size: 14px;
+  font-size: 16px;
   gap: 15px;
   line-height: 1.5;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+}
+
+.infoTitle {
+  font-size: 24px;
 }
 
 .informations {
@@ -135,14 +204,14 @@
   max-width: 300px;
   display: flex;
   flex-direction: column;
-  gap: 24px; /* для відступу між блоками всередині sidebar */
+  gap: 24px;
   flex-direction: row;
     justify-content: space-between;
     align-items: flex-start;
     width: 100%;
    
     gap: 24px;
-    width: 100%;            /* займає всю ширину батьківського контейнера */
+    width: 100%;          
   max-width: 100%;  
   }
 
@@ -155,7 +224,7 @@
   }
 }
 
-@media (min-width: 1158px) {
+@media (min-width: 1440px) {
 
   .layoutWrapper {
     flex-direction: row;
@@ -175,17 +244,24 @@
   gap: 15px;
   margin-top: 0 auto;
   max-height: 302px;
-  
+   width: 393px;
+    flex-shrink: 0;
   }
 
   .infoBox {
   background-color: #fdf7e3;
   font-size: 16px;
   border-radius: 12px;
-  width: 230px;
+  width: 100%;
   max-height: 222px;
-  
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+  }
+
+  .infoTitle {
+    font-style: 24px;
   }
 
   .informations {
@@ -193,13 +269,19 @@
   font-size: 24px;
   }
 
+  .span {
+    font-weight: 400;
+
+  }
+
   .button {
+  width: 100%;
   background-color: #9b673d;
   color: white;
   border: none;
   border-radius: 8px;
   font-size: 18px;
-  width: 230px;
+ 
   height: 56px;
   font-weight: 600;
   cursor: pointer;
@@ -218,3 +300,17 @@
   }
 
 }
+
+
+
+.image {
+  width: auto;
+  height: 100%;
+  object-fit: cover;
+}
+
+
+
+
+
+
