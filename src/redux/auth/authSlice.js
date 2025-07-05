@@ -60,6 +60,14 @@ const authSlice = createSlice({
         state.token = null;
         state.isLoggedIn = false;
         state.loading = false;
+        state.error = null;
+        state.refreshing = false;
+
+        try {
+          localStorage.removeItem('persist:auth');
+        } catch {
+          // Ignore errors
+        }
       })
       .addCase(logOut.rejected, (state, action) => {
         state.loading = false;
@@ -70,7 +78,8 @@ const authSlice = createSlice({
         state.error = null;
       })
       .addCase(refreshUser.fulfilled, (state, action) => {
-        state.user = action.payload;
+        state.user = action.payload.user;
+        state.token = action.payload.token || state.token;
         state.refreshing = false;
         state.isLoggedIn = true;
       })

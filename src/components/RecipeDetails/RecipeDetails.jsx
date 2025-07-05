@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { useAuth } from '../../hooks/useAuth.js';
+import { useSelector } from 'react-redux';
+import { selectUser, selectToken } from '../../redux/auth/selectors';
 // import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { toast } from 'react-toastify';
@@ -9,7 +10,8 @@ import SaveIcon from '../../assets/icons/saveFavorite.svg';
 import styles from './RecipeDetails.module.css';
 
 const RecipeDetails = ({ recipe }) => {
-  const { user, token } = useAuth();
+  const user = useSelector(selectUser);
+  const token = useSelector(selectToken);
   // const navigate = useNavigate();
 
   const [saved, setSaved] = useState(user?.favorites?.includes(recipe._id));
@@ -21,11 +23,11 @@ const RecipeDetails = ({ recipe }) => {
     //   return;
     // }
     if (!user || !token) {
-    // toast.info('Please login to save recipes');
-    // navigate('/auth/login');
-       console.log('API call:', saved ? 'DELETE' : 'POST', `/api/recipes/${recipe._id}/favorite`);
-    return;
-  }
+      // toast.info('Please login to save recipes');
+      // navigate('/auth/login');
+      console.log('API call:', saved ? 'DELETE' : 'POST', `/api/recipes/${recipe._id}/favorite`);
+      return;
+    }
 
     try {
       if (saved) {

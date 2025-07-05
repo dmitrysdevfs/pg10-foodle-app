@@ -8,15 +8,35 @@ const setAuthHeader = value => {
   axios.defaults.headers.common.Authorization = value;
 };
 
+const processAuthResponse = (data, credentials) => {
+  const token = data?.accessToken;
+  if (!token) throw new Error('No token found in response');
+
+  const user = {
+    email: credentials.email,
+    name: credentials.name || 'User',
+    avatar: null,
+    favorites: [],
+  };
+
+  setAuthHeader(`Bearer ${token}`);
+  return { token, user };
+};
+
+const performAuthRequest = async (url, credentials) => {
+  const response = await axios.post(url, credentials);
+  return processAuthResponse(response.data.data, credentials);
+};
+
 export const register = createAsyncThunk(
   'auth/register',
   async (credentials, thunkAPI) => {
     try {
-      const response = await axios.post('/api/auth/register', credentials);
-      setAuthHeader(`Bearer ${response.data.token}`);
-      return response.data;
+      return await performAuthRequest('/api/auth/register', credentials);
     } catch (error) {
-      return thunkAPI.rejectWithValue(error.message);
+      return thunkAPI.rejectWithValue(
+        error.response?.data?.message || error.message || 'Registration failed'
+      );
     }
   }
 );
@@ -25,22 +45,29 @@ export const logIn = createAsyncThunk(
   'auth/logIn',
   async (credentials, thunkAPI) => {
     try {
-      const response = await axios.post('/api/auth/login', credentials);
-      setAuthHeader(`Bearer ${response.data.token}`);
-      return response.data;
+      return await performAuthRequest('/api/auth/login', credentials);
     } catch (error) {
-      return thunkAPI.rejectWithValue(error.message);
+      return thunkAPI.rejectWithValue(
+        error.response?.data?.message || error.message
+      );
     }
   }
 );
 
-export const logOut = createAsyncThunk('auth/logOut', async () => {
+export const logOut = createAsyncThunk('auth/logout', async () => {
+  setAuthHeader('');
+
   try {
-    await axios.post('/api/auth/logout');
-  } catch (error) {
-    console.warn('Logout error:', error);
-  } finally {
-    setAuthHeader('');
+    localStorage.removeItem('persist:auth');
+    localStorage.removeItem('persist:recipes');
+  } catch {
+    // Ignore errors
+  }
+
+  try {
+    axios.post('/api/auth/logout').catch(() => {});
+  } catch {
+    // Ignore backend errors
   }
 });
 
@@ -49,12 +76,23 @@ export const refreshUser = createAsyncThunk(
   async (_, thunkAPI) => {
     try {
       const reduxState = thunkAPI.getState();
+
+      if (!reduxState.auth.token) {
+        throw new Error('No token available');
+      }
+
       setAuthHeader(`Bearer ${reduxState.auth.token}`);
-      const response = await axios.get('/api/auth/current');
-      return response.data;
+      const response = await axios.get('/api/users/current');
+
+      return {
+        user: response.data.user || response.data,
+        token: reduxState.auth.token,
+      };
     } catch (error) {
       setAuthHeader('');
-      return thunkAPI.rejectWithValue(error.message);
+      return thunkAPI.rejectWithValue(
+        error.response?.data?.message || error.message
+      );
     }
   },
   {

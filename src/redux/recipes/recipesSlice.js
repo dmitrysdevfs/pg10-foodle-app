@@ -133,17 +133,4 @@ const recipesSlice = createSlice({
 export const { setSearchQuery, setFilters, clearRecipes, resetError } =
   recipesSlice.actions;
 
-export const selectRecipes = state => state.recipes.items;
-export const selectIsLoading = state => state.recipes.isLoading;
-export const selectError = state => state.recipes.error;
-export const selectHasNextPage = state => state.recipes.hasNextPage;
-export const selectCurrentPage = state => state.recipes.currentPage;
-export const selectSearchQuery = state => state.recipes.searchQuery;
-export const selectFilters = state => state.recipes.filters;
-export const selectTotalItems = state => state.recipes.totalItems;
-export const selectCategories = state => state.recipes.categories;
-export const selectIngredients = state => state.recipes.ingredients;
-export const selectFiltersLoading = state => state.recipes.filtersLoading;
-export const selectFiltersError = state => state.recipes.filtersError;
-
 export default recipesSlice.reducer;
