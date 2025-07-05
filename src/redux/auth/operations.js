@@ -12,11 +12,13 @@ const processAuthResponse = (data, credentials) => {
   const token = data?.accessToken;
   if (!token) throw new Error('No token found in response');
 
+  const userData = data?.user || data?.data || data;
+
   const user = {
-    email: credentials.email,
-    name: credentials.name || 'User',
-    avatar: null,
-    favorites: [],
+    email: userData.email || credentials.email,
+    name: userData.name || credentials.name || 'User',
+    avatar: userData.avatar || null,
+    favorites: userData.favorites || [],
   };
 
   setAuthHeader(`Bearer ${token}`);
@@ -84,8 +86,10 @@ export const refreshUser = createAsyncThunk(
       setAuthHeader(`Bearer ${reduxState.auth.token}`);
       const response = await axios.get('/api/users/current');
 
+      const userData = response.data.data || response.data;
+
       return {
-        user: response.data.user || response.data,
+        user: userData,
         token: reduxState.auth.token,
       };
     } catch (error) {
