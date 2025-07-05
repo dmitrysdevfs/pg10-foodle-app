@@ -1,20 +1,41 @@
-*,
-*::before,
-*::after {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-html {
-  font-size: 16px;
-  scroll-behavior: smooth;
-}
+@import './styles/reset.css';
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap');
 
 :root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
+  /* font */
+  --main-font-family: 'Montserrat', sans-serif;
+  --font-size-base: 16px;
+
+  --regular-font-weight: 400;
+  --medium-font-weight: 500;
+  --semibold-font-weight: 600;
+  --bold-font-weight: 700;
+
+  /* color */
+  --black: #000000;
+  --white: #ffffff;
+  --dark-brown: #3d2218;
+  --brown: #6d554b;
+  --light-brown: #9b6c43;
+  --gray: #595d62;
+  --light-grey: #9f9f9f;
+  --red: #c80000;
+  --background: #fbfcf8;
+  --light-beige: #faf3e0;
+
+  --background-gradient: linear-gradient(
+    90deg,
+    rgba(0, 0, 0, 0.9) 0%,
+    rgba(0, 0, 0, 0.3) 100%
+  );
+
+  /* responsiveness */
+  --pre-mobile: 392.98px;
+  --mobile: 393px;
+  --pre-tablet: 767.98px;
+  --tablet: 768px;
+  --pre-desktop: 1439.98px;
+  --desktop: 1440px;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -23,47 +44,35 @@ html {
 }
 
 body {
-  min-height: 100vh;
-  background-color: #fff;
-  color: #333;
-  text-rendering: optimizeSpeed;
+  margin: 0;
+  font-family: var(--main-font-family);
+  color: var(--black);
+  font-size: var(--font-size-base);
+  font-style: normal;
+  font-weight: var(--regular-font-weight);
+  line-height: 25px;
+  background-color: var(--background);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  font-weight: normal;
+.container {
+  padding: 0 16px;
+  margin: 0 auto;
 }
 
-ul,
-ol {
-  list-style: none;
+@media screen and (min-width: 768px) {
+  .container {
+    padding: 0 32px;
+  }
 }
 
-img {
-  max-width: 100%;
-  height: auto;
-  display: block;
+@media screen and (min-width: 1440px) {
+  .container {
+    padding: 0 108px;
+  }
 }
 
-a {
-  text-decoration: none;
-  color: inherit;
-}
-
-button,
-input,
-textarea {
-  font-family: inherit;
-  font-size: inherit;
-  /* border: none;
-  outline: none;
-  background: none; */
-}
-
-button {
-  cursor: pointer;
+.section {
+  padding: 48px 0;
 }

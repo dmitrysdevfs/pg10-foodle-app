@@ -1,0 +1,57 @@
+.pcFilter {
+  display: none;
+}
+
+.mobFilterBtn {
+  background-color: transparent;
+  border: none;
+  font-family: Montserrat;
+  font-weight: 600;
+  font-size: 12px;
+  color: rgb(0, 0, 0);
+  cursor: pointer;
+}
+
+@media screen and (min-width: 1440px) {
+  .pcFilter {
+    display: flex;
+    gap: 24px;
+  }
+  .mobFilter {
+    display: none;
+  }
+
+  .resetButton {
+    font-size: 12px;
+    font-weight: var(--semibold-font-weight);
+    line-height: 15px;
+    background: transparent;
+    border-bottom: 2px solid var(--black);
+  }
+
+  .filterGroup {
+    margin-right: 1px;
+  }
+
+  .select {
+    width: 179px;
+    border: 1px solid var(--light-grey);
+    padding: 4px 8px;
+    border-radius: 4px;
+    color: var(--gray);
+    line-height: 155%;
+    outline: none;
+    cursor: pointer;
+    transition: border 0.3s ease-in-out;
+    & option {
+      border-radius: 12px;
+      padding: 8px;
+      color: var(--black);
+      box-shadow: 0px 0px 1px 0px rgba(0, 0, 0, 0.4),
+        0px 8px 24px -6px rgba(0, 0, 0, 0.16);
+    }
+    &:focus {
+      border: 1px solid #7c3aed;
+    }
+  }
+}

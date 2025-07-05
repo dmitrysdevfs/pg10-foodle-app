@@ -1,0 +1,27 @@
+name: ✅ Checklist-задача
+description: Завдання зі списком підкроків для поступового виконання
+labels: [task]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Заповніть цей шаблон для фокусного завдання. Ви можете редагувати та доповнювати список.
+  - type: textarea
+    id: goal
+    attributes:
+      label: Загальна мета задачі
+      placeholder: 'Наприклад: реалізувати компонент Sidebar з базовою логікою'
+  - type: checkboxes
+    id: subtasks
+    attributes:
+      label: Основні кроки
+      options:
+        - label: Створити базовий компонент
+        - label: Додати стилізацію
+        - label: Реалізувати логіку (state / props)
+        - label: Протестувати функціональність
+        - label: Підготувати до інтеграції
+  - type: textarea
+    id: notes
+    attributes:
+      label: Коментарі або додаткові нотатки
