@@ -1,8 +1,14 @@
 .container {
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: #f8f9fa;
-    padding: 1rem;
+  min-height: calc(100dvh - 271px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 56px 15px;
+}
+
+@media screen and (min-width: 1440px) {
+  .container {
+    min-height: calc(100dvh - 160px);
+    padding: 32px 0 15px;
+  }
 }

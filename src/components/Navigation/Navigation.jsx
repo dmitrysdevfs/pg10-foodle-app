@@ -1,9 +1,11 @@
 import { Link } from 'react-router-dom';
-import { useAuth } from '../../hooks/useAuth';
+import { useSelector } from 'react-redux';
+import { selectIsLoggedIn, selectUser } from '../../redux/auth/selectors';
 import css from './Navigation.module.css';
 
 export default function Navigation() {
-  const { isAuthenticated, user } = useAuth();
+  const isAuthenticated = useSelector(selectIsLoggedIn);
+  const user = useSelector(selectUser);
 
   return (
     <nav className={css.nav}>
