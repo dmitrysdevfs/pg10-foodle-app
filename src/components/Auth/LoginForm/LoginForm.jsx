@@ -96,7 +96,19 @@ export default function LoginForm() {
                   onClick={() => setShowPassword((prev) => !prev)}
                   aria-label={showPassword ? 'Hide password' : 'Show password'}
                 >
-                  {showPassword ? '🙈' : '👁'}
+                  <svg
+                    width="20"
+                    height="20"
+                    fill="none"
+                    stroke="#000"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <use
+                      xlinkHref={showPassword ? '#icon-eye-crossed-1' : '#icon-eye-1'}
+                    />
+                  </svg>
                 </button>
               </div>
               <ErrorMessage name="password" component="div" className={css.error} />
@@ -113,7 +125,6 @@ export default function LoginForm() {
         Don’t have an account?
         <Link to="/auth/register" className={css.registerLink}> Register</Link>
       </p>
-
 
       <ToastContainer position="top-right" autoClose={3000} />
     </div>

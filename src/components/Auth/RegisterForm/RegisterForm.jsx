@@ -116,7 +116,19 @@ const RegistrationForm = () => {
                   onClick={() => setShowPassword(prev => !prev)}
                   aria-label={showPassword ? 'Hide password' : 'Show password'}
                 >
-                  👁
+                  <svg
+                    width="20"
+                    height="20"
+                    fill="none"
+                    stroke="#000"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <use
+                      xlinkHref={showPassword ? '#icon-eye-crossed-1' : '#icon-eye-1'}
+                    />
+                  </svg>
                 </button>
               </div>
               <ErrorMessage name="password" component="div" className={css.error} />
@@ -136,40 +148,47 @@ const RegistrationForm = () => {
                   type="button"
                   className={css.eyeButton}
                   onClick={() => setShowConfirm(prev => !prev)}
-                  aria-label={showConfirm ? 'Hide password' : 'Show password'}
+                  aria-label={showConfirm ? 'Hide confirm password' : 'Show confirm password'}
                 >
-                  👁
+                  <svg
+                    width="20"
+                    height="20"
+                    fill="none"
+                    stroke="#000"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <use
+                      xlinkHref={showConfirm ? '#icon-eye-crossed-1' : '#icon-eye-1'}
+                    />
+                  </svg>
                 </button>
               </div>
               <ErrorMessage name="confirmPassword" component="div" className={css.error} />
             </div>
 
-            <label className={css.checkboxLabel}>
-              <Field type="checkbox" name="terms" />
-              I agree to the Terms of Service and Privacy Policy
-            </label>
-            <ErrorMessage name="terms" component="div" className={css.error} />
+            <div className={css.checkboxWrapper}>
+              <Field id="terms" name="terms" type="checkbox" />
+              <label htmlFor="terms" className={css.label}>
+                I accept the <a href="/terms" target="_blank" rel="noopener noreferrer">terms and conditions</a>
+              </label>
+              <ErrorMessage name="terms" component="div" className={css.error} />
+            </div>
 
-            <button
-              type="submit"
-              className={css.submitButton}
-              disabled={isSubmitting}
-            >
-              Create account
+            <button type="submit" className={css.submitButton} disabled={isSubmitting}>
+              Register
             </button>
           </Form>
         )}
       </Formik>
 
-      <p className={css.bottomText}>
-        Already have an account?{' '}
-        <Link to="/auth/login" className={css.loginLink}>
-          Log in
-        </Link>
-      </p>
-
-     
       <ToastContainer position="top-right" autoClose={3000} />
+      
+      <p className={css.bottomText}>
+        Already have an account?
+        <Link to="/auth/login" className={css.loginLink}> Login</Link>
+      </p>
     </div>
   );
 };
