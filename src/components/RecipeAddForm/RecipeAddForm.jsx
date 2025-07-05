@@ -4,7 +4,7 @@ import { Formik, Form, Field } from 'formik';
 import { useEffect, useState } from 'react';
 import { clsx } from 'clsx';
 import axios from 'axios';
-import * as Yup from 'yup';
+
 
 import Container from '../../assets/Container.png';
 import RecipeAddIngredient from '../RecipeAddIngredient/RecipeAddIngredient';
@@ -134,6 +134,15 @@ const RecipeAddForm = () => {
               <label className={clsx(css.titleText, css.titleTextAmount)}>Amount
                 <Field className={clsx(css.input, css.inputIngredients)} type="text" name="ingredientAmount" placeholder="100g" />
               </label>
+              <button
+                className={css.buttonRemove}
+                type="button"
+                onClick={() => {
+                  
+                }}
+              >
+                Remove last Ingredient
+              </button>
               <button
                 className={css.buttonAdd}
                 type="button"

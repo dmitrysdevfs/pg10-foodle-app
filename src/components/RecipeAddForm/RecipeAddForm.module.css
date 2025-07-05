@@ -196,6 +196,7 @@
       outline: none;
       border: none;
       margin-bottom: 40px;
+      margin-top: 16px;
     }
 
     .instructions{
@@ -417,7 +418,7 @@
       text-align: center;
       color: #fff;
       outline: none;
-      margin-left: 455px;
+      margin-left: auto;
       margin-bottom: 32px;
     }
   
@@ -455,7 +456,7 @@
   }
 
   .boxUploadInput {
-    width: 100%;
+    width: 391px;
     position: absolute;
     left: 833px;
     top: 0px;
@@ -466,9 +467,10 @@
       height:374px;
       position: absolute;
       left: 0;
-      top: 47px;
+      top: 55px;
       z-index: 10;
       opacity: 0;
+      border-radius: 16px;
     }
 
     .previewImage {
@@ -477,6 +479,7 @@
       margin-bottom: 24px;
       position: relative;
       z-index: 5;
+      border-radius: 16px;
     }
 
    
