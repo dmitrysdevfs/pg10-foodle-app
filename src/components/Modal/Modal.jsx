@@ -1,6 +1,7 @@
 import * as Dialog from '@radix-ui/react-dialog';
 import { X } from 'lucide-react';
 import s from './Modal.module.css';
+import { cloneElement } from 'react';
 
 const Modal = ({ open, onOpenChange, title, message, actions }) => {
   return (
@@ -21,17 +22,31 @@ const Modal = ({ open, onOpenChange, title, message, actions }) => {
             </Dialog.Description>
           )}
 
-          <div className={s.actions}>
-            {actions?.map(({ text, onClick, type = 'primary' }, index) => (
-              <button
-                key={index}
-                className={type === 'secondary' ? s.secondaryBtn : s.primaryBtn}
-                onClick={onClick}
-              >
-                {text}
-              </button>
-            ))}
-          </div>
+          <ul className={s.actions}>
+            {actions?.map((action, index) => {
+              const { text, onClick, type = 'primary', element } = action;
+              const btnClass =
+                type === 'secondary' ? s.secondaryBtn : s.primaryBtn;
+
+              return (
+                <li key={index} className={s.actionItem}>
+                  {element ? (
+                    cloneElement(element, {
+                      className: btnClass,
+                    })
+                  ) : (
+                    <button
+                      type="button"
+                      className={btnClass}
+                      onClick={onClick}
+                    >
+                      {text}
+                    </button>
+                  )}
+                </li>
+              );
+            })}
+          </ul>
         </Dialog.Content>
       </Dialog.Portal>
     </Dialog.Root>
