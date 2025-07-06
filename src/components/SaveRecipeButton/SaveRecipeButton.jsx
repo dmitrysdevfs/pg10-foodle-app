@@ -1,10 +1,12 @@
+import { useState } from 'react';
 import { useLocation, Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+
+import { selectIsLoggedIn } from '../../redux/auth/selectors';
+import Modal from '../Modal/Modal';
+
 import SaveIcon from '../../assets/icons/SaveIcon.svg';
 import s from './SaveRecipeButton.module.css';
-import { selectIsLoggedIn } from '../../redux/auth/selectors';
-import { useSelector } from 'react-redux';
-import { useState } from 'react';
-import Modal from '../Modal/Modal';
 
 const SaveRecipeButton = () => {
   const location = useLocation();
@@ -14,7 +16,7 @@ const SaveRecipeButton = () => {
   const isLoggedIn = useSelector(selectIsLoggedIn);
   const [showModal, setShowModal] = useState(false);
 
-  const handelSaveClick = () => {
+  const handleSaveClick = () => {
     if (!isLoggedIn) {
       setShowModal(true);
     }
@@ -36,7 +38,7 @@ const SaveRecipeButton = () => {
       <button
         className={isRecipeView ? s.button : s.iconBtn}
         type="button"
-        onClick={handelSaveClick}
+        onClick={handleSaveClick}
       >
         {isRecipeView ? (
           <>

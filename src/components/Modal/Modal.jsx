@@ -1,7 +1,8 @@
-import * as Dialog from '@radix-ui/react-dialog';
-import { X } from 'lucide-react';
-import s from './Modal.module.css';
 import { cloneElement } from 'react';
+import * as Dialog from '@radix-ui/react-dialog';
+
+import CloseIcon from '../../assets/icons/CloseIcon.svg';
+import s from './Modal.module.css';
 
 const Modal = ({ open, onOpenChange, title, message, actions }) => {
   return (
@@ -11,7 +12,7 @@ const Modal = ({ open, onOpenChange, title, message, actions }) => {
         <Dialog.Content className={s.modal}>
           <Dialog.Close asChild>
             <button className={s.closeBtn} aria-label="Close">
-              <X size={20} />
+              <CloseIcon className={s.icon} />
             </button>
           </Dialog.Close>
 
