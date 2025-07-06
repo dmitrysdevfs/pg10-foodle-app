@@ -1,5 +1,5 @@
 import css from './RecipeAddIngredient.module.css';
-import { FaRegTrashCan } from "react-icons/fa6";
+import { FaRegTrashCan } from 'react-icons/fa6';
 
 const RecipeAddIngredient = ({ ingredients, onRemove }) => {
   return (
@@ -7,18 +7,25 @@ const RecipeAddIngredient = ({ ingredients, onRemove }) => {
       <div className={css.boxName}>
         <h3 className={css.name}>Name:</h3>
         <h3 className={css.amount}>Amount:</h3>
+        <div></div>
       </div>
-
       {ingredients.map((item, index) => (
-        <ul className={css.boxIngredient} key={index}>
-          <li className={css.boxIngredientItem}>
-            <p className={css.ingredientName}>{item.name}</p>
-            <p className={css.ingredientcount}>{item.amount}</p>
-            <button className={css.button} onClick={() => onRemove(index)}>
-              <FaRegTrashCan />
-            </button>
-          </li>
-        </ul>
+        <div
+          className={css.boxIngredient}
+          key={item.id + (item.measure || item.amount)}
+        >
+          <div className={css.ingredientName}>{item.name}</div>
+          <div className={css.ingredientcount}>
+            {item.measure || item.amount}
+          </div>
+          <button
+            className={css.button}
+            onClick={() => onRemove(index)}
+            aria-label="Remove ingredient"
+          >
+            <FaRegTrashCan className={css.icon} />
+          </button>
+        </div>
       ))}
     </div>
   );

@@ -53,3 +53,17 @@ export const fetchIngredients = async () => {
 
   return response.data.data;
 };
+
+export const createRecipe = async recipeData => {
+  try {
+    const response = await axios.post('/api/recipes', recipeData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Error creating recipe:', error);
+    throw error;
+  }
+};
