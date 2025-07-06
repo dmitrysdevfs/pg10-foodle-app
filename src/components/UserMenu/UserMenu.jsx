@@ -41,7 +41,7 @@ export default function UserMenu() {
     },
     {
       text: 'Cancel',
-      type: 'secondary',
+      type: 'primary',
       onClick: () => setShowModal(false),
     },
   ];
