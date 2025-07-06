@@ -2,16 +2,32 @@ import { lazy, Suspense, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { Routes, Route } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
+
 import { refreshUser } from '../../redux/auth/operations';
 import Loader from '../Loader/Loader';
 import Layout from '../Layout/Layout';
 import css from './App.module.css';
 
 const MainPage = lazy(() => import('../../pages/MainPage/MainPage'));
-const RecipeViewPage = lazy(() => import('../../pages/RecipeViewPage/RecipeViewPage'));
+const RecipeViewPage = lazy(() =>
+  import('../../pages/RecipeViewPage/RecipeViewPage')
+);
 const AuthPage = lazy(() => import('../../pages/AuthPage/AuthPage'));
-const RecipeAddPages = lazy(() => import('../../pages/RecipeAddPage/RecipeAddPage'));
-const NotFoundPage = lazy(() => import('../../pages/NotFoundPage/NotFoundPage'));
+
+const ProfilePage = lazy(() => import('../../pages/ProfilePage/ProfilePage'));
+const ProfileOwnRecipes = lazy(() =>
+  import('../../components/Profile/ProfileOwnRecipes')
+);
+const ProfileFavoriteRecipes = lazy(() =>
+  import('../../components/Profile/ProfileFavoriteRecipes')
+);
+
+const AddRecipePage = lazy(() =>
+  import('../../pages/AddRecipePage/AddRecipePage')
+);
+const NotFoundPage = lazy(() =>
+  import('../../pages/NotFoundPage/NotFoundPage')
+);
 
 const PageLoader = () => (
   <div className={css.pageLoader}>
@@ -34,7 +50,12 @@ export default function App() {
             <Route index element={<MainPage />} />
             <Route path="/recipes/:id" element={<RecipeViewPage />} />
             <Route path="/auth/:authType" element={<AuthPage />} />
-            <Route path="/add-recipe" element={<RecipeAddPages />} />
+
+            <Route path="/profile" element={<ProfilePage />}>
+              <Route path="own" element={<ProfileOwnRecipes />} />
+              <Route path="favorites" element={<ProfileFavoriteRecipes />} />
+            </Route>
+            <Route path="/add-recipe" element={<AddRecipePage />} />
           </Route>
           <Route path="*" element={<NotFoundPage />} />
         </Routes>

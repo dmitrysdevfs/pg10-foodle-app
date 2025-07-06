@@ -1,7 +1,7 @@
 import RecipeCard from '../RecipeCard/RecipeCard';
 import css from './RecipesList.module.css';
 
-export default function RecipesList({ recipes }) {
+export default function RecipesList({ recipes, type }) {
   console.log('Recipes: ', recipes);
 
   if (!recipes?.length) {
@@ -14,7 +14,12 @@ export default function RecipesList({ recipes }) {
     <ul className={css.list}>
       {recipes.map(recipe => (
         <li key={recipe._id} className={css.item}>
-          <RecipeCard recipe={recipe} recipes={recipes} recipeId={recipe._id} />
+          <RecipeCard
+            recipe={recipe}
+            recipes={recipes}
+            recipeId={recipe._id}
+            type={type}
+          />
         </li>
       ))}
     </ul>
