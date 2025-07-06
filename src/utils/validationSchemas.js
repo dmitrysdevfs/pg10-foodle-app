@@ -23,3 +23,14 @@ export const registerSchema = Yup.object({
     .required('Confirmation is required'),
   terms: Yup.boolean().oneOf([true], 'You must accept the terms'),
 });
+
+export const addRecipeSchema = Yup.object({
+  title: Yup.string().min(3, 'Minimum 3 characters').max(64, 'Maximum 64 characters').required("Required field"),
+  description: Yup.string().min(10, 'Minimum 10 characters').max(200, 'Maximum 200 characters').required("Required field"),
+  cookingTime: Yup.number().typeError('It should be a number').min(1, 'Minimum 1 minute').max(360, 'Maximum 360 minutes').required("Required field"),
+  calories: Yup.number().typeError('It should be a number').min(0, 'Cannot be less than 0'),
+  category: Yup.string().required("Select a category"),
+  ingredientName: Yup.string().required("Choose an ingredient"),
+  ingredientAmount: Yup.string().matches(/^[0-9]+[a-zA-Z]*$/, 'For example: 100g').required("Required field"),
+  instructions: Yup.string().min(3, 'Minimum 3 characters').max(1200, 'Maximum 1200 characters').required("Required field"),
+});
