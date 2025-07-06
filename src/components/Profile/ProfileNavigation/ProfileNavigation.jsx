@@ -1,10 +1,18 @@
-import { NavLink, useParams } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
 import styles from './ProfileNavigation.module.css';
+import { useSelector } from 'react-redux';
+import {
+  selectOwnTotalItems,
+  selectFavoriteTotalItems,
+} from '../../../redux/profile/selectors';
 
 const ProfileNavigation = () => {
-  const { recipeType } = useParams();
+  const location = useLocation();
+  const isOwn = location.pathname.includes('/own');
+  const totalOwn = useSelector(selectOwnTotalItems);
+  const totalFavorites = useSelector(selectFavoriteTotalItems);
 
-  const totalRecipes = 96;
+  const totalRecipes = isOwn ? totalOwn : totalFavorites;
 
   return (
     <div className={styles.wrapper}>

@@ -4,10 +4,14 @@ import { fetchOwnRecipes, fetchFavoriteRecipes } from './operations';
 const initialState = {
   ownRecipes: [],
   favoriteRecipes: [],
+  ownPage: 1,
+  favoritePage: 1,
+  ownHasMore: false,
+  favoriteHasMore: false,
+  ownTotalItems: 0,
+  favoriteTotalItems: 0,
   isLoading: false,
   error: null,
-  page: 1,
-  hasMore: true,
 };
 
 const profileSlice = createSlice({
@@ -21,12 +25,13 @@ const profileSlice = createSlice({
         state.error = null;
       })
       .addCase(fetchOwnRecipes.fulfilled, (state, action) => {
-        const { recipes, hasMore, page } = action.payload;
+        const { recipes, hasMore, page, totalItems } = action.payload;
         state.isLoading = false;
         state.ownRecipes =
           page === 1 ? recipes : [...state.ownRecipes, ...recipes];
-        state.hasMore = hasMore;
-        state.page = page;
+        state.ownHasMore = hasMore;
+        state.ownPage = page;
+        state.ownTotalItems = totalItems;
       })
       .addCase(fetchOwnRecipes.rejected, (state, action) => {
         state.isLoading = false;
@@ -38,12 +43,13 @@ const profileSlice = createSlice({
         state.error = null;
       })
       .addCase(fetchFavoriteRecipes.fulfilled, (state, action) => {
-        const { recipes, hasMore, page } = action.payload;
+        const { recipes, hasMore, page, totalItems } = action.payload;
         state.isLoading = false;
         state.favoriteRecipes =
           page === 1 ? recipes : [...state.favoriteRecipes, ...recipes];
-        state.hasMore = hasMore;
-        state.page = page;
+        state.favoriteHasMore = hasMore;
+        state.favoritePage = page;
+        state.favoriteTotalItems = totalItems;
       })
       .addCase(fetchFavoriteRecipes.rejected, (state, action) => {
         state.isLoading = false;

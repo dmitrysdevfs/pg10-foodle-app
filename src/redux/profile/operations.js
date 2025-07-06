@@ -15,16 +15,16 @@ export const fetchOwnRecipes = createAsyncThunk(
       if (!token) {
         return thunkAPI.rejectWithValue('No auth token');
       }
-
       setAuthHeader(`Bearer ${token}`);
 
       const res = await axios.get(`/api/recipes/own?page=${page}&perPage=12`);
+      console.log('knopka', res);
 
-      console.log('API response:', res.data);
       return {
-        recipes: res.data.recipes,
-        hasMore: res.data.hasMore,
-        page,
+        recipes: res.data.data.data,
+        hasMore: res.data.data.hasNextPage,
+        page: res.data.data.page,
+        totalItems: res.data.data.totalItems,
       };
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
@@ -45,11 +45,17 @@ export const fetchFavoriteRecipes = createAsyncThunk(
 
       setAuthHeader(`Bearer ${token}`);
 
-      const response = await axios.get(`/api/recipes/favorite?page=${page}`);
+      const res = await axios.get(
+        `/api/recipes/favorite?page=${page}&perPage=12`
+      );
+
+      console.log('knopka', res);
+
       return {
-        recipes: response.data.recipes,
-        hasMore: response.data.hasMore,
+        recipes: res.data.data,
+        hasMore: res.data.data.length >= 12,
         page,
+        totalItems: res.data.data.length,
       };
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);

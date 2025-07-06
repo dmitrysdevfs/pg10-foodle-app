@@ -15,10 +15,10 @@ const RecipeViewPage = lazy(() =>
 const AuthPage = lazy(() => import('../../pages/AuthPage/AuthPage'));
 const ProfilePage = lazy(() => import('../../pages/ProfilePage/ProfilePage'));
 const ProfileOwnRecipes = lazy(() =>
-  import('../../pages/ProfilePage/ProfilePage')
+  import('../../components/Profile/ProfileOwnRecipes')
 );
 const ProfileFavoriteRecipes = lazy(() =>
-  import('../../pages/ProfilePage/ProfilePage')
+  import('../../components/Profile/ProfileFavoriteRecipes')
 );
 const RecipeAddPages = lazy(() =>
   import('../../pages/RecipeAddPage/RecipeAddPage')
