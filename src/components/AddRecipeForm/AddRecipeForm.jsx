@@ -87,7 +87,7 @@ const AddRecipeForm = () => {
   };
 
   const handleSubmit = async (values, { setSubmitting }) => {
-    // Validate that at least one ingredient is added
+    console.log('submit', values);
     if (ingredientsList.length === 0) {
       toast.error(' Please add at least one ingredient');
       setSubmitting(false);
@@ -157,204 +157,210 @@ const AddRecipeForm = () => {
         }}
         validationSchema={addRecipeSchema}
         onSubmit={handleSubmit}
+        validateOnMount={true}
       >
-        {({ submitForm }) => (
-          <Form onKeyPress={e => handleKeyPress(e, submitForm)}>
-            <div className={css.boxUploadPhoto}>
-              <div className={css.boxUploadInput}>
-                <label
-                  className={clsx(css.title, css.titleInputImage)}
-                  htmlFor="inputImage"
-                >
-                  Upload Photo
-                </label>
-                <input
-                  className={css.inputImage}
-                  id="inputImage"
-                  type="file"
-                  accept="image/*"
-                  onChange={handleImageChange}
-                />
-                <img
-                  src={preview || Container}
-                  alt="Preview"
-                  className={css.previewImage}
-                />
-              </div>
+        {({ submitForm, errors, touched, isValid, isSubmitting }) => {
+          console.log('formik', { errors, touched, isValid, isSubmitting });
+          return (
+            <Form onKeyPress={e => handleKeyPress(e, submitForm)}>
+              <div className={css.boxUploadPhoto}>
+                <div className={css.boxUploadInput}>
+                  <label
+                    className={clsx(css.title, css.titleInputImage)}
+                    htmlFor="inputImage"
+                  >
+                    Upload Photo
+                  </label>
+                  <input
+                    className={css.inputImage}
+                    id="inputImage"
+                    type="file"
+                    accept="image/*"
+                    onChange={handleImageChange}
+                  />
+                  <img
+                    src={preview || Container}
+                    alt="Preview"
+                    className={css.previewImage}
+                  />
+                </div>
 
-              <div className={css.generalInformation}>
-                <h2 className={clsx(css.title, css.titleGeneral)}>
-                  General Information
-                </h2>
-                <label className={css.titleText}>
-                  Recipe Title
-                  <Field
-                    className={clsx(css.input, css.nameRecipe)}
-                    type="text"
-                    name="title"
-                    placeholder="Enter the name of your recipe"
-                  />
-                  <ErrorMessage
-                    name="title"
-                    component="div"
-                    className={css.error}
-                  />
-                </label>
-                <label className={css.titleText}>
-                  Recipe Description
-                  <Field
-                    className={clsx(css.input, css.description)}
-                    as="textarea"
-                    name="description"
-                    placeholder="Enter a brief description"
-                  />
-                  <ErrorMessage
-                    name="description"
-                    component="div"
-                    className={css.error}
-                  />
-                </label>
-                <label className={css.titleText}>
-                  Cooking time in minutes
-                  <Field
-                    className={clsx(css.input, css.cookingTime)}
-                    type="text"
-                    name="time"
-                    placeholder="10"
-                  />
-                  <ErrorMessage
-                    name="time"
-                    component="div"
-                    className={css.error}
-                  />
-                </label>
-
-                <div className={css.containerFood}>
+                <div className={css.generalInformation}>
+                  <h2 className={clsx(css.title, css.titleGeneral)}>
+                    General Information
+                  </h2>
                   <label className={css.titleText}>
-                    Calories (optional)
+                    Recipe Title
                     <Field
-                      className={clsx(css.input, css.calories)}
+                      className={clsx(css.input, css.nameRecipe)}
                       type="text"
-                      name="calories"
-                      placeholder="100"
+                      name="title"
+                      placeholder="Enter the name of your recipe"
                     />
                     <ErrorMessage
-                      name="calories"
+                      name="title"
                       component="div"
                       className={css.error}
                     />
                   </label>
                   <label className={css.titleText}>
-                    Category
-                    <Field className={css.category} as="select" name="category">
-                      <option value="">Category</option>
-                      {categories?.map(cat => (
-                        <option key={cat._id} value={cat.name}>
-                          {cat.name}
-                        </option>
-                      ))}
-                    </Field>
+                    Recipe Description
+                    <Field
+                      className={clsx(css.input, css.description)}
+                      as="textarea"
+                      name="description"
+                      placeholder="Enter a brief description"
+                    />
                     <ErrorMessage
-                      name="category"
+                      name="description"
                       component="div"
                       className={css.error}
                     />
                   </label>
+                  <label className={css.titleText}>
+                    Cooking time in minutes
+                    <Field
+                      className={clsx(css.input, css.cookingTime)}
+                      type="text"
+                      name="time"
+                      placeholder="10"
+                    />
+                    <ErrorMessage
+                      name="time"
+                      component="div"
+                      className={css.error}
+                    />
+                  </label>
+
+                  <div className={css.containerFood}>
+                    <label className={css.titleText}>
+                      Calories (optional)
+                      <Field
+                        className={clsx(css.input, css.calories)}
+                        type="text"
+                        name="calories"
+                        placeholder="100"
+                      />
+                      <ErrorMessage
+                        name="calories"
+                        component="div"
+                        className={css.error}
+                      />
+                    </label>
+                    <label className={css.titleText}>
+                      Category
+                      <Field
+                        className={css.category}
+                        as="select"
+                        name="category"
+                      >
+                        <option value="">Category</option>
+                        {categories?.map(cat => (
+                          <option key={cat._id} value={cat.name}>
+                            {cat.name}
+                          </option>
+                        ))}
+                      </Field>
+                      <ErrorMessage
+                        name="category"
+                        component="div"
+                        className={css.error}
+                      />
+                    </label>
+                  </div>
                 </div>
               </div>
-            </div>
 
-            <h2 className={clsx(css.title, css.titleIngredients)}>
-              Ingredients
-            </h2>
-            <div className={css.nameAmount}>
-              <label className={css.titleText}>
-                Name
-                <select
-                  className={css.ingredientName}
-                  value={currentIngredient?.id || ''}
-                  onChange={e =>
-                    setCurrentIngredient(prev => ({
-                      ...prev,
-                      id: e.target.value,
-                    }))
-                  }
+              <h2 className={clsx(css.title, css.titleIngredients)}>
+                Ingredients
+              </h2>
+              <div className={css.nameAmount}>
+                <label className={css.titleText}>
+                  Name
+                  <Field
+                    className={css.ingredientName}
+                    as="select"
+                    name="ingredient"
+                    value={currentIngredient?.id || ''}
+                    onChange={e =>
+                      setCurrentIngredient(prev => ({
+                        ...prev,
+                        id: e.target.value,
+                      }))
+                    }
+                  >
+                    <option value="">Ingredients</option>
+                    {ingredients?.map(ing => (
+                      <option key={ing._id} value={ing._id}>
+                        {ing.name}
+                      </option>
+                    ))}
+                  </Field>
+                </label>
+                <label className={clsx(css.titleText, css.titleTextAmount)}>
+                  Amount
+                  <input
+                    className={clsx(css.input, css.inputIngredients)}
+                    type="text"
+                    value={currentIngredient?.measure || ''}
+                    placeholder="100g"
+                    onChange={e =>
+                      setCurrentIngredient(prev => ({
+                        ...prev,
+                        measure: e.target.value,
+                      }))
+                    }
+                  />
+                </label>
+                <button
+                  className={css.buttonRemove}
+                  type="button"
+                  onClick={() => {
+                    if (ingredientsList.length > 0) {
+                      removeIngredient(ingredientsList.length - 1);
+                    }
+                  }}
                 >
-                  <option value="">Ingredients</option>
-                  {ingredients?.map(ing => (
-                    <option key={ing._id} value={ing._id}>
-                      {ing.name}
-                    </option>
-                  ))}
-                </select>
-              </label>
-              <label className={clsx(css.titleText, css.titleTextAmount)}>
-                Amount
-                <input
-                  className={clsx(css.input, css.inputIngredients)}
-                  type="text"
-                  value={currentIngredient?.measure || ''}
-                  placeholder="100g"
-                  onChange={e =>
-                    setCurrentIngredient(prev => ({
-                      ...prev,
-                      measure: e.target.value,
-                    }))
-                  }
+                  Remove last Ingredient
+                </button>
+                <button
+                  className={css.buttonAdd}
+                  type="button"
+                  onClick={addIngredient}
+                >
+                  Add new Ingredient
+                </button>
+              </div>
+
+              <RecipeAddIngredient
+                ingredients={ingredientsList}
+                onRemove={removeIngredient}
+              />
+
+              <h2 className={clsx(css.title, css.titleInstructions)}>
+                Instructions
+              </h2>
+              <label className={css.titleText}>
+                <Field
+                  className={clsx(css.input, css.instructions)}
+                  as="textarea"
+                  name="instructions"
+                  placeholder="Enter a text"
+                />
+                <ErrorMessage
+                  name="instructions"
+                  component="div"
+                  className={css.error}
                 />
               </label>
-              <button
-                className={css.buttonRemove}
-                type="button"
-                onClick={() => {
-                  if (ingredientsList.length > 0) {
-                    removeIngredient(ingredientsList.length - 1);
-                  }
-                }}
-              >
-                Remove last Ingredient
-              </button>
-              <button
-                className={css.buttonAdd}
-                type="button"
-                onClick={addIngredient}
-              >
-                Add new Ingredient
-              </button>
-            </div>
-
-            <RecipeAddIngredient
-              ingredients={ingredientsList}
-              onRemove={removeIngredient}
-            />
-
-            <h2 className={clsx(css.title, css.titleInstructions)}>
-              Instructions
-            </h2>
-            <label className={css.titleText}>
-              <Field
-                className={clsx(css.input, css.instructions)}
-                as="textarea"
-                name="instructions"
-                placeholder="Enter a text"
-              />
-              <ErrorMessage
-                name="instructions"
-                component="div"
-                className={css.error}
-              />
-            </label>
-            <div className={css.buttonSubmitbox}>
-              <button
-                className={css.buttonSubmit}
-                type="submit"
-                disabled={isLoading}
-              >
-                {isLoading ? 'Publishing...' : 'Publish Recipe'}
-              </button>
-            </div>
-          </Form>
-        )}
+              <div className={css.buttonSubmitbox}>
+                <button className={css.buttonSubmit} type="submit">
+                  {isLoading ? 'Publishing...' : 'Publish Recipe'}
+                </button>
+              </div>
+            </Form>
+          );
+        }}
       </Formik>
     </div>
   );
