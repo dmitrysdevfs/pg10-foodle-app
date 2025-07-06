@@ -52,10 +52,10 @@ export const fetchFavoriteRecipes = createAsyncThunk(
       console.log('knopka', res);
 
       return {
-        recipes: res.data.data,
-        hasMore: res.data.data.length >= 12,
-        page,
-        totalItems: res.data.data.length,
+        recipes: res.data.data.data,
+        hasMore: res.data.data.hasNextPage,
+        page: res.data.data.page,
+        totalItems: res.data.data.totalItems,
       };
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
