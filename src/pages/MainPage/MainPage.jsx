@@ -69,7 +69,15 @@ const MainPage = () => {
     if (searchValue !== searchQuery) {
       dispatch(setSearchQuery(searchValue));
     }
-  }, [categoryValue, ingredientValue, searchValue, dispatch]);
+  }, [
+    categoryValue,
+    ingredientValue,
+    searchValue,
+    searchQuery,
+    filters.category,
+    filters.ingredient,
+    dispatch,
+  ]);
 
   useEffect(() => {
     dispatch(
