@@ -57,20 +57,8 @@ export const logIn = createAsyncThunk(
 );
 
 export const logOut = createAsyncThunk('auth/logout', async () => {
+  await axios.post('/api/auth/logout');
   setAuthHeader('');
-
-  try {
-    localStorage.removeItem('persist:auth');
-    localStorage.removeItem('persist:recipes');
-  } catch {
-    // Ignore errors
-  }
-
-  try {
-    axios.post('/api/auth/logout').catch(() => {});
-  } catch {
-    // Ignore backend errors
-  }
 });
 
 export const refreshUser = createAsyncThunk(
