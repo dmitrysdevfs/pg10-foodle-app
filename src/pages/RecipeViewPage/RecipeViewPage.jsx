@@ -82,7 +82,7 @@
 //     const response = await fetchRecipeByID(id);
 //     console.log('response:', response);
 //     console.log('recipe payload:', response.data.data);
-    
+
 //     setRecipe(response.data); // <-- оце правильно
 //   } catch (err) {
 //     console.error('Error fetching recipe:', err);
@@ -191,20 +191,17 @@ export default function RecipeViewPage() {
     //   }
     // };
     const getRecipe = async () => {
-  setLoading(true);
-  try {
-    const response = await fetchRecipeByID(id);
-    console.log('response:', response);
-    console.log('recipe payload:', response.data.data);
-    
-    setRecipe(response.data); // <-- оце правильно
-  } catch (err) {
-    console.error('Error fetching recipe:', err);
-    setError(true);
-  } finally {
-    setLoading(false);
-  }
-};
+      setLoading(true);
+      try {
+        const response = await fetchRecipeByID(id);
+        setRecipe(response.data);
+      } catch (err) {
+        console.error('Error fetching recipe:', err);
+        setError(true);
+      } finally {
+        setLoading(false);
+      }
+    };
 
 
     getRecipe();

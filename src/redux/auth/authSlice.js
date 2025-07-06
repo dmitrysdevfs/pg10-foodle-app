@@ -65,13 +65,25 @@ const authSlice = createSlice({
 
         try {
           localStorage.removeItem('persist:auth');
-        } catch {
-          // Ignore errors
+          localStorage.removeItem('persist:recipes');
+        } catch (error) {
+          console.warn('Error clearing localStorage:', error);
         }
       })
-      .addCase(logOut.rejected, (state, action) => {
+      .addCase(logOut.rejected, state => {
+        state.user = { name: null, email: null };
+        state.token = null;
+        state.isLoggedIn = false;
         state.loading = false;
-        state.error = action.payload || 'Logout failed';
+        state.error = null;
+        state.refreshing = false;
+
+        try {
+          localStorage.removeItem('persist:auth');
+          localStorage.removeItem('persist:recipes');
+        } catch (error) {
+          console.warn('Error clearing localStorage:', error);
+        }
       })
       .addCase(refreshUser.pending, state => {
         state.refreshing = true;

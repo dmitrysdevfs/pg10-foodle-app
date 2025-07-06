@@ -1,11 +1,20 @@
 import { Link } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { selectIsLoggedIn, selectUser } from '../../redux/auth/selectors';
+import { logOut } from '../../redux/auth/operations';
+import { useNavigate } from 'react-router-dom';
 import css from './Navigation.module.css';
 
 export default function Navigation() {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const isAuthenticated = useSelector(selectIsLoggedIn);
   const user = useSelector(selectUser);
+
+  const handleLogout = () => {
+    dispatch(logOut());
+    navigate('/');
+  };
 
   return (
     <nav className={css.nav}>
@@ -18,7 +27,12 @@ export default function Navigation() {
           {isAuthenticated ? (
             <>
               <span className={css.userName}>Hello, {user?.name || 'User'}!</span>
-              <button className={css.logoutBtn}>Logout</button>
+              <button
+                className={css.logoutBtn}
+                onClick={handleLogout}
+              >
+                Logout
+              </button>
             </>
           ) : (
             <>
