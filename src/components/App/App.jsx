@@ -1,13 +1,31 @@
-import css from './App.module.css';
+import { lazy, Suspense, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import { Routes, Route } from 'react-router-dom';
-import toast, { Toaster } from 'react-hot-toast';
-import MainPage from '../../pages/MainPage/MainPage';
-import RecipeViewPage from '../../pages/RecipeViewPage/RecipeViewPage';
-import AuthPage from '../../pages/AuthPage/AuthPage'; 
-import NotFoundPage from '../../pages/NotFoundPage/NotFoundPage';
-import Layout from '../Layout/Layout.jsx';
+import { Toaster } from 'react-hot-toast';
+import { refreshUser } from '../../redux/auth/operations';
+import Loader from '../Loader/Loader';
+import Layout from '../Layout/Layout';
+import css from './App.module.css';
+
+const MainPage = lazy(() => import('../../pages/MainPage/MainPage'));
+const RecipeViewPage = lazy(() => import('../../pages/RecipeViewPage/RecipeViewPage'));
+const AuthPage = lazy(() => import('../../pages/AuthPage/AuthPage'));
+const RecipeAddPages = lazy(() => import('../../pages/RecipeAddPage/RecipeAddPage'));
+const NotFoundPage = lazy(() => import('../../pages/NotFoundPage/NotFoundPage'));
+
+const PageLoader = () => (
+  <div className={css.pageLoader}>
+    <Loader />
+  </div>
+);
 
 export default function App() {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(refreshUser());
+  }, [dispatch]);
+
   return (
     <div className={css.container}>
       <Routes>

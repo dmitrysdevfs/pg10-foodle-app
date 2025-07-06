@@ -1,15 +1,19 @@
-import { useLocation } from 'react-router-dom';
+import { useParams, Navigate } from 'react-router-dom';
 import LoginForm from '../../components/Auth/LoginForm/LoginForm';
-import RegistrationForm from '../../components/Auth/RegisterForm/RegisterForm';
+import RegisterForm from '../../components/Auth/RegisterForm/RegisterForm';
 import css from './AuthPage.module.css';
 
 export default function AuthPage() {
-  const location = useLocation();
-  const isLogin = location.pathname.includes('/login');
+  const { authType } = useParams();
+
+  // Перевіряємо, чи є authType валідним
+  if (authType !== 'login' && authType !== 'register') {
+    return <Navigate to="/auth/login" replace />;
+  }
 
   return (
     <div className={css.container}>
-      {isLogin ? <LoginForm /> : <RegistrationForm />}
+      {authType === 'login' ? <LoginForm /> : <RegisterForm />}
     </div>
   );
 }

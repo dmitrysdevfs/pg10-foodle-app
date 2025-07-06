@@ -1,57 +1,35 @@
-import css from './RegisterForm.module.css';
+import { useDispatch, useSelector } from 'react-redux';
 import { useState } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
-import * as Yup from 'yup';
 import { useNavigate, Link } from 'react-router-dom';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { registerSchema } from '../../../utils/validationSchemas';
+import { register } from '../../../redux/auth/operations';
+import css from './RegisterForm.module.css';
 
-const initialValues = {
-  name: '',
-  email: '',
-  password: '',
-  confirmPassword: '',
-  terms: false,
-};
-
-const validationSchema = Yup.object({
-  name: Yup.string().required("Name is required"),
-  email: Yup.string().email('Invalid email').required('Email is required'),
-  password: Yup.string().min(6, 'Minimum 6 characters').required('Password is required'),
-  confirmPassword: Yup.string()
-    .oneOf([Yup.ref('password'), null], 'Passwords do not match')
-    .required('Confirmation is required'),
-  terms: Yup.boolean().oneOf([true], 'You must accept the terms'),
-});
 
 const RegistrationForm = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
   const navigate = useNavigate();
 
+  const dispatch = useDispatch();
+  const { loading } = useSelector(state => state.auth);
+
   const handleSubmit = async (values, { resetForm, setSubmitting }) => {
     try {
-      const response = await fetch('/api/auth/register', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          name: values.name,
-          email: values.email,
-          password: values.password,
-        }),
-      });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.message || 'Something went wrong...');
-      }
+      await dispatch(register({
+        name: values.name,
+        email: values.email,
+        password: values.password,
+      })).unwrap();
 
       toast.success('Registration successful!');
       navigate('/');
       resetForm();
     } catch (error) {
-      toast.error(error.message);
+      toast.error(error.message || "Registration failed");
     } finally {
       setSubmitting(false);
     }
@@ -66,8 +44,14 @@ const RegistrationForm = () => {
       </p>
 
       <Formik
-        initialValues={initialValues}
-        validationSchema={validationSchema}
+        initialValues={{
+          name: '',
+          email: '',
+          password: '',
+          confirmPassword: '',
+          terms: false,
+        }}
+        validationSchema={registerSchema}
         onSubmit={handleSubmit}
       >
         {({ isSubmitting }) => (

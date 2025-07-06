@@ -1,0 +1,135 @@
+.item {
+  background-color: #faf3e0;
+  border-radius: 16px;
+  padding: 12px;
+  max-width: 369px;
+}
+
+.image {
+  width: 337px;
+  height: 230px;
+  border-radius: 12px;
+  object-fit: cover;
+}
+
+.titleContainer {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 58px;
+  margin-top: 16px;
+}
+
+.title {
+  width: 276px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-weight: 700;
+  font-size: 24px;
+  flex-shrink: 0;
+  margin-right: 8px;
+}
+
+.timeCont {
+  width: 53px;
+  height: 28px;
+  display: flex;
+  margin-top: 2px;
+  border-radius: 6px;
+  justify-content: center;
+  background-color: #fff;
+}
+
+.timeSvg {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.timeTitle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 4px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.descriptionContainer {
+  margin-top: 16px;
+}
+
+.description {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  size: 16px;
+}
+
+.calories {
+  margin-top: 8px;
+}
+
+.buttonContainer {
+  display: flex;
+  margin-top: 16px;
+}
+
+.savedBtn {
+  display: flex;
+  align-items: center;
+  padding: 6px;
+  border: 1px solid #000; /* або інший колір */
+  border-radius: 8px;
+  background-color: #faf3e0;
+  color: #000;
+  font-weight: 600;
+  font-size: 16px;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-left: 8px;
+}
+
+.savedBtn:hover {
+  background-color: #9b6c43;
+  color: #fff;
+  border: 1px solid rgb(255, 255, 255);
+}
+/* ================== TABLET ================== */
+
+@media screen and (min-width: 768px) {
+  .item {
+    width: 339px;
+  }
+
+  .image {
+    width: 315px;
+  }
+
+  .title {
+    width: 254px;
+  }
+}
+
+/* ================== DESKTOP ================== */
+
+@media screen and (min-width: 1440px) {
+  .item {
+    width: 288px;
+  }
+  .image {
+    width: 264px;
+    height: 178px;
+  }
+  .title {
+    width: 203px;
+  }
+}

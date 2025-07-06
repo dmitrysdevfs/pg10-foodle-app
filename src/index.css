@@ -1,3 +1,4 @@
+/* @import 'normalize.css'; */
 @import './styles/reset.css';
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap');
 
@@ -22,6 +23,8 @@
   --red: #c80000;
   --background: #fbfcf8;
   --light-beige: #faf3e0;
+  --accent-hover: #c58447;
+
 
   --background-gradient: linear-gradient(
     90deg,
@@ -45,6 +48,7 @@
 
 body {
   margin: 0;
+  height: 100%;
   font-family: var(--main-font-family);
   color: var(--black);
   font-size: var(--font-size-base);

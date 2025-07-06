@@ -1,0 +1,36 @@
+.recipeLink {
+  display: inline-block;
+  padding: 10px 95px;
+  border: 1px solid #000; /* або інший колір */
+  border-radius: 8px;
+  background-color: #faf3e0;
+  color: #000;
+  font-weight: 600;
+  font-size: 16px;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.recipeLink:hover {
+  background-color: #9b6c43;
+  color: #fff;
+  border: 1px solid rgb(255, 255, 255);
+}
+
+/* ================== TABLET ================== */
+
+@media screen and (min-width: 768px) {
+  .recipeLink {
+    padding: 10px 86px;
+  }
+}
+
+/* ================== DESKTOP ================== */
+
+@media screen and (min-width: 1440px) {
+  .recipeLink {
+    padding: 10px 60px;
+  }
+}

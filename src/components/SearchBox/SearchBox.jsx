@@ -58,6 +58,10 @@ const SearchBox = ({ onSearch, value = '' }) => {
     setError('');
     onSearch(query.trim());
     toast.success(`Search recipe: "${query.trim()}"`);
+
+    setTimeout(() => {
+      setQuery('');
+    }, 1000);
   };
 
   return (

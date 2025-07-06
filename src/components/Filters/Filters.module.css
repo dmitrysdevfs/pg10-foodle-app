@@ -2,23 +2,110 @@
   display: none;
 }
 
+.recipesCount {
+  font-size: 18px;
+  font-weight: var(--semibold-font-weight);
+  line-height: 22px;
+}
+
+.mobFilter {
+  position: absolute;
+  right: 0;
+  z-index: 1;
+}
+
 .mobFilterBtn {
   background-color: transparent;
   border: none;
-  font-family: Montserrat;
-  font-weight: 600;
+  font-weight: var(--semibold-font-weight);
   font-size: 12px;
-  color: rgb(0, 0, 0);
+  color: var(--black);
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-self: end;
+  gap: 4px;
 }
 
-@media screen and (min-width: 1440px) {
+.filterIcon {
+  width: 16px;
+  height: 16px;
+}
+
+.mobMenu {
+  width: 320px;
+  display: none;
+  background: var(--white);
+  border-radius: 8px;
+  margin-top: 8px;
+  padding: 16px 12px;
+  flex-direction: column;
+  gap: 24px;
+  box-shadow: 0px 0px 1px 0px rgba(0, 0, 0, 0.4),
+    0px 8px 24px -6px rgba(0, 0, 0, 0.16);
+  animation: slideDown 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 1;
+  position: absolute;
+  right: 0;
+  top: 100%;
+}
+
+.mobMenuOpen {
+  display: flex;
+}
+
+@keyframes slideDown {
+  0% {
+    opacity: 0;
+    transform: translateY(-16px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.mobMenu .resetButton {
+  align-self: flex-start;
+  background: transparent;
+  font-size: 12px;
+  font-weight: var(--semibold-font-weight);
+  line-height: 15px;
+  background: transparent;
+  border-bottom: 2px solid var(--black);
+}
+
+.mobMenu .select {
+  width: 100%;
+  border: 1px solid var(--light-grey);
+  padding: 4px 8px;
+  border-radius: 4px;
+  color: var(--gray);
+  font-size: 16px;
+  line-height: 1.55;
+  outline: none;
+  background: var(--white);
+}
+
+.select option {
+  max-width: 296px;
+  padding: 8px;
+  border-radius: 12px;
+  font-weight: var(--regular-font-weight);
+  font-size: 16px;
+  line-height: 155%;
+  color: var(--black);
+}
+
+@media (min-width: 1440px) {
+  .mobFilter {
+    display: none;
+  }
+
   .pcFilter {
     display: flex;
     gap: 24px;
-  }
-  .mobFilter {
-    display: none;
   }
 
   .resetButton {
@@ -43,6 +130,7 @@
     outline: none;
     cursor: pointer;
     transition: border 0.3s ease-in-out;
+
     & option {
       border-radius: 12px;
       padding: 8px;
@@ -50,6 +138,7 @@
       box-shadow: 0px 0px 1px 0px rgba(0, 0, 0, 0.4),
         0px 8px 24px -6px rgba(0, 0, 0, 0.16);
     }
+
     &:focus {
       border: 1px solid #7c3aed;
     }
