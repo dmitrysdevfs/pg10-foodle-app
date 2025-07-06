@@ -7,9 +7,15 @@ const SaveRecipeButton = () => {
   const isRecipeView = /^\/recipes\/[^/]+$/.test(location.pathname);
 
   return (
-    <button className={s.button}>
-      {isRecipeView && <span className={s.text}>Save</span>}
-      <SaveIcon className={s.icon} />
+    <button className={isRecipeView ? s.button : s.iconBtn} type="button">
+      {isRecipeView ? (
+        <>
+          <span className={s.text}>Save</span>
+          <SaveIcon className={s.icon} />
+        </>
+      ) : (
+        <SaveIcon className={s.icon} />
+      )}
     </button>
   );
 };

@@ -1,23 +1,47 @@
-.button {
-  display: flex;
+.iconBtn {
   padding: 8px;
   width: 40px;
   height: 40px;
-  align-items: center;
   border: 1px solid var(--black);
   border-radius: 8px;
-
-  font-weight: 600;
-  font-size: 16px;
-
-  cursor: pointer;
   transition: all 0.3s ease;
 }
 
-.button:hover {
+.button {
+  display: flex;
+  gap: 16px;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  padding: 16px;
+  border-radius: 8px;
+  font-weight: var(--semibold-font-weight);
+  font-size: 18px;
+  line-height: 20px;
+  background: var(--light-brown);
+  color: var(--white);
+  transition: all 0.3s ease;
+}
+
+.iconBtn:hover {
   background-color: #9b6c43;
   color: #fff;
   border: 1px solid rgb(255, 255, 255);
+}
+
+.iconBtn:focus {
+  border: 1px solid var(--light-gray);
+  background: var(--Light-gray, #d9d9d9);
+  box-shadow: 0px 0px 0px 2px #fff, 0px 0px 0px 6px rgba(78, 70, 180, 0.12);
+}
+
+.button:hover {
+  background-color: var(--brown);
+}
+
+.button:focus {
+  outline: none;
+  box-shadow: 0px 0px 0px 2px #fff, 0px 0px 0px 6px rgba(78, 70, 180, 0.12);
 }
 
 .icon {
