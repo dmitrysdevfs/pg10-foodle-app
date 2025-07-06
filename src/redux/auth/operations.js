@@ -4,7 +4,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || '';
 axios.defaults.baseURL = API_BASE_URL;
 
-const setAuthHeader = value => {
+export const setAuthHeader = value => {
   axios.defaults.headers.common.Authorization = value;
 };
 
