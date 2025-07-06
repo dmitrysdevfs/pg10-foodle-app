@@ -1,8 +1,8 @@
 import css from './RecipeCard.module.css';
 import RecipeList from '../RecipeLink/RecipeLink';
+import SaveRecipeButton from '../SaveRecipeButton/SaveRecipeButton.jsx';
 
 import { GoClock } from 'react-icons/go';
-import { CiBookmark } from 'react-icons/ci';
 
 export default function RecipeCard({ recipe, recipes, recipeId, type }) {
   const { title, description, time, thumb, calories } = recipe;
@@ -40,9 +40,7 @@ export default function RecipeCard({ recipe, recipes, recipeId, type }) {
       </div>
       <div className={css.buttonContainer}>
         <RecipeList recipes={recipes} recipeId={recipeId} />
-        <button className={css.savedBtn}>
-          <CiBookmark size={24} />
-        </button>
+        <SaveRecipeButton />
       </div>
     </div>
   );

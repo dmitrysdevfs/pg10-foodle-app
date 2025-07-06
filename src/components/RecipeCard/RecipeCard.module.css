@@ -81,28 +81,6 @@
   margin-top: 16px;
 }
 
-.savedBtn {
-  display: flex;
-  align-items: center;
-  padding: 6px;
-  border: 1px solid #000; /* або інший колір */
-  border-radius: 8px;
-  background-color: #faf3e0;
-  color: #000;
-  font-weight: 600;
-  font-size: 16px;
-  text-align: center;
-  text-decoration: none;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  margin-left: 8px;
-}
-
-.savedBtn:hover {
-  background-color: #9b6c43;
-  color: #fff;
-  border: 1px solid rgb(255, 255, 255);
-}
 /* ================== TABLET ================== */
 
 @media screen and (min-width: 768px) {
