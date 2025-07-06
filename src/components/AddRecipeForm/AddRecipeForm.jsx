@@ -280,7 +280,7 @@ const AddRecipeForm = () => {
                     }))
                   }
                 >
-                  <option value="">Оберіть інгредієнт</option>
+                  <option value="">Ingredients</option>
                   {ingredients?.map(ing => (
                     <option key={ing._id} value={ing._id}>
                       {ing.name}
