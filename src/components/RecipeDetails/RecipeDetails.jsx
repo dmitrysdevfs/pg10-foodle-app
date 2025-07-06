@@ -66,8 +66,10 @@ const RecipeDetails = ({ recipe }) => {
           <section className={styles.section}>
             <h3>Ingredients:</h3>
             <ul>
-              {recipe.ingredients?.map(({ _id, measure }) => (
-                <li key={_id}>{_id} — {measure}</li>
+              {recipe.ingredients?.map(({ id, measure }) => (
+                <li key={id._id || id}>
+                  {typeof id === 'object' && id.name ? id.name : id} — {measure}
+                </li>
               ))}
             </ul>
           </section>
@@ -78,12 +80,12 @@ const RecipeDetails = ({ recipe }) => {
           </section> */}
           <section className={styles.section}>
             <h3 className={styles.stepsTitle}>Preparation Steps:</h3>
-           {recipe.instructions
-             ?.split('. ')
-             .filter(Boolean)
-             .map((step, index) => (
-               <p key={index} className={styles.stepText}>{step.trim()}.</p>
-            ))}
+            {recipe.instructions
+              ?.split('. ')
+              .filter(Boolean)
+              .map((step, index) => (
+                <p key={index} className={styles.stepText}>{step.trim()}.</p>
+              ))}
           </section>
           {/* <section className={styles.section}>
            <h3>Preparation Steps:</h3>
