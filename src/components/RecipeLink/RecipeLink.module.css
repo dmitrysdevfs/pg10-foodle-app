@@ -14,8 +14,9 @@
 }
 
 .recipeLink:hover {
-  background-color: #000;
+  background-color: #9b6c43;
   color: #fff;
+  border: 1px solid rgb(255, 255, 255);
 }
 
 /* ================== TABLET ================== */

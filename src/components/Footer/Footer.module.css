@@ -28,14 +28,14 @@
   font-weight: 600;
   font-size: 18px;
   letter-spacing: -0.03em;
-  color: #fff;
+  color: var(--white);
 }
 
 .footerTextSettings {
   font-weight: 300;
   font-size: 12px;
   letter-spacing: -0.03em;
-  color: #fff;
+  color: var(--white);
   margin: 0;
   text-align: center;
 }
@@ -49,13 +49,13 @@
   font-family: var(--main-font-family);
   font-weight: 600;
   font-size: 16px;
-  color: #fff;
+  color: var(--white);
 }
 
 .footerLink {
   font-size: 16px;
   font-weight: 600;
-  color: #ffffff;
+  color: var(--white);
   text-decoration: none;
   position: relative;
   padding-bottom: 2px;
@@ -63,7 +63,7 @@
 }
 
 .footerLink:hover {
-  color: #d39c6a;
+  color: var(--accent-hover);
 }
 
 @media screen and (min-width: 768px) {
