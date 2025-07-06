@@ -1,27 +1,44 @@
 import css from './LoginForm.module.css';
 import { useState } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
-import { Link, useNavigate } from 'react-router-dom';
+import * as Yup from 'yup';
+import { Link } from 'react-router-dom';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { loginSchema } from '../../../utils/validationSchemas';
-import { useDispatch, useSelector } from 'react-redux';
-import { logIn } from '../../../redux/auth/operations';
+
+import EyeIcon from '../../../assets/castom-icons/eye.svg';
+import EyeClosedIcon from '../../../assets/castom-icons/eye-clossed.svg';
+
+const initialValues = {
+  email: '',
+  password: '',
+};
+
+const validationSchema = Yup.object({
+  email: Yup.string().email('Invalid email').required('Email is required'),
+  password: Yup.string().required('Password is required'),
+});
 
 export default function LoginForm() {
   const [showPassword, setShowPassword] = useState(false);
-  const navigate = useNavigate();
-
-  const dispatch = useDispatch();
-  const { loading } = useSelector(state => state.auth);
 
   const handleSubmit = async (values, { setSubmitting }) => {
     try {
-      await dispatch(logIn(values)).unwrap();
+      const response = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(values),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || 'Login failed');
+      }
+
       toast.success('Login successful!');
-      navigate('/');
     } catch (error) {
-      toast.error(error.message || 'Login failed');
+      toast.error(error.message);
     } finally {
       setSubmitting(false);
     }
@@ -32,11 +49,8 @@ export default function LoginForm() {
       <h2 className={css.title}>Login</h2>
 
       <Formik
-        initialValues={{
-          email: '',
-          password: '',
-        }}
-        validationSchema={loginSchema}
+        initialValues={initialValues}
+        validationSchema={validationSchema}
         onSubmit={handleSubmit}
       >
         {({ isSubmitting, errors, touched }) => (
@@ -52,8 +66,7 @@ export default function LoginForm() {
                     id="email"
                     type="email"
                     placeholder="email@gmail.com"
-                    className={`${css.input} ${touched.email && errors.email ? css.inputError : ''
-                      }`}
+                    className={`${css.input} ${touched.email && errors.email ? css.inputError : ''}`}
                   />
                 )}
               </Field>
@@ -72,48 +85,31 @@ export default function LoginForm() {
                       id="password"
                       type={showPassword ? 'text' : 'password'}
                       placeholder="*********"
-                      className={`${css.input} ${touched.password && errors.password ? css.inputError : ''
-                        }`}
+                      className={`${css.input} ${touched.password && errors.password ? css.inputError : ''}`}
                     />
                   )}
                 </Field>
                 <button
                   type="button"
                   className={css.eyeButton}
-                  onClick={() => setShowPassword((prev) => !prev)}
+                  onClick={() => setShowPassword(prev => !prev)}
                   aria-label={showPassword ? 'Hide password' : 'Show password'}
                 >
-                  <svg
-                    width="20"
-                    height="20"
-                    fill="none"
-                    stroke="#000"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  >
-                    <use
-                      xlinkHref={showPassword ? '#icon-eye-crossed-1' : '#icon-eye-1'}
-                    />
-                  </svg>
+                  {showPassword ? <EyeClosedIcon width={24} height={24} /> : <EyeIcon width={24} height={24} />}
                 </button>
               </div>
               <ErrorMessage name="password" component="div" className={css.error} />
             </div>
 
-            <button
-              type="submit"
-              className={css.submitButton}
-              disabled={isSubmitting || loading}
-            >
-              {loading ? 'Logging in...' : 'Login'}
+            <button type="submit" className={css.submitButton} disabled={isSubmitting}>
+              Login
             </button>
           </Form>
         )}
       </Formik>
 
       <p className={css.bottomText}>
-        Don&apos;t have an account?
+        Don’t have an account?
         <Link to="/auth/register" className={css.registerLink}> Register</Link>
       </p>
 

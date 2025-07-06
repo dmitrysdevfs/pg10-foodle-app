@@ -1,35 +1,60 @@
-import { useDispatch, useSelector } from 'react-redux';
+import css from './RegisterForm.module.css';
 import { useState } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
+import * as Yup from 'yup';
 import { useNavigate, Link } from 'react-router-dom';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { registerSchema } from '../../../utils/validationSchemas';
-import { register } from '../../../redux/auth/operations';
-import css from './RegisterForm.module.css';
 
+import EyeIcon from '../../../assets/castom-icons/eye.svg';
+import EyeClosedIcon from '../../../assets/castom-icons/eye-clossed.svg';
+
+const initialValues = {
+  name: '',
+  email: '',
+  password: '',
+  confirmPassword: '',
+  terms: false,
+};
+
+const validationSchema = Yup.object({
+  name: Yup.string().required("Name is required"),
+  email: Yup.string().email('Invalid email').required('Email is required'),
+  password: Yup.string().min(6, 'Minimum 6 characters').required('Password is required'),
+  confirmPassword: Yup.string()
+    .oneOf([Yup.ref('password'), null], 'Passwords do not match')
+    .required('Confirmation is required'),
+  terms: Yup.boolean().oneOf([true], 'You must accept the terms'),
+});
 
 const RegistrationForm = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
   const navigate = useNavigate();
 
-  const dispatch = useDispatch();
-  const { loading } = useSelector(state => state.auth);
-
   const handleSubmit = async (values, { resetForm, setSubmitting }) => {
     try {
-      await dispatch(register({
-        name: values.name,
-        email: values.email,
-        password: values.password,
-      })).unwrap();
+      const response = await fetch('/api/auth/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: values.name,
+          email: values.email,
+          password: values.password,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || 'Something went wrong...');
+      }
 
       toast.success('Registration successful!');
       navigate('/');
       resetForm();
     } catch (error) {
-      toast.error(error.message || "Registration failed");
+      toast.error(error.message);
     } finally {
       setSubmitting(false);
     }
@@ -44,14 +69,8 @@ const RegistrationForm = () => {
       </p>
 
       <Formik
-        initialValues={{
-          name: '',
-          email: '',
-          password: '',
-          confirmPassword: '',
-          terms: false,
-        }}
-        validationSchema={registerSchema}
+        initialValues={initialValues}
+        validationSchema={validationSchema}
         onSubmit={handleSubmit}
       >
         {({ isSubmitting }) => (
@@ -100,19 +119,7 @@ const RegistrationForm = () => {
                   onClick={() => setShowPassword(prev => !prev)}
                   aria-label={showPassword ? 'Hide password' : 'Show password'}
                 >
-                  <svg
-                    width="20"
-                    height="20"
-                    fill="none"
-                    stroke="#000"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  >
-                    <use
-                      xlinkHref={showPassword ? '#icon-eye-crossed-1' : '#icon-eye-1'}
-                    />
-                  </svg>
+                  {showPassword ? <EyeClosedIcon width={20} height={20} /> : <EyeIcon width={20} height={20} />}
                 </button>
               </div>
               <ErrorMessage name="password" component="div" className={css.error} />
@@ -132,47 +139,39 @@ const RegistrationForm = () => {
                   type="button"
                   className={css.eyeButton}
                   onClick={() => setShowConfirm(prev => !prev)}
-                  aria-label={showConfirm ? 'Hide confirm password' : 'Show confirm password'}
+                  aria-label={showConfirm ? 'Hide password' : 'Show password'}
                 >
-                  <svg
-                    width="20"
-                    height="20"
-                    fill="none"
-                    stroke="#000"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  >
-                    <use
-                      xlinkHref={showConfirm ? '#icon-eye-crossed-1' : '#icon-eye-1'}
-                    />
-                  </svg>
+                  {showConfirm ? <EyeClosedIcon width={20} height={20} /> : <EyeIcon width={20} height={20} />}
                 </button>
               </div>
               <ErrorMessage name="confirmPassword" component="div" className={css.error} />
             </div>
 
-            <div className={css.checkboxWrapper}>
-              <Field id="terms" name="terms" type="checkbox" />
-              <label htmlFor="terms" className={css.label}>
-                I accept the <a href="/terms" target="_blank" rel="noopener noreferrer">terms and conditions</a>
-              </label>
-              <ErrorMessage name="terms" component="div" className={css.error} />
-            </div>
+            <label className={css.checkboxLabel}>
+              <Field type="checkbox" name="terms" />
+              I agree to the Terms of Service and Privacy Policy
+            </label>
+            <ErrorMessage name="terms" component="div" className={css.error} />
 
-            <button type="submit" className={css.submitButton} disabled={isSubmitting}>
-              Register
+            <button
+              type="submit"
+              className={css.submitButton}
+              disabled={isSubmitting}
+            >
+              Create account
             </button>
           </Form>
         )}
       </Formik>
 
-      <ToastContainer position="top-right" autoClose={3000} />
-      
       <p className={css.bottomText}>
-        Already have an account?
-        <Link to="/auth/login" className={css.loginLink}> Login</Link>
+        Already have an account?{' '}
+        <Link to="/auth/login" className={css.loginLink}>
+          Log in
+        </Link>
       </p>
+
+      <ToastContainer position="top-right" autoClose={3000} />
     </div>
   );
 };
