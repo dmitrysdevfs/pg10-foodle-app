@@ -17,7 +17,7 @@ import {
 } from '../../redux/recipes/selectors';
 import s from './Filters.module.css';
 
-const Filters = ({ totalItems }) => {
+const Filters = ({ totalItems, onChange }) => {
   const dispatch = useDispatch();
   const categories = useSelector(selectCategories);
   const ingredients = useSelector(selectIngredients);
@@ -59,16 +59,28 @@ const Filters = ({ totalItems }) => {
 
   const handleCategoryChange = e => {
     const value = e.target.value;
-    dispatch(setFilters({ ...filters, category: value }));
+    const newFilters = { ...filters, category: value };
+    dispatch(setFilters(newFilters));
+    if (onChange) {
+      onChange(newFilters);
+    }
   };
 
   const handleIngredientChange = e => {
     const value = e.target.value;
-    dispatch(setFilters({ ...filters, ingredient: value }));
+    const newFilters = { ...filters, ingredient: value };
+    dispatch(setFilters(newFilters));
+    if (onChange) {
+      onChange(newFilters);
+    }
   };
 
   const handleReset = () => {
-    dispatch(setFilters({ category: '', ingredient: '' }));
+    const newFilters = { category: '', ingredient: '' };
+    dispatch(setFilters(newFilters));
+    if (onChange) {
+      onChange(newFilters);
+    }
   };
 
   const toggleMobileMenu = () => {
@@ -85,8 +97,8 @@ const Filters = ({ totalItems }) => {
         {isLoading
           ? 'Searching...'
           : totalItems > 0
-            ? `${totalItems} recipes`
-            : 'No recipes'}
+          ? `${totalItems} recipes`
+          : 'No recipes'}
       </span>
       <div className={s.mobFilter}>
         <button

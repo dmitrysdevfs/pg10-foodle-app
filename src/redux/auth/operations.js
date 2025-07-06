@@ -9,10 +9,12 @@ export const setAuthHeader = value => {
 };
 
 const processAuthResponse = (data, credentials) => {
-  const token = data?.accessToken;
-  if (!token) throw new Error('No token found in response');
+  const token = data.accessToken;
+  if (!token) {
+    throw new Error('No token found in response');
+  }
 
-  const userData = data?.user || data?.data || data;
+  const userData = data.user;
 
   const user = {
     email: userData.email || credentials.email,
@@ -34,7 +36,14 @@ export const register = createAsyncThunk(
   'auth/register',
   async (credentials, thunkAPI) => {
     try {
-      return await performAuthRequest('/api/auth/register', credentials);
+      await axios.post('/api/auth/register', credentials);
+
+      const loginResponse = await axios.post('/api/auth/login', {
+        email: credentials.email,
+        password: credentials.password,
+      });
+
+      return processAuthResponse(loginResponse.data.data, credentials);
     } catch (error) {
       return thunkAPI.rejectWithValue(
         error.response?.data?.message || error.message || 'Registration failed'
@@ -47,7 +56,8 @@ export const logIn = createAsyncThunk(
   'auth/logIn',
   async (credentials, thunkAPI) => {
     try {
-      return await performAuthRequest('/api/auth/login', credentials);
+      const result = await performAuthRequest('/api/auth/login', credentials);
+      return result;
     } catch (error) {
       return thunkAPI.rejectWithValue(
         error.response?.data?.message || error.message
@@ -57,20 +67,8 @@ export const logIn = createAsyncThunk(
 );
 
 export const logOut = createAsyncThunk('auth/logout', async () => {
+  await axios.post('/api/auth/logout');
   setAuthHeader('');
-
-  try {
-    localStorage.removeItem('persist:auth');
-    localStorage.removeItem('persist:recipes');
-  } catch {
-    // Ignore errors
-  }
-
-  try {
-    axios.post('/api/auth/logout').catch(() => {});
-  } catch {
-    // Ignore backend errors
-  }
 });
 
 export const refreshUser = createAsyncThunk(

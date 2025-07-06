@@ -52,7 +52,7 @@ export default function Header() {
             className={clsx(
               css.nav,
               isMenuOpen && css.navMobileOpen,
-              isMenuOpen && isScrolled && css.scrolled 
+              isMenuOpen && isScrolled && css.scrolled
             )}
             onClick={closeMenu}
           >
@@ -67,7 +67,12 @@ export default function Header() {
                 <NavLink to="/auth/login" className={buildLinkClass}>
                   Log in
                 </NavLink>
-                <NavLink to="/auth/register" className={buildLinkClass}>
+                <NavLink
+                  to="/auth/register"
+                  className={({ isActive }) =>
+                    clsx(css.linkBtn, isActive && css.activeBtn)
+                  }
+                >
                   Register
                 </NavLink>
               </>

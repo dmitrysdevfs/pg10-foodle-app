@@ -34,7 +34,10 @@ export default function UserMenu() {
   return (
     <nav className={clsx(css.userMenu, { [css.mobileMenu]: isMobile })}>
       <div className={css.navLinks}>
-        <NavLink to="/auth/profile" className={css.link}>
+        <NavLink
+          to="/auth/profile"
+          className={({ isActive }) => clsx(css.link, isActive && css.active)}
+        >
           My Profile
         </NavLink>
         {!isMobile && (
@@ -59,7 +62,10 @@ export default function UserMenu() {
         </button>
       </div>
       {isMobile && (
-        <NavLink to="/auth/add-recipe" className={clsx(css.link, css.addBtn, css.addBtnMobile)}>
+        <NavLink
+          to="/auth/add-recipe"
+          className={clsx(css.link, css.addBtn, css.addBtnMobile)}
+        >
           Add Recipe
         </NavLink>
       )}
