@@ -13,6 +13,7 @@ const RecipeViewPage = lazy(() =>
   import('../../pages/RecipeViewPage/RecipeViewPage')
 );
 const AuthPage = lazy(() => import('../../pages/AuthPage/AuthPage'));
+
 const ProfilePage = lazy(() => import('../../pages/ProfilePage/ProfilePage'));
 const ProfileOwnRecipes = lazy(() =>
   import('../../components/Profile/ProfileOwnRecipes')
@@ -20,8 +21,9 @@ const ProfileOwnRecipes = lazy(() =>
 const ProfileFavoriteRecipes = lazy(() =>
   import('../../components/Profile/ProfileFavoriteRecipes')
 );
-const RecipeAddPages = lazy(() =>
-  import('../../pages/RecipeAddPage/RecipeAddPage')
+
+const AddRecipePage = lazy(() =>
+  import('../../pages/AddRecipePage/AddRecipePage')
 );
 const NotFoundPage = lazy(() =>
   import('../../pages/NotFoundPage/NotFoundPage')
@@ -48,11 +50,12 @@ export default function App() {
             <Route index element={<MainPage />} />
             <Route path="/recipes/:id" element={<RecipeViewPage />} />
             <Route path="/auth/:authType" element={<AuthPage />} />
+
             <Route path="/profile" element={<ProfilePage />}>
               <Route path="own" element={<ProfileOwnRecipes />} />
               <Route path="favorites" element={<ProfileFavoriteRecipes />} />
             </Route>
-            <Route path="/add-recipe" element={<RecipeAddPages />} />
+            <Route path="/add-recipe" element={<AddRecipePage />} />
           </Route>
           <Route path="*" element={<NotFoundPage />} />
         </Routes>

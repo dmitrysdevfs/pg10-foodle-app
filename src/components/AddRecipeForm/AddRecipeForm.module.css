@@ -28,10 +28,11 @@
     top: 35px;
     opacity: 0;
     cursor: pointer;
+    border-radius: 16px;
     }
 
   .previewImage{
-    
+    border-radius: 16px;
     height: 383px;
     display: block;
     width: 100%;
@@ -244,6 +245,7 @@
       left: 0;
       opacity: 0;
       cursor: pointer;
+      border-radius: 16px;
     }
   
     .previewImage {
@@ -254,6 +256,7 @@
       object-fit: cover;
       margin-bottom: 24px;
       margin-top: 24px;
+      border-radius: 16px;
     }
 
     .boxUploadInput {
