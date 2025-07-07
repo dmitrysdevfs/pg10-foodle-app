@@ -1,13 +1,15 @@
-import { useDispatch, useSelector } from 'react-redux';
+import css from './RegisterForm.module.css';
 import { useState } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { useNavigate, Link } from 'react-router-dom';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { registerSchema } from '../../../utils/validationSchemas';
+import { useDispatch, useSelector } from 'react-redux';
 import { register } from '../../../redux/auth/operations';
-import css from './RegisterForm.module.css';
 
+import EyeIcon from '../../../assets/castom-icons/eye.svg';
+import EyeClosedIcon from '../../../assets/castom-icons/eye-clossed.svg';
 
 const RegistrationForm = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -100,7 +102,7 @@ const RegistrationForm = () => {
                   onClick={() => setShowPassword(prev => !prev)}
                   aria-label={showPassword ? 'Hide password' : 'Show password'}
                 >
-                  👁
+                  {showPassword ? <EyeClosedIcon width={20} height={20} /> : <EyeIcon width={20} height={20} />}
                 </button>
               </div>
               <ErrorMessage name="password" component="div" className={css.error} />
@@ -122,7 +124,7 @@ const RegistrationForm = () => {
                   onClick={() => setShowConfirm(prev => !prev)}
                   aria-label={showConfirm ? 'Hide password' : 'Show password'}
                 >
-                  👁
+                  {showConfirm ? <EyeClosedIcon width={20} height={20} /> : <EyeIcon width={20} height={20} />}
                 </button>
               </div>
               <ErrorMessage name="confirmPassword" component="div" className={css.error} />
@@ -151,7 +153,6 @@ const RegistrationForm = () => {
           Log in
         </Link>
       </p>
-
 
       <ToastContainer position="top-right" autoClose={3000} />
     </div>

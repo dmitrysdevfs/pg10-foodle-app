@@ -8,6 +8,9 @@ import { loginSchema } from '../../../utils/validationSchemas';
 import { useDispatch, useSelector } from 'react-redux';
 import { logIn } from '../../../redux/auth/operations';
 
+import EyeIcon from '../../../assets/castom-icons/eye.svg';
+import EyeClosedIcon from '../../../assets/castom-icons/eye-clossed.svg';
+
 export default function LoginForm() {
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
@@ -83,7 +86,7 @@ export default function LoginForm() {
                   onClick={() => setShowPassword((prev) => !prev)}
                   aria-label={showPassword ? 'Hide password' : 'Show password'}
                 >
-                  {showPassword ? '🙈' : '👁'}
+                  {showPassword ? <EyeClosedIcon width={24} height={24} /> : <EyeIcon width={24} height={24} />}
                 </button>
               </div>
               <ErrorMessage name="password" component="div" className={css.error} />
