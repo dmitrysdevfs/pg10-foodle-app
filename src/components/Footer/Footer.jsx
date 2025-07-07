@@ -22,7 +22,7 @@ export default function Footer() {
             Recipes
           </NavLink>
           {!isAuthPage && (
-            <NavLink to="/auth/profile" className={css.footerLink}>
+            <NavLink to="/profile" className={css.footerLink}>
               Account
             </NavLink>
           )}

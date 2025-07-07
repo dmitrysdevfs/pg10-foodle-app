@@ -7,6 +7,7 @@ import { RxDividerVertical } from 'react-icons/rx';
 import { FiLogOut } from 'react-icons/fi';
 import clsx from 'clsx';
 import { useEffect, useState } from 'react';
+import Modal from '../Modal/Modal.jsx';
 
 export default function UserMenu() {
   const dispatch = useDispatch();
@@ -15,6 +16,7 @@ export default function UserMenu() {
   const navigate = useNavigate();
 
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth < 768);
@@ -31,44 +33,69 @@ export default function UserMenu() {
     return null;
   }
 
+  const actions = [
+    {
+      text: 'Log out',
+      type: 'primary',
+      onClick: handleLogout,
+    },
+    {
+      text: 'Cancel',
+      type: 'primary',
+      onClick: () => setShowModal(false),
+    },
+  ];
+
   return (
-    <nav className={clsx(css.userMenu, { [css.mobileMenu]: isMobile })}>
-      <div className={css.navLinks}>
-        <NavLink
-          to="/auth/profile"
-          className={({ isActive }) => clsx(css.link, isActive && css.active)}
-        >
-          My Profile
-        </NavLink>
-        {!isMobile && (
-          <NavLink to="/auth/add-recipe" className={clsx(css.link, css.addBtn)}>
+    <>
+      <nav className={clsx(css.userMenu, { [css.mobileMenu]: isMobile })}>
+        <div className={css.navLinks}>
+          <NavLink
+            to="/profile"
+            className={({ isActive }) => clsx(css.link, isActive && css.active)}
+          >
+            My Profile
+          </NavLink>
+          {!isMobile && (
+            <NavLink
+              to="/add-recipe"
+              className={clsx(css.link, css.addBtn)}
+            >
+              Add Recipe
+            </NavLink>
+          )}
+        </div>
+
+        <div className={css.userBlock}>
+          <span className={css.userAvatar}>
+            {user?.name?.charAt(0).toUpperCase()}
+          </span>
+          <span className={css.userName}>{user?.name}</span>
+          <RxDividerVertical className={css.divider} />
+          <button
+            onClick={() => setShowModal(true)}
+            className={css.userLogoutBtn}
+            aria-label="Logout"
+          >
+            <FiLogOut width={24} height={28} />
+          </button>
+        </div>
+        {isMobile && (
+          <NavLink
+            to="/add-recipe"
+            className={clsx(css.link, css.addBtn, css.addBtnMobile)}
+          >
             Add Recipe
           </NavLink>
         )}
-      </div>
-
-      <div className={css.userBlock}>
-        <span className={css.userAvatar}>
-          {user?.name?.charAt(0).toUpperCase()}
-        </span>
-        <span className={css.userName}>{user?.name}</span>
-        <RxDividerVertical className={css.divider} />
-        <button
-          onClick={handleLogout}
-          className={css.userLogoutBtn}
-          aria-label="Logout"
-        >
-          <FiLogOut width={24} height={28} />
-        </button>
-      </div>
-      {isMobile && (
-        <NavLink
-          to="/auth/add-recipe"
-          className={clsx(css.link, css.addBtn, css.addBtnMobile)}
-        >
-          Add Recipe
-        </NavLink>
-      )}
-    </nav>
+      </nav>
+      <Modal
+        open={showModal}
+        onOpenChange={setShowModal}
+        title="Are you shure?"
+        message="We will miss you!"
+        actions={actions}
+      />
+    </>
   );
 }

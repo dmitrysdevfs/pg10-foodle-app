@@ -23,3 +23,31 @@ export const registerSchema = Yup.object({
     .required('Confirmation is required'),
   terms: Yup.boolean().oneOf([true], 'You must accept the terms'),
 });
+
+export const addRecipeSchema = Yup.object({
+  title: Yup.string()
+    .min(3, 'Minimum 3 characters')
+    .max(64, 'Maximum 64 characters')
+    .required('Required field'),
+  description: Yup.string()
+    .min(10, 'Minimum 10 characters')
+    .max(200, 'Maximum 200 characters')
+    .required('Required field'),
+  time: Yup.string()
+    .test('is-number', 'It should be a number', value => {
+      if (!value) return false;
+      const num = Number(value);
+      return !isNaN(num) && num >= 1 && num <= 360;
+    })
+    .required('Required field'),
+  calories: Yup.string().test('is-number', 'It should be a number', value => {
+    if (!value) return true; // Optional field
+    const num = Number(value);
+    return !isNaN(num) && num >= 0;
+  }),
+  category: Yup.string().required('Select a category'),
+  instructions: Yup.string()
+    .min(3, 'Minimum 3 characters')
+    .max(1200, 'Maximum 1200 characters')
+    .required('Required field'),
+});

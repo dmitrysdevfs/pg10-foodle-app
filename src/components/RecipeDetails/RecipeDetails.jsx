@@ -8,6 +8,7 @@ import { toast } from 'react-toastify';
 import SaveIcon from '../../assets/icons/saveFavorite.svg';
 
 import styles from './RecipeDetails.module.css';
+import SaveRecipeButton from '../SaveRecipeButton/SaveRecipeButton.jsx';
 
 const RecipeDetails = ({ recipe }) => {
   const user = useSelector(selectUser);
@@ -25,7 +26,11 @@ const RecipeDetails = ({ recipe }) => {
     if (!user || !token) {
       // toast.info('Please login to save recipes');
       // navigate('/auth/login');
-      console.log('API call:', saved ? 'DELETE' : 'POST', `/api/recipes/${recipe._id}/favorite`);
+      console.log(
+        'API call:',
+        saved ? 'DELETE' : 'POST',
+        `/api/recipes/${recipe._id}/favorite`
+      );
       return;
     }
 
@@ -84,7 +89,9 @@ const RecipeDetails = ({ recipe }) => {
               ?.split('. ')
               .filter(Boolean)
               .map((step, index) => (
-                <p key={index} className={styles.stepText}>{step.trim()}.</p>
+                <p key={index} className={styles.stepText}>
+                  {step.trim()}.
+                </p>
               ))}
           </section>
           {/* <section className={styles.section}>
@@ -93,21 +100,38 @@ const RecipeDetails = ({ recipe }) => {
             <p key={index}>{step}</p>
            ))}
           </section> */}
-
         </div>
 
         <aside className={styles.sidebar}>
           <div className={styles.infoBox}>
-            <div className={styles.infoTitle}><h3>General informations</h3></div>
-            <div><p><b>Category:</b> <span className={styles.span}>{recipe.category}</span></p></div>
-            <div><p><b>Cooking time:</b> <span className={styles.span}>{recipe.time} minutes</span></p></div>
-            <div><p><b>Calorie content:</b> <span className={styles.span}>{recipe.calories || 'N/A'}</span></p></div>
+            <div className={styles.infoTitle}>
+              <h3>General informations</h3>
+            </div>
+            <div>
+              <p>
+                <b>Category:</b>{' '}
+                <span className={styles.span}>{recipe.category}</span>
+              </p>
+            </div>
+            <div>
+              <p>
+                <b>Cooking time:</b>{' '}
+                <span className={styles.span}>{recipe.time} minutes</span>
+              </p>
+            </div>
+            <div>
+              <p>
+                <b>Calorie content:</b>{' '}
+                <span className={styles.span}>{recipe.calories || 'N/A'}</span>
+              </p>
+            </div>
           </div>
 
-          <button className={styles.button} onClick={handleSave}>
+          <SaveRecipeButton />
+          {/* <button className={styles.button} onClick={handleSave}>
             {saved ? 'Remove' : 'Save'}
             <SaveIcon className={styles.icon} />
-          </button>
+          </button> */}
         </aside>
       </div>
     </div>

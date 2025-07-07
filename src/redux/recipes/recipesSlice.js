@@ -3,6 +3,7 @@ import {
   fetchRecipes as fetchRecipesAPI,
   fetchCategories,
   fetchIngredients,
+  createRecipe as createRecipeAPI,
 } from './operations';
 
 export const fetchRecipes = createAsyncThunk(
@@ -37,6 +38,22 @@ export const fetchIngredientsAsync = createAsyncThunk(
       return data;
     } catch (error) {
       return rejectWithValue(error.message || 'Failed to fetch ingredients');
+    }
+  }
+);
+
+export const createRecipe = createAsyncThunk(
+  'recipes/createRecipe',
+  async (recipeData, { rejectWithValue }) => {
+    try {
+      const data = await createRecipeAPI(recipeData);
+      return data;
+    } catch (error) {
+      return rejectWithValue(
+        error.response?.data?.message ||
+          error.message ||
+          'Failed to create recipe'
+      );
     }
   }
 );
@@ -126,6 +143,21 @@ const recipesSlice = createSlice({
         state.filtersLoading = false;
         state.filtersError = action.payload;
         state.ingredients = [];
+      })
+      .addCase(createRecipe.pending, state => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(createRecipe.fulfilled, (state, action) => {
+        state.isLoading = false;
+        // Optionally add the new recipe to the beginning of the list
+        if (action.payload.data) {
+          state.items.unshift(action.payload.data);
+        }
+      })
+      .addCase(createRecipe.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload;
       });
   },
 });
