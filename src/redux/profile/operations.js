@@ -62,3 +62,47 @@ export const fetchFavoriteRecipes = createAsyncThunk(
     }
   }
 );
+
+export const addToFavorites = createAsyncThunk(
+  'profile/addToFavorites',
+  async (recipeId, thunkAPI) => {
+    try {
+      const state = thunkAPI.getState();
+      const token = state.auth.token;
+
+      if (!token) {
+        return thunkAPI.rejectWithValue('No auth token');
+      }
+
+      setAuthHeader(`Bearer ${token}`);
+
+      await axios.post(`/api/recipes/${recipeId}/favorite`);
+
+      return recipeId;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.message);
+    }
+  }
+);
+
+export const removeFromFavorites = createAsyncThunk(
+  'profile/removeFromFavorites',
+  async (recipeId, thunkAPI) => {
+    try {
+      const state = thunkAPI.getState();
+      const token = state.auth.token;
+
+      if (!token) {
+        return thunkAPI.rejectWithValue('No auth token');
+      }
+
+      setAuthHeader(`Bearer ${token}`);
+
+      await axios.delete(`/api/recipes/${recipeId}/favorite`);
+
+      return recipeId;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.message);
+    }
+  }
+);

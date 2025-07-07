@@ -1,24 +1,39 @@
 import { useState } from 'react';
 import { useLocation, Link } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 
-import { selectIsLoggedIn } from '../../redux/auth/selectors';
+import {
+  addToFavorites,
+  removeFromFavorites,
+} from '../../redux/profile/operations.js';
+import { selectIsLoggedIn } from '../../redux/auth/selectors.js';
+import { selectFavoriteRecipes } from '../../redux/profile/selectors.js';
 import Modal from '../Modal/Modal';
 
 import SaveIcon from '../../assets/icons/SaveIcon.svg';
 import s from './SaveRecipeButton.module.css';
 
-const SaveRecipeButton = () => {
+const SaveRecipeButton = ({ recipeId }) => {
   const location = useLocation();
   const isRecipeView = /^\/recipes\/[^/]+$/.test(location.pathname);
 
-  //   const dispatch = useDispatch();
+  const dispatch = useDispatch();
   const isLoggedIn = useSelector(selectIsLoggedIn);
+  const favoriteRecipes = useSelector(selectFavoriteRecipes);
   const [showModal, setShowModal] = useState(false);
+
+  const isFavorite = favoriteRecipes.some(recipe => recipe._id === recipeId);
 
   const handleSaveClick = () => {
     if (!isLoggedIn) {
       setShowModal(true);
+      return;
+    }
+
+    if (isFavorite) {
+      dispatch(removeFromFavorites(recipeId));
+    } else {
+      dispatch(addToFavorites(recipeId));
     }
   };
 
@@ -36,13 +51,16 @@ const SaveRecipeButton = () => {
   return (
     <>
       <button
-        className={isRecipeView ? s.button : s.iconBtn}
+        className={`${isRecipeView ? s.button : s.iconBtn} ${
+          isFavorite ? s.saved : ''
+        }`}
         type="button"
+        aria-label={isFavorite ? 'Remove from saved' : 'Save this recipe'}
         onClick={handleSaveClick}
       >
         {isRecipeView ? (
           <>
-            <span className={s.text}>Save</span>
+            <span className={s.text}> {isFavorite ? 'Saved' : 'Save'}</span>
             <SaveIcon className={s.icon} />
           </>
         ) : (
