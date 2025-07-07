@@ -1,5 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { fetchOwnRecipes, fetchFavoriteRecipes } from './operations';
+import {
+  fetchOwnRecipes,
+  fetchFavoriteRecipes,
+  addToFavorites,
+  removeFromFavorites,
+} from './operations';
+import { logOut } from '../auth/operations';
 
 const initialState = {
   ownRecipes: [],
@@ -54,7 +60,42 @@ const profileSlice = createSlice({
       .addCase(fetchFavoriteRecipes.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload || action.error.message;
-      });
+      })
+
+      .addCase(addToFavorites.pending, state => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(addToFavorites.fulfilled, (state, action) => {
+        state.isLoading = false;
+        const id = action.payload;
+
+        const alreadyExists = state.favoriteRecipes.some(r => r._id === id);
+        if (!alreadyExists) {
+          state.favoriteRecipes.push({ _id: id });
+        }
+      })
+      .addCase(addToFavorites.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload || action.error.message;
+      })
+
+      .addCase(removeFromFavorites.pending, state => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(removeFromFavorites.fulfilled, (state, action) => {
+        state.isLoading = false;
+        const removedId = action.payload;
+        state.favoriteRecipes = state.favoriteRecipes.filter(
+          recipe => recipe._id !== removedId
+        );
+      })
+      .addCase(removeFromFavorites.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload || action.error.message;
+      })
+      .addCase(logOut.fulfilled, () => initialState);
   },
 });
 
