@@ -24,6 +24,8 @@ import {
   selectCategories,
   selectIngredients,
 } from '../../redux/recipes/selectors';
+import { fetchFavoriteRecipes } from '../../redux/profile/operations';
+import { selectIsLoggedIn } from '../../redux/auth/selectors';
 import s from './MainPage.module.css';
 import clsx from 'clsx';
 
@@ -43,6 +45,7 @@ const MainPage = () => {
   const totalItems = useSelector(selectTotalItems);
   const categories = useSelector(selectCategories);
   const ingredients = useSelector(selectIngredients);
+  const isLoggedIn = useSelector(selectIsLoggedIn);
 
   useEffect(() => {
     if (categories.length === 0) {
@@ -79,6 +82,12 @@ const MainPage = () => {
       })
     );
   }, [searchQuery, filters.category, filters.ingredient, dispatch]);
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      dispatch(fetchFavoriteRecipes());
+    }
+  }, [dispatch, isLoggedIn]);
 
   const handleSearch = useCallback(
     query => {

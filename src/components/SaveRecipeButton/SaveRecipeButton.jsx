@@ -51,14 +51,16 @@ const SaveRecipeButton = ({ recipeId }) => {
   return (
     <>
       <button
-        className={isRecipeView ? s.button : s.iconBtn}
+        className={`${isRecipeView ? s.button : s.iconBtn} ${
+          isFavorite ? s.saved : ''
+        }`}
         type="button"
         aria-label={isFavorite ? 'Remove from saved' : 'Save this recipe'}
         onClick={handleSaveClick}
       >
         {isRecipeView ? (
           <>
-            <span className={s.text}>Save</span>
+            <span className={s.text}> {isFavorite ? 'Saved' : 'Save'}</span>
             <SaveIcon className={s.icon} />
           </>
         ) : (

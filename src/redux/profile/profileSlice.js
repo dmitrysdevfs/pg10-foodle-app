@@ -67,7 +67,12 @@ const profileSlice = createSlice({
       })
       .addCase(addToFavorites.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.favoriteRecipes.push(action.payload);
+        const id = action.payload;
+
+        const alreadyExists = state.favoriteRecipes.some(r => r._id === id);
+        if (!alreadyExists) {
+          state.favoriteRecipes.push({ _id: id });
+        }
       })
       .addCase(addToFavorites.rejected, (state, action) => {
         state.isLoading = false;
