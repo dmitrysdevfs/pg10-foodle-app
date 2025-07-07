@@ -35,8 +35,15 @@
   transition: color 0.2s;
 }
 
-.closeBtn:hover {
+.closeBtn:hover,
+.closeBtn:focus-visible svg {
   color: var(--red);
+}
+
+.icon {
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
 }
 
 .title {
@@ -56,18 +63,26 @@
   gap: 16px;
 }
 
+.actionItem {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
 .primaryBtn,
 .secondaryBtn {
-  align-self: stretch;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   cursor: pointer;
+  border: 1px solid var(--black);
+  border-radius: 8px;
   font-weight: var(--semibold-font-weight);
   transition: background-color 0.3s, border-color 0.3s, color 0.3s;
 }
 
 .primaryBtn {
   padding: 16px 16px;
-  border: 1px solid var(--black);
-  border-radius: 8px;
 }
 
 .primaryBtn:hover,
@@ -85,8 +100,8 @@
 .secondaryBtn:hover,
 .secondaryBtn:focus {
   background-color: var(--light-brown);
-  color: var(--wight);
-  border: none;
+  border: 1px solid var(--light-brown);
+  color: var(--white);
 }
 
 @keyframes backdropFade {

@@ -6,16 +6,12 @@ export default function RecipeList({ recipeId }) {
   const location = useLocation();
 
   return (
-    <ul>
-      <li>
-        <Link
-          to={`/recipes/${recipeId}`}
-          state={{ from: location }}
-          className={css.recipeLink}
-        >
-          Learn more
-        </Link>
-      </li>
-    </ul>
+    <Link
+      to={`/recipes/${recipeId}`}
+      state={{ from: location }}
+      className={css.recipeLink}
+    >
+      Learn more
+    </Link>
   );
 }

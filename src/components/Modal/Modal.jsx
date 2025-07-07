@@ -1,5 +1,7 @@
+import { cloneElement } from 'react';
 import * as Dialog from '@radix-ui/react-dialog';
-import { X } from 'lucide-react';
+
+import CloseIcon from '../../assets/icons/CloseIcon.svg';
 import s from './Modal.module.css';
 
 const Modal = ({ open, onOpenChange, title, message, actions }) => {
@@ -10,7 +12,7 @@ const Modal = ({ open, onOpenChange, title, message, actions }) => {
         <Dialog.Content className={s.modal}>
           <Dialog.Close asChild>
             <button className={s.closeBtn} aria-label="Close">
-              <X size={20} />
+              <CloseIcon className={s.icon} />
             </button>
           </Dialog.Close>
 
@@ -21,17 +23,31 @@ const Modal = ({ open, onOpenChange, title, message, actions }) => {
             </Dialog.Description>
           )}
 
-          <div className={s.actions}>
-            {actions?.map(({ text, onClick, type = 'primary' }, index) => (
-              <button
-                key={index}
-                className={type === 'secondary' ? s.secondaryBtn : s.primaryBtn}
-                onClick={onClick}
-              >
-                {text}
-              </button>
-            ))}
-          </div>
+          <ul className={s.actions}>
+            {actions?.map((action, index) => {
+              const { text, onClick, type = 'primary', element } = action;
+              const btnClass =
+                type === 'secondary' ? s.secondaryBtn : s.primaryBtn;
+
+              return (
+                <li key={index} className={s.actionItem}>
+                  {element ? (
+                    cloneElement(element, {
+                      className: btnClass,
+                    })
+                  ) : (
+                    <button
+                      type="button"
+                      className={btnClass}
+                      onClick={onClick}
+                    >
+                      {text}
+                    </button>
+                  )}
+                </li>
+              );
+            })}
+          </ul>
         </Dialog.Content>
       </Dialog.Portal>
     </Dialog.Root>
