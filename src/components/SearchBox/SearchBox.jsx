@@ -23,12 +23,16 @@ const SearchBox = ({ onSearch, value = '' }) => {
   const validateQuery = value => {
     if (!value.trim()) {
       setError('Enter a search query!');
-      toast.error('Enter a search query!');
+      toast.error('Enter a search query!', {
+        position: 'top-center',
+      });
       return false;
     }
     if (value.trim().length < 2) {
       setError('Minimal 2 characters!');
-      toast.error('Minimal 2 characters!');
+      toast.error('Minimal 2 characters!', {
+        position: 'top-center',
+      });
       return false;
     }
     return true;
@@ -43,7 +47,9 @@ const SearchBox = ({ onSearch, value = '' }) => {
       } else {
         if (!value.trim()) {
           setError('Enter a search query!');
-          toast.error('Enter a search query!');
+          toast.error('Enter a search query!', {
+            position: 'top-center',
+          });
           return false;
         }
         onSearch('');
@@ -57,7 +63,9 @@ const SearchBox = ({ onSearch, value = '' }) => {
 
     setError('');
     onSearch(query.trim());
-    toast.success(`Search recipe: "${query.trim()}"`);
+    toast.success(`Search recipe: "${query.trim()}"`, {
+      position: 'top-center',
+    });
 
     setTimeout(() => {
       setQuery('');

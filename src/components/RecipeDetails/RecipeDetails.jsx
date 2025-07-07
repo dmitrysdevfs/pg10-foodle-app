@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import { selectUser, selectToken } from '../../redux/auth/selectors';
 // import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { toast } from 'react-toastify';
+import toast from 'react-hot-toast';
 // import { ReactComponent as  SaveIcon} from '../../assets/icons/saveFavorite.svg';
 import SaveIcon from '../../assets/icons/saveFavorite.svg';
 

@@ -2,8 +2,7 @@ import css from './LoginForm.module.css';
 import { useState } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { Link, useNavigate } from 'react-router-dom';
-import { toast, ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import toast from 'react-hot-toast';
 import { loginSchema } from '../../../utils/validationSchemas';
 import { useDispatch, useSelector } from 'react-redux';
 import { logIn } from '../../../redux/auth/operations';
@@ -21,10 +20,16 @@ export default function LoginForm() {
   const handleSubmit = async (values, { setSubmitting }) => {
     try {
       await dispatch(logIn(values)).unwrap();
-      toast.success('Login successful!');
-      navigate('/');
+      toast.success('Login successful!', {
+        duration: 4000,
+      });
+      setTimeout(() => {
+        navigate('/');
+      }, 200);
     } catch (error) {
-      toast.error(error.message || 'Login failed');
+      toast.error(error.message || 'Login failed', {
+        duration: 5000,
+      });
     } finally {
       setSubmitting(false);
     }
@@ -107,8 +112,6 @@ export default function LoginForm() {
         Don&apos;t have an account?
         <Link to="/auth/register" className={css.registerLink}> Register</Link>
       </p>
-
-      <ToastContainer position="top-right" autoClose={3000} />
     </div>
   );
 }
