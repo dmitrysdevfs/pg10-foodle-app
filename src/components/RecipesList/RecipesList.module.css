@@ -2,7 +2,6 @@
   display: grid;
   flex-wrap: wrap;
   justify-content: center;
-  flex-direction: row;
   gap: 16px;
   margin-bottom: 24px;
 }
@@ -11,7 +10,7 @@
 
 @media screen and (min-width: 768px) {
   .list {
-    grid-template-columns: repeat(2, calc(50% - 24px));
+    grid-template-columns: repeat(2, 1fr);
     gap: 24px;
   }
 }
@@ -20,7 +19,7 @@
 
 @media screen and (min-width: 1440px) {
   .list {
-    grid-template-columns: repeat(4, calc(25% - 24px));
+    grid-template-columns: repeat(4, 1fr);
     gap: 24px;
   }
 }
