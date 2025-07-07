@@ -2,8 +2,7 @@ import css from './RegisterForm.module.css';
 import { useState } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { useNavigate, Link } from 'react-router-dom';
-import { toast, ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import toast from 'react-hot-toast';
 import { registerSchema } from '../../../utils/validationSchemas';
 import { useDispatch, useSelector } from 'react-redux';
 import { register } from '../../../redux/auth/operations';
@@ -27,11 +26,17 @@ const RegistrationForm = () => {
         password: values.password,
       })).unwrap();
 
-      toast.success('Registration successful!');
-      navigate('/');
-      resetForm();
+      toast.success('Registration successful!', {
+        duration: 4000,
+      });
+      setTimeout(() => {
+        navigate('/');
+        resetForm();
+      }, 200);
     } catch (error) {
-      toast.error(error.message || "Registration failed");
+      toast.error(error.message || "Registration failed", {
+        duration: 5000,
+      });
     } finally {
       setSubmitting(false);
     }
@@ -153,8 +158,6 @@ const RegistrationForm = () => {
           Log in
         </Link>
       </p>
-
-      <ToastContainer position="top-right" autoClose={3000} />
     </div>
   );
 };
