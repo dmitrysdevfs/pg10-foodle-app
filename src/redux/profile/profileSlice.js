@@ -5,6 +5,7 @@ import {
   addToFavorites,
   removeFromFavorites,
 } from './operations';
+import { logOut } from '../auth/operations';
 
 const initialState = {
   ownRecipes: [],
@@ -93,7 +94,8 @@ const profileSlice = createSlice({
       .addCase(removeFromFavorites.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload || action.error.message;
-      });
+      })
+      .addCase(logOut.fulfilled, () => initialState);
   },
 });
 
