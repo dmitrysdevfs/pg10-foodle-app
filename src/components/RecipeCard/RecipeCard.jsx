@@ -40,7 +40,7 @@ export default function RecipeCard({ recipe, recipes, recipeId, type }) {
       </div>
       <div className={css.buttonContainer}>
         <RecipeList recipes={recipes} recipeId={recipeId} />
-        <SaveRecipeButton />
+        <SaveRecipeButton recipeId={recipeId} />
       </div>
     </div>
   );

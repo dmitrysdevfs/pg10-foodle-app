@@ -127,7 +127,7 @@ const RecipeDetails = ({ recipe }) => {
             </div>
           </div>
 
-          <SaveRecipeButton />
+          <SaveRecipeButton recipeId={recipe._id} />
           {/* <button className={styles.button} onClick={handleSave}>
             {saved ? 'Remove' : 'Save'}
             <SaveIcon className={styles.icon} />
