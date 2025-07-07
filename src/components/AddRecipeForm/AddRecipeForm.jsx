@@ -1,13 +1,13 @@
 import css from './AddRecipeForm.module.css';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { clsx } from 'clsx';
 import Container from '../../assets/Container.png';
 import RecipeAddIngredient from '../RecipeAddIngredient/RecipeAddIngredient';
 import { addRecipeSchema } from '../../utils/validationSchemas';
-import toast from 'react-hot-toast';
+import { toast } from 'react-toastify';
 import {
   fetchCategoriesAsync,
   fetchIngredientsAsync,
@@ -36,6 +36,47 @@ const AddRecipeForm = () => {
     id: '',
     measure: '',
   });
+  const [ingredientInput, setIngredientInput] = useState('');
+  const [showDropdown, setShowDropdown] = useState(false);
+
+  const filteredIngredients = ingredients.filter(ing =>
+    ing.name.toLowerCase().includes(ingredientInput.toLowerCase())
+  );
+
+  const ingredientInputRef = useRef(null);
+  const dropdownRef = useRef(null);
+
+  // Закривати дропдаун при кліку поза ним
+  useEffect(() => {
+    const handleClickOutside = event => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target) &&
+        ingredientInputRef.current &&
+        !ingredientInputRef.current.contains(event.target)
+      ) {
+        setShowDropdown(false);
+      }
+    };
+    if (showDropdown) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [showDropdown]);
+
+  const handleIngredientInput = e => {
+    setIngredientInput(e.target.value);
+    setShowDropdown(true);
+    setCurrentIngredient(prev => ({ ...prev, id: '' }));
+  };
+
+  const handleIngredientSelect = ing => {
+    setIngredientInput(ing.name);
+    setCurrentIngredient(prev => ({ ...prev, id: ing._id }));
+    setShowDropdown(false); // Закрити дропдаун при виборі
+  };
 
   useEffect(() => {
     dispatch(fetchCategoriesAsync());
@@ -73,6 +114,7 @@ const AddRecipeForm = () => {
         if (!exists) {
           setIngredientsList(prev => [...prev, newIngredient]);
           setCurrentIngredient({ id: '', measure: '' });
+          setIngredientInput(''); // Скинути інпут після додавання
         } else {
           toast.warning('The ingredient is already added');
         }
@@ -125,7 +167,7 @@ const AddRecipeForm = () => {
       const result = await dispatch(createRecipe(formData)).unwrap();
 
       if (result.data) {
-        toast.success('Рецепт успішно створено!');
+        toast.success('Recipe created successfully');
         // Navigate to the created recipe page
         navigate(`/recipes/${result.data._id}`);
       }
@@ -232,7 +274,7 @@ const AddRecipeForm = () => {
 
                   <div className={css.containerFood}>
                     <label className={css.titleText}>
-                      Calories (optional)
+                      Calories
                       <Field
                         className={clsx(css.input, css.calories)}
                         type="text"
@@ -274,26 +316,39 @@ const AddRecipeForm = () => {
               </h2>
               <div className={css.nameAmount}>
                 <label className={css.titleText}>
-                  Name
-                  <Field
+                  Ingredient
+                  <input
+                    ref={ingredientInputRef}
                     className={css.ingredientName}
-                    as="select"
-                    name="ingredient"
-                    value={currentIngredient?.id || ''}
-                    onChange={e =>
-                      setCurrentIngredient(prev => ({
-                        ...prev,
-                        id: e.target.value,
-                      }))
-                    }
-                  >
-                    <option value="">Ingredients</option>
-                    {ingredients?.map(ing => (
-                      <option key={ing._id} value={ing._id}>
-                        {ing.name}
-                      </option>
-                    ))}
-                  </Field>
+                    type="text"
+                    value={ingredientInput}
+                    placeholder="Select an ingredient"
+                    onChange={handleIngredientInput}
+                    onFocus={() => setShowDropdown(true)}
+                    autoComplete="off"
+                    onKeyDown={e => {
+                      if (e.key === 'Enter' && filteredIngredients.length > 0) {
+                        handleIngredientSelect(filteredIngredients[0]);
+                      }
+                    }}
+                  />
+                  {showDropdown && filteredIngredients.length > 0 && (
+                    <ul className={css.dropdown} ref={dropdownRef}>
+                      {filteredIngredients.map(ing => (
+                        <li
+                          key={ing._id}
+                          className={css.dropdownItem}
+                          onClick={e => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            handleIngredientSelect(ing);
+                          }}
+                        >
+                          {ing.name}
+                        </li>
+                      ))}
+                    </ul>
+                  )}
                 </label>
                 <label className={clsx(css.titleText, css.titleTextAmount)}>
                   Amount
