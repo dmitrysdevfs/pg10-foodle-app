@@ -33,21 +33,26 @@ export const addRecipeSchema = Yup.object({
     .min(10, 'Minimum 10 characters')
     .max(200, 'Maximum 200 characters')
     .required('Required field'),
-  time: Yup.string()
-    .test('is-number', 'It should be a number', value => {
-      if (!value) return false;
-      const num = Number(value);
-      return !isNaN(num) && num >= 1 && num <= 360;
-    })
+  time: Yup.number()
+    .typeError('Must be a number')
+    .min(1, 'Min 1 minute')
+    .max(360, 'Max 360 minutes')
     .required('Required field'),
-  calories: Yup.string().test('is-number', 'It should be a number', value => {
-    if (!value) return true; // Optional field
-    const num = Number(value);
-    return !isNaN(num) && num >= 0;
-  }),
+  calories: Yup.number()
+    .typeError('Must be a number')
+    .min(1, 'Min 1')
+    .max(10000, 'Max 10000')
+    .nullable()
+    .transform((value, originalValue) => (originalValue === '' ? null : value)),
   category: Yup.string().required('Select a category'),
   instructions: Yup.string()
     .min(3, 'Minimum 3 characters')
     .max(1200, 'Maximum 1200 characters')
     .required('Required field'),
+  photo: Yup.mixed()
+    .test('fileSize', 'Image size must be less than 2MB', value => {
+      if (!value) return true; // not required
+      return value.size <= 2 * 1024 * 1024;
+    })
+    .nullable(),
 });
