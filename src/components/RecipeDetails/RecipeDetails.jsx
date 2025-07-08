@@ -1,63 +1,14 @@
-import { useState } from 'react';
-import { useSelector } from 'react-redux';
-import { selectUser, selectToken } from '../../redux/auth/selectors';
-// import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
-import toast from 'react-hot-toast';
-// import { ReactComponent as  SaveIcon} from '../../assets/icons/saveFavorite.svg';
-import SaveIcon from '../../assets/icons/saveFavorite.svg';
-
 import styles from './RecipeDetails.module.css';
 import SaveRecipeButton from '../SaveRecipeButton/SaveRecipeButton.jsx';
 
 const RecipeDetails = ({ recipe }) => {
-  const user = useSelector(selectUser);
-  const token = useSelector(selectToken);
-  // const navigate = useNavigate();
-
-  const [saved, setSaved] = useState(user?.favorites?.includes(recipe._id));
-  console.log('Saving:', recipe._id);
-  const handleSave = async () => {
-    // if (!user) {
-    //   navigate('/auth/login');
-    //   console.log('API call:', saved ? 'DELETE' : 'POST', `/api/recipes/${recipe._id}/favorite`);
-    //   return;
-    // }
-    if (!user || !token) {
-      // toast.info('Please login to save recipes');
-      // navigate('/auth/login');
-      console.log(
-        'API call:',
-        saved ? 'DELETE' : 'POST',
-        `/api/recipes/${recipe._id}/favorite`
-      );
-      return;
-    }
-
-    try {
-      if (saved) {
-        await axios.delete(`/api/recipes/${recipe._id}/favorite`, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
-        toast.info('Recipe removed from favorites');
-      } else {
-        await axios.post(`/api/recipes/${recipe._id}/favorite`, null, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
-        toast.success('Recipe added to favorites');
-      }
-      setSaved(!saved);
-    } catch {
-      toast.error('An error occurred while updating favorites');
-    }
-  };
 
   return (
     <div className={styles.recipeContainer}>
       <div className={styles.topSection}>
         <h2 className={styles.title}>{recipe.title}</h2>
         <div className={styles.imgContainer}>
-          <img src={recipe.thumb} alt={recipe.title} className={styles.image} />
+          <img src={recipe.thumb || recipe.photo} alt={recipe.title} className={styles.image} />
         </div>
       </div>
 
@@ -79,10 +30,6 @@ const RecipeDetails = ({ recipe }) => {
             </ul>
           </section>
 
-          {/* <section className={styles.section}>
-            <h3>Preparation Steps:</h3>
-            <p>{recipe.instructions}</p>
-          </section> */}
           <section className={styles.section}>
             <h3 className={styles.stepsTitle}>Preparation Steps:</h3>
             {recipe.instructions
@@ -94,12 +41,6 @@ const RecipeDetails = ({ recipe }) => {
                 </p>
               ))}
           </section>
-          {/* <section className={styles.section}>
-           <h3>Preparation Steps:</h3>
-            {recipe.instructions?.split('\n').map((step, index) => (
-            <p key={index}>{step}</p>
-           ))}
-          </section> */}
         </div>
 
         <aside className={styles.sidebar}>
@@ -127,11 +68,8 @@ const RecipeDetails = ({ recipe }) => {
             </div>
           </div>
 
-          <SaveRecipeButton recipeId={recipe._id} />
-          {/* <button className={styles.button} onClick={handleSave}>
-            {saved ? 'Remove' : 'Save'}
-            <SaveIcon className={styles.icon} />
-          </button> */}
+          {/* Кнопка Save уже вставлена як компонент */}
+          <SaveRecipeButton />
         </aside>
       </div>
     </div>
