@@ -1,6 +1,7 @@
 import css from './RecipeCard.module.css';
 import RecipeList from '../RecipeLink/RecipeLink';
 import SaveRecipeButton from '../SaveRecipeButton/SaveRecipeButton.jsx';
+import NoPhoto from '../../assets/img/no_photo.jpg';
 
 import { GoClock } from 'react-icons/go';
 
@@ -15,7 +16,7 @@ export default function RecipeCard({ recipe, recipes, recipeId, type }) {
 
   return (
     <div className={css.item}>
-      {(thumb || photo) && (
+      {thumb || photo ? (
         <img
           src={thumb || photo}
           alt={title}
@@ -23,6 +24,12 @@ export default function RecipeCard({ recipe, recipes, recipeId, type }) {
           onError={e => {
             e.target.style.display = 'none';
           }}
+        />
+      ) : (
+        <img
+          src={NoPhoto}
+          alt="Recipe image not available"
+          className={css.image}
         />
       )}
       <div className={css.titleContainer}>
