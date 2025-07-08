@@ -10,6 +10,7 @@ import css from './App.module.css';
 import { selectRefreshing } from '../../redux/auth/selectors';
 import RestrictedRoute from '../RestrictedRoute';
 import PrivateRoute from '../RrivateRoute';
+import SessionManager from '../SessionManager/SessionManager.jsx';
 
 const MainPage = lazy(() => import('../../pages/MainPage/MainPage'));
 const RecipeViewPage = lazy(() =>
@@ -46,8 +47,11 @@ export default function App() {
     dispatch(refreshUser());
   }, [dispatch]);
 
-  return isRefreshing ? <PageLoader /> : (
+  return isRefreshing ? (
+    <PageLoader />
+  ) : (
     <div className={css.container}>
+      <SessionManager />
       <Suspense fallback={<PageLoader />}>
         <Routes>
           <Route path="/" element={<Layout />}>
@@ -55,24 +59,18 @@ export default function App() {
             <Route path="/recipes/:id" element={<RecipeViewPage />} />
             <Route
               path="/auth/:authType"
-              element={
-                <RestrictedRoute component={AuthPage} redirectTo="/" />
-              }
+              element={<RestrictedRoute component={AuthPage} redirectTo="/" />}
             />
             <Route
               path="/profile"
-              element={
-                <PrivateRoute component={ProfilePage} />
-              }
+              element={<PrivateRoute component={ProfilePage} />}
             >
               <Route path="own" element={<ProfileOwnRecipes />} />
               <Route path="favorites" element={<ProfileFavoriteRecipes />} />
             </Route>
             <Route
               path="/add-recipe"
-              element={
-                <PrivateRoute component={AddRecipePage} />
-              }
+              element={<PrivateRoute component={AddRecipePage} />}
             />
           </Route>
           <Route path="*" element={<NotFoundPage />} />
