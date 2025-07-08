@@ -48,17 +48,19 @@ const ProfileRecipesSection = ({
   }
 
   return (
-    <>
+    <div className={s.listWrapper}>
       <RecipesList recipes={recipes} type={type} />
       {hasMore && (
-        <Button
-          onClick={handleLoadMore}
-          text="Load more"
-          type="button"
-          disabled={loading}
-        />
+        <div className={s.buttonContainer}>
+          <Button
+            onClick={handleLoadMore}
+            text="Load more"
+            type="button"
+            disabled={loading}
+          />
+        </div>
       )}
-    </>
+    </div>
   );
 };
 
