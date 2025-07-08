@@ -1,6 +1,6 @@
 import css from './AddRecipeForm.module.css';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { clsx } from 'clsx';
@@ -36,6 +36,41 @@ const AddRecipeForm = () => {
     id: '',
     measure: '',
   });
+  const [ingredientInput, setIngredientInput] = useState('');
+  const [showDropdown, setShowDropdown] = useState(false);
+
+  const filteredIngredients = ingredients.filter(ing =>
+    ing.name.toLowerCase().includes(ingredientInput.toLowerCase())
+  );
+
+  const ingredientInputRef = useRef(null);
+  const dropdownRef = useRef(null);
+
+  // Закривати дропдаун при кліку поза ним
+  useEffect(() => {
+    const handleClickOutside = event => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target) &&
+        ingredientInputRef.current &&
+        !ingredientInputRef.current.contains(event.target)
+      ) {
+        setShowDropdown(false);
+      }
+    };
+    if (showDropdown) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [showDropdown]);
+
+  const handleIngredientSelect = ing => {
+    setIngredientInput(ing.name);
+    setCurrentIngredient(prev => ({ ...prev, id: ing._id }));
+    setShowDropdown(false);
+  };
 
   useEffect(() => {
     dispatch(fetchCategoriesAsync());
@@ -56,7 +91,7 @@ const AddRecipeForm = () => {
     }
   };
 
-  const addIngredient = () => {
+  const addIngredient = (setFieldValue, setFieldTouched) => {
     if (currentIngredient?.id && currentIngredient?.measure) {
       const ingredient = ingredients?.find(
         ing => ing._id === currentIngredient.id
@@ -73,6 +108,13 @@ const AddRecipeForm = () => {
         if (!exists) {
           setIngredientsList(prev => [...prev, newIngredient]);
           setCurrentIngredient({ id: '', measure: '' });
+          setIngredientInput('');
+          setFieldValue('ingredients', '');
+          setFieldValue('measure', '');
+          if (typeof setFieldTouched === 'function') {
+            setFieldTouched('ingredients', false);
+            setFieldTouched('measure', false);
+          }
         } else {
           toast.warning('The ingredient is already added');
         }
@@ -86,46 +128,55 @@ const AddRecipeForm = () => {
     setIngredientsList(prev => prev.filter((_, i) => i !== index));
   };
 
-  const handleSubmit = async (values, { setSubmitting }) => {
-    console.log('submit', values);
-    if (ingredientsList.length === 0) {
-      toast.error(' Please add at least one ingredient');
+  const handleSubmit = async (
+    values,
+    { setSubmitting, setTouched, validateForm }
+  ) => {
+    // Перевірка на незаповнені поля через Formik
+    const errors = await validateForm();
+    const touchedFields = Object.keys(values).reduce((acc, key) => {
+      acc[key] = true;
+      return acc;
+    }, {});
+    setTouched(touchedFields);
+    if (Object.keys(errors).length > 0) {
+      // Показати toast з першим повідомленням про помилку
+      const firstError = errors[Object.keys(errors)[0]];
+      toast.error(firstError);
       setSubmitting(false);
       return;
     }
-
+    if (ingredientsList.length === 0) {
+      toast.error('Please add at least one ingredient');
+      setSubmitting(false);
+      return;
+    }
     try {
       const formData = new FormData();
-
       // Add basic recipe data
       formData.append('title', values.title);
       formData.append('description', values.description);
       formData.append('time', values.time ? values.time.toString() : '');
       formData.append('category', values.category);
       formData.append('instructions', values.instructions);
-
       // Add calories if provided
       // if (values.calories) {
       //   formData.append('calories', values.calories.toString());
       // }
-
       // Add ingredients as JSON string (backend expects this format)
       const ingredientsData = ingredientsList.map(ing => ({
         id: ing.id,
         measure: ing.measure,
       }));
       formData.append('ingredients', JSON.stringify(ingredientsData));
-
       // Add photo if selected
       if (selectedImage) {
         formData.append('photo', selectedImage);
       }
-
       // Dispatch create recipe action
       const result = await dispatch(createRecipe(formData)).unwrap();
-
       if (result.data) {
-        toast.success('Рецепт успішно створено!');
+        toast.success('Recipe created successfully');
         // Navigate to the created recipe page
         navigate(`/recipes/${result.data._id}`);
       }
@@ -145,7 +196,7 @@ const AddRecipeForm = () => {
   };
 
   return (
-    <div className={css.container}>
+    <div className={css.formContainer}>
       <Formik
         initialValues={{
           title: '',
@@ -154,11 +205,36 @@ const AddRecipeForm = () => {
           calories: '',
           category: '',
           instructions: '',
+          ingredients: '',
+          measure: '',
         }}
         validationSchema={addRecipeSchema}
         onSubmit={handleSubmit}
       >
-        {({ submitForm }) => {
+        {({
+          submitForm,
+          values,
+          setFieldValue,
+          setFieldTouched,
+          validateForm,
+          isSubmitting,
+        }) => {
+          const handleCustomSubmit = async e => {
+            e.preventDefault();
+            const errors = await validateForm();
+            if (Object.keys(errors).length > 0) {
+              const firstError = errors[Object.keys(errors)[0]];
+              toast.error(firstError);
+              // setTouched для всіх полів, щоб показати помилки під інпутами
+              const touchedFields = Object.keys(values).reduce((acc, key) => {
+                acc[key] = true;
+                return acc;
+              }, {});
+              setFieldTouched(touchedFields, true, false);
+              return;
+            }
+            submitForm();
+          };
           return (
             <Form onKeyPress={e => handleKeyPress(e, submitForm)}>
               <div className={css.boxUploadPhoto}>
@@ -232,7 +308,7 @@ const AddRecipeForm = () => {
 
                   <div className={css.containerFood}>
                     <label className={css.titleText}>
-                      Calories (optional)
+                      Calories
                       <Field
                         className={clsx(css.input, css.calories)}
                         type="text"
@@ -275,59 +351,100 @@ const AddRecipeForm = () => {
               <div className={css.nameAmount}>
                 <label className={css.titleText}>
                   Name
-                  <Field
-                    className={css.ingredientName}
-                    as="select"
-                    name="ingredient"
-                    value={currentIngredient?.id || ''}
-                    onChange={e =>
-                      setCurrentIngredient(prev => ({
-                        ...prev,
-                        id: e.target.value,
-                      }))
-                    }
-                  >
-                    <option value="">Ingredients</option>
-                    {ingredients?.map(ing => (
-                      <option key={ing._id} value={ing._id}>
-                        {ing.name}
-                      </option>
-                    ))}
-                  </Field>
-                </label>
-                <label className={clsx(css.titleText, css.titleTextAmount)}>
-                  Amount
-                  <input
-                    className={clsx(css.input, css.inputIngredients)}
-                    type="text"
-                    value={currentIngredient?.measure || ''}
-                    placeholder="100g"
-                    onChange={e =>
-                      setCurrentIngredient(prev => ({
-                        ...prev,
-                        measure: e.target.value,
-                      }))
-                    }
+                  <div className={css.ingredientNameWrapper}>
+                    <Field
+                      innerRef={ingredientInputRef}
+                      className={css.ingredientName}
+                      type="text"
+                      name="ingredients"
+                      value={values.ingredients}
+                      placeholder="Select an ingredient"
+                      onChange={e => {
+                        setFieldValue('ingredients', e.target.value);
+                        setIngredientInput(e.target.value);
+                        setShowDropdown(true);
+                        setCurrentIngredient(prev => ({ ...prev, id: '' }));
+                      }}
+                      onFocus={() => setShowDropdown(true)}
+                      autoComplete="off"
+                      onKeyDown={e => {
+                        if (
+                          e.key === 'Enter' &&
+                          filteredIngredients.length > 0
+                        ) {
+                          handleIngredientSelect(filteredIngredients[0]);
+                        }
+                      }}
+                    />
+                    {showDropdown && filteredIngredients.length > 0 && (
+                      <ul className={css.dropdown} ref={dropdownRef}>
+                        {filteredIngredients.map(ing => (
+                          <li
+                            key={ing._id}
+                            className={css.dropdownItem}
+                            onClick={e => {
+                              e.preventDefault();
+                              e.stopPropagation();
+                              handleIngredientSelect(ing);
+                              setFieldValue('ingredients', ing.name);
+                            }}
+                          >
+                            {ing.name}
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+                  </div>
+                  <ErrorMessage
+                    name="ingredients"
+                    component="div"
+                    className={css.error}
                   />
                 </label>
-                <button
-                  className={css.buttonRemove}
-                  type="button"
-                  onClick={() => {
-                    if (ingredientsList.length > 0) {
-                      removeIngredient(ingredientsList.length - 1);
+                <div className={css.amountWrapper}>
+                  <label className={clsx(css.titleText, css.titleTextAmount)}>
+                    Amount
+                    <Field
+                      className={clsx(css.input, css.inputIngredients)}
+                      type="text"
+                      name="measure"
+                      value={values.measure}
+                      placeholder="100g"
+                      onChange={e => {
+                        setFieldValue('measure', e.target.value);
+                        setCurrentIngredient(prev => ({
+                          ...prev,
+                          measure: e.target.value,
+                        }));
+                      }}
+                    />
+                    <ErrorMessage
+                      name="measure"
+                      component="div"
+                      className={css.error}
+                    />
+                  </label>
+                  <button
+                    className={css.buttonRemove}
+                    type="button"
+                    onClick={() => {
+                      if (ingredientsList.length > 0) {
+                        removeIngredient(ingredientsList.length - 1);
+                      }
+                    }}
+                  >
+                    Remove last Ingredient
+                  </button>
+                  <button
+                    className={css.buttonAdd}
+                    type="button"
+                    onClick={() =>
+                      addIngredient(setFieldValue, setFieldTouched)
                     }
-                  }}
-                >
-                  Remove last Ingredient
-                </button>
-                <button
-                  className={css.buttonAdd}
-                  type="button"
-                  onClick={addIngredient}
-                >
-                  Add new Ingredient
-                </button>
+                  >
+                    Add new Ingredient
+                  </button>
+                </div>
               </div>
 
               <RecipeAddIngredient
@@ -352,7 +469,12 @@ const AddRecipeForm = () => {
                 />
               </label>
               <div className={css.buttonSubmitbox}>
-                <button className={css.buttonSubmit} type="submit">
+                <button
+                  className={css.buttonSubmit}
+                  type="button"
+                  onClick={handleCustomSubmit}
+                  disabled={isSubmitting}
+                >
                   {isLoading ? 'Publishing...' : 'Publish Recipe'}
                 </button>
               </div>
