@@ -1,12 +1,13 @@
 import { NavLink, useLocation } from 'react-router-dom';
-import styles from './ProfileNavigation.module.css';
 import { useSelector } from 'react-redux';
+
 import {
   selectOwnTotalItems,
   selectFavoriteTotalItems,
 } from '../../../redux/profile/selectors';
+import s from './ProfileNavigation.module.css';
 
-const ProfileNavigation = () => {
+const ProfileNavigation = ({ tabs }) => {
   const location = useLocation();
   const isOwn = location.pathname.includes('/own');
   const totalOwn = useSelector(selectOwnTotalItems);
@@ -15,29 +16,23 @@ const ProfileNavigation = () => {
   const totalRecipes = isOwn ? totalOwn : totalFavorites;
 
   return (
-    <div className={styles.wrapper}>
-      <h1 className={styles.title}>My profile</h1>
-
-      <div className={styles.tabs}>
-        <NavLink
-          to="/profile/own"
-          className={({ isActive }) =>
-            isActive ? `${styles.tab} ${styles.active}` : styles.tab
-          }
-        >
-          My recipes
-        </NavLink>
-        <NavLink
-          to="/profile/favorites"
-          className={({ isActive }) =>
-            isActive ? `${styles.tab} ${styles.active}` : styles.tab
-          }
-        >
-          Saved recipes
-        </NavLink>
-      </div>
-
-      <p className={styles.count}>{totalRecipes} recipes</p>
+    <div className={s.wrapper}>
+      <h2 className={s.title}>My profile</h2>
+      <ul className={s.tabs}>
+        {tabs.map(tab => (
+          <li key={tab.path}>
+            <NavLink
+              to={tab.path}
+              className={({ isActive }) =>
+                isActive ? `${s.tab} ${s.active}` : s.tab
+              }
+            >
+              {tab.label}
+            </NavLink>
+          </li>
+        ))}
+      </ul>
+      <p className={s.count}>{totalRecipes} recipes</p>
     </div>
   );
 };

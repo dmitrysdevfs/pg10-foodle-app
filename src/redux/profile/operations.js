@@ -49,8 +49,6 @@ export const fetchFavoriteRecipes = createAsyncThunk(
         `/api/recipes/favorite?page=${page}&perPage=12`
       );
 
-      console.log('knopka', res);
-
       return {
         recipes: res.data.data.data,
         hasMore: res.data.data.hasNextPage,

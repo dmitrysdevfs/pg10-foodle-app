@@ -90,6 +90,7 @@ const profileSlice = createSlice({
         state.favoriteRecipes = state.favoriteRecipes.filter(
           recipe => recipe._id !== removedId
         );
+        state.favoriteTotalItems = state.favoriteTotalItems - 1;
       })
       .addCase(removeFromFavorites.rejected, (state, action) => {
         state.isLoading = false;
