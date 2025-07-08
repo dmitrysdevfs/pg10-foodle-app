@@ -1,5 +1,13 @@
 .container {
- margin: 48px 0;
+  margin: 48px 0;
+}
+
+.pageLoader {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 60vh;
+  width: 100%;
 }
 
 @media (min-width: 768px) {
@@ -10,9 +18,8 @@
 }
 
 @media screen and (min-width: 1440px) {
-   .container {
+  .container {
     margin: 48px 107.5px;
     max-width: 1440px;
-   }
+  }
 }
-

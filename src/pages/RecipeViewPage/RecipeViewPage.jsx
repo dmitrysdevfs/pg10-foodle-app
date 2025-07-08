@@ -3,7 +3,14 @@ import { useParams } from 'react-router-dom';
 import { fetchRecipeByID } from '../../redux/recipes/operations.js';
 import RecipeDetails from '../../components/RecipeDetails/RecipeDetails.jsx';
 import NotFound from '../NotFoundPage/NotFoundPage.jsx';
+import Loader from '../../components/Loader/Loader';
 import css from './RecipeViewPage.module.css';
+
+const PageLoader = () => (
+  <div className={css.pageLoader}>
+    <Loader />
+  </div>
+);
 
 export default function RecipeViewPage() {
   const { id } = useParams();
@@ -35,7 +42,7 @@ export default function RecipeViewPage() {
   }, [id]);
 
   if (loading) {
-    return <p className={css.message}>Loading...</p>;
+    return <PageLoader />;
   }
 
   if (error || !recipe) {

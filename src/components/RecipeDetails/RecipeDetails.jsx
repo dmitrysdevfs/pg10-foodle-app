@@ -1,5 +1,6 @@
 import styles from './RecipeDetails.module.css';
 import SaveRecipeButton from '../SaveRecipeButton/SaveRecipeButton.jsx';
+import NoPhoto from '../../assets/img/no_photo.jpg';
 
 const RecipeDetails = ({ recipe }) => {
 
@@ -8,7 +9,24 @@ const RecipeDetails = ({ recipe }) => {
       <div className={styles.topSection}>
         <h2 className={styles.title}>{recipe.title}</h2>
         <div className={styles.imgContainer}>
-          <img src={recipe.thumb || recipe.photo} alt={recipe.title} className={styles.image} />
+          {recipe.thumb || recipe.photo ? (
+            <img
+              src={recipe.thumb || recipe.photo}
+              alt={recipe.title}
+              className={styles.image}
+              onError={e => {
+                e.target.src = NoPhoto;
+                e.target.alt = "Recipe image not available";
+              }}
+            />
+          ) : (
+            <img
+              src={NoPhoto}
+              alt="Recipe image not available"
+              className={styles.image}
+            />
+          )}
+
         </div>
       </div>
 
