@@ -70,6 +70,7 @@
   overflow: hidden;
   text-overflow: ellipsis;
   size: 16px;
+  height: 50px;
 }
 
 .calories {
@@ -103,10 +104,12 @@
   .item {
     width: 288px;
   }
+
   .image {
     width: 264px;
     height: 178px;
   }
+
   .title {
     width: 203px;
   }
