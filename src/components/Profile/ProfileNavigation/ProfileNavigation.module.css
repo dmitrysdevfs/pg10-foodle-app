@@ -1,5 +1,5 @@
 .wrapper {
-  margin-bottom: 24px;
+  margin-bottom: 16px;
 }
 
 .title {
@@ -33,4 +33,16 @@
   font-size: 18px;
   font-weight: var(--semibold-font-weight);
   line-height: normal;
+}
+.message {
+  text-align: center;
+  font-size: 40px;
+  padding: 40px 0;
+  font-weight: var(--semibold-font-weight);
+}
+
+@media screen and (min-width: 768px) {
+  .wrapper {
+    margin-bottom: 24px;
+  }
 }
