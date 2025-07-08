@@ -5,7 +5,6 @@ import {
   addToFavorites,
   removeFromFavorites,
 } from './operations';
-import { logOut } from '../auth/operations';
 
 const initialState = {
   ownRecipes: [],
@@ -96,7 +95,7 @@ const profileSlice = createSlice({
         state.isLoading = false;
         state.error = action.payload || action.error.message;
       })
-      .addCase(logOut.fulfilled, () => initialState);
+      .addCase('auth/logOut/fulfilled', () => initialState);
   },
 });
 
