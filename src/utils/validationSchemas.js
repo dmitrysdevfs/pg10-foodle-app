@@ -33,7 +33,7 @@ export const addRecipeSchema = Yup.object({
     .min(10, 'Minimum 10 characters')
     .max(200, 'Maximum 200 characters')
     .required('Required field'),
-  time: Yup.number()
+  time: Yup.string()
     .typeError('Must be a number')
     .min(1, 'Min 1 minute')
     .max(360, 'Max 360 minutes')

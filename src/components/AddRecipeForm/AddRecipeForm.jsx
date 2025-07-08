@@ -7,7 +7,7 @@ import { clsx } from 'clsx';
 import Container from '../../assets/Container.png';
 import RecipeAddIngredient from '../RecipeAddIngredient/RecipeAddIngredient';
 import { addRecipeSchema } from '../../utils/validationSchemas';
-import { toast } from 'react-toastify';
+import toast from 'react-hot-toast';
 import {
   fetchCategoriesAsync,
   fetchIngredientsAsync,
