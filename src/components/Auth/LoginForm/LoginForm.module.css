@@ -56,6 +56,7 @@
 .button:hover {
   background-color: #2980b9;
 }
+
 .wrap {
   background: #faf3e0;
   border-radius: 32px;
@@ -120,11 +121,13 @@
 .inputError {
   border-color: red;
 }
+
 .input:hover,
 .input:focus {
   border-color: #6d554b;
 
 }
+
 .eyeButton {
   position: absolute;
   right: 8px;
@@ -138,7 +141,7 @@
 
 .submitButton {
   border-radius: 8px;
-  padding: 8px;
+  padding: 8px 20px;
   width: 298px;
   height: 36px;
   background: #9b6c43;
@@ -149,7 +152,10 @@
   margin-bottom: 20px;
   cursor: pointer;
   border: none;
+  text-align: center;
+  white-space: nowrap;
 }
+
 .submitButton:hover,
 .submitButton:focus {
   background: #6d554b;
@@ -180,36 +186,47 @@
   margin-left: 2px;
 }
 
-@media screen and (min-width: 768px) and (max-width: 1024px){
+@media screen and (min-width: 768px) and (max-width: 1024px) {
   .wrap {
     width: 522px;
   }
-   .title {
-      width: 458px;
-    }
+
+  .title {
+    width: 458px;
+  }
+
   .input {
     width: 458px;
-    }
+  }
+
   .submitButton {
     width: 458px;
-    padding: 8px 205px;
+    padding: 8px 20px;
+    text-align: center;
+    white-space: nowrap;
   }
 }
+
 @media screen and (min-width: 1025px) {
 
   .wrap {
     width: 420px;
- 
+
   }
-    .title {
-      width: 356px;
-     }
+
+  .title {
+    width: 356px;
+  }
+
   .input {
     width: 356px;
   }
-    .submitButton {
-      width: 356px;
-      padding: 8px 154px;
-    }
-    
+
+  .submitButton {
+    width: 356px;
+    padding: 8px 20px;
+    text-align: center;
+    white-space: nowrap;
+  }
+
 }

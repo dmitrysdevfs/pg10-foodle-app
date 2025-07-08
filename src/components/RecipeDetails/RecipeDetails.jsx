@@ -8,7 +8,7 @@ const RecipeDetails = ({ recipe }) => {
       <div className={styles.topSection}>
         <h2 className={styles.title}>{recipe.title}</h2>
         <div className={styles.imgContainer}>
-          <img src={recipe.thumb} alt={recipe.title} className={styles.image} />
+          <img src={recipe.thumb || recipe.photo} alt={recipe.title} className={styles.image} />
         </div>
       </div>
 

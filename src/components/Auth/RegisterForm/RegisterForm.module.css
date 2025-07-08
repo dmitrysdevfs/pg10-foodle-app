@@ -77,7 +77,7 @@
   flex-direction: column;
   position: relative;
   align-items: flex-start;
- 
+
 }
 
 .input:hover,
@@ -128,7 +128,7 @@
   height: 36px;
   border-radius: 8px;
   background: #9b6c43;
-  padding: 8px 86px;
+  padding: 8px 20px;
   font-family: "Montserrat", sans-serif;
   font-weight: 600;
   font-size: 16px;
@@ -136,6 +136,8 @@
   border: none;
   cursor: pointer;
   margin-bottom: 20px;
+  text-align: center;
+  white-space: nowrap;
 }
 
 .submitButton:hover,
@@ -160,6 +162,7 @@
   cursor: pointer;
   margin-left: 4px;
 }
+
 @media screen and (min-width: 768px) and (max-width: 1024px) {
   .wrap {
     width: 522px;
@@ -187,39 +190,48 @@
   .submitButton {
     width: 458px;
     height: 36px;
-    padding: 8px 166px;
-    
+    padding: 8px 20px;
+    text-align: center;
+    white-space: nowrap;
   }
 
   .bottomText {
     min-width: 458px;
-   
+
   }
 
 
 }
-@media screen and (min-width: 1025px){
+
+@media screen and (min-width: 1025px) {
   .wrap {
     width: 420px;
   }
- .title {
-     width: 356;
 
-    }
+  .title {
+    width: 356;
+
+  }
+
   .subtitle {
-      width: 356px;
-    }
+    width: 356px;
+  }
+
   .input {
-          width: 356px;
-          height: 41px;
-        }
+    width: 356px;
+    height: 41px;
+  }
+
   .submitButton {
     width: 356px;
-   height: 36px;
-   padding: 8px 115px;
+    height: 36px;
+    padding: 8px 20px;
+    text-align: center;
+    white-space: nowrap;
   }
+
   .bottomText {
     min-width: 356px;
-  
+
   }
 }
