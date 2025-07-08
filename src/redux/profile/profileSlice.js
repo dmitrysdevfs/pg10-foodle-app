@@ -5,7 +5,6 @@ import {
   addToFavorites,
   removeFromFavorites,
 } from './operations';
-import { logOut } from '../auth/operations';
 
 const initialState = {
   ownRecipes: [],
@@ -90,12 +89,13 @@ const profileSlice = createSlice({
         state.favoriteRecipes = state.favoriteRecipes.filter(
           recipe => recipe._id !== removedId
         );
+        state.favoriteTotalItems = state.favoriteTotalItems - 1;
       })
       .addCase(removeFromFavorites.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload || action.error.message;
       })
-      .addCase(logOut.fulfilled, () => initialState);
+      .addCase('auth/logOut/fulfilled', () => initialState);
   },
 });
 
