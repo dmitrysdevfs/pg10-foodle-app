@@ -71,6 +71,7 @@ const initialState = {
   ingredients: [],
   filtersLoading: false,
   filtersError: null,
+  perPage: 12,
 };
 
 const recipesSlice = createSlice({
@@ -98,18 +99,11 @@ const recipesSlice = createSlice({
       .addCase(fetchRecipes.pending, state => {
         state.isLoading = true;
         state.error = null;
-        state.totalItems = 0;
       })
       .addCase(fetchRecipes.fulfilled, (state, action) => {
         state.isLoading = false;
         const { data, page, hasNextPage, totalItems } = action.payload;
-
-        if (page === 1) {
-          state.items = data;
-        } else {
-          state.items = [...state.items, ...data];
-        }
-
+        state.items = data;
         state.currentPage = page;
         state.hasNextPage = hasNextPage;
         state.totalItems = totalItems;
@@ -150,7 +144,6 @@ const recipesSlice = createSlice({
       })
       .addCase(createRecipe.fulfilled, (state, action) => {
         state.isLoading = false;
-        // Optionally add the new recipe to the beginning of the list
         if (action.payload.data) {
           state.items.unshift(action.payload.data);
         }
