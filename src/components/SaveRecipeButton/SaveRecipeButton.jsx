@@ -80,7 +80,7 @@ const SaveRecipeButton = ({ recipeId }) => {
       >
         {isRecipeView ? (
           <>
-            <span className={s.text}> {isFavorite ? 'Saved' : 'Save'}</span>
+            <span className={s.text}> {isFavorite ? 'Remove' : 'Save'}</span>
             <SaveIcon className={s.icon} />
           </>
         ) : (
