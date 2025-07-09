@@ -169,14 +169,6 @@ const Filters = ({ totalItems, onChange }) => {
       const ingredient = ingredients.find(
         ing => (typeof ing === 'string' ? ing : ing._id) === value
       );
-      console.log(
-        'Selected ingredient:',
-        ingredient,
-        'Value:',
-        value,
-        'Ingredients:',
-        ingredients
-      );
       const displayName =
         typeof ingredient === 'string' ? ingredient : ingredient?.name || value;
       setInputs(prev => ({ ...prev, [field]: displayName }));
@@ -211,7 +203,6 @@ const Filters = ({ totalItems, onChange }) => {
   };
 
   const handleReset = () => {
-    console.log('handleReset called');
     setInputs({
       category: '',
       ingredient: '',
@@ -223,7 +214,6 @@ const Filters = ({ totalItems, onChange }) => {
 
     // Викликаємо setFilters тільки якщо фільтри дійсно змінилися
     if (filters.category !== '' || filters.ingredient !== '') {
-      console.log('Dispatching setFilters:', newFilters);
       dispatch(setFilters(newFilters));
       if (onChange) onChange(newFilters);
     }
@@ -234,7 +224,6 @@ const Filters = ({ totalItems, onChange }) => {
       newParams.delete('category');
       newParams.delete('ingredient');
       newParams.delete('search');
-      console.log('Updated search params:', newParams.toString());
       return newParams;
     });
   };

@@ -79,7 +79,6 @@ const recipesSlice = createSlice({
   initialState,
   reducers: {
     setSearchQuery: (state, action) => {
-      console.log('setSearchQuery called with:', action.payload);
       const newSearchQuery = action.payload;
 
       // Скидаємо totalItems тільки якщо пошуковий запит дійсно змінився
@@ -91,7 +90,6 @@ const recipesSlice = createSlice({
       }
     },
     setFilters: (state, action) => {
-      console.log('setFilters called with:', action.payload);
       const newFilters = action.payload;
       const filtersChanged =
         state.filters.category !== newFilters.category ||

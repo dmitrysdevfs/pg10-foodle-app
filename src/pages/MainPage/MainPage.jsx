@@ -67,24 +67,14 @@ const MainPage = () => {
       ingredient: ingredientValue,
     };
 
-    console.log('URL sync useEffect:', {
-      categoryValue,
-      ingredientValue,
-      searchValue,
-      currentFilters: filters,
-      currentSearchQuery: searchQuery,
-    });
-
     if (
       categoryValue !== filters.category ||
       ingredientValue !== filters.ingredient
     ) {
-      console.log('Updating filters:', newFilters);
       dispatch(setFilters(newFilters));
     }
 
     if (searchValue !== searchQuery) {
-      console.log('Updating search query:', searchValue);
       dispatch(setSearchQuery(searchValue));
     }
   }, [
@@ -106,14 +96,6 @@ const MainPage = () => {
       page,
     };
 
-    console.log('Fetch recipes useEffect triggered:', {
-      searchValue,
-      searchQuery,
-      categoryValue,
-      ingredientValue,
-      page,
-      fetchParams,
-    });
     dispatch(fetchRecipes(fetchParams));
   }, [
     categoryValue,
