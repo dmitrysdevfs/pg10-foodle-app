@@ -76,7 +76,7 @@ const MainPage = () => {
     if (searchValue !== searchQuery) {
       dispatch(setSearchQuery(searchValue));
     }
-  }, [categoryValue, ingredientValue, searchValue, dispatch]);
+  }, [categoryValue, ingredientValue, searchValue, dispatch, filters.category, filters.ingredient, searchQuery]);
 
   useEffect(() => {
     dispatch(
@@ -86,7 +86,7 @@ const MainPage = () => {
         page,
       })
     );
-  }, [searchQuery, filters.category, filters.ingredient, dispatch, page]);
+  }, [searchQuery, filters, dispatch, page]);
 
   useEffect(() => {
     if (isLoggedIn) {
@@ -103,6 +103,8 @@ const MainPage = () => {
         } else {
           params.delete('search');
         }
+        // Скидаємо сторінку при новому пошуку
+        params.delete('page');
         return params;
       });
     },
@@ -122,6 +124,8 @@ const MainPage = () => {
       } else {
         params.delete('ingredient');
       }
+      // Скидаємо сторінку при зміні фільтрів
+      params.delete('page');
       return params;
     });
     dispatch(setFilters(newFilters));

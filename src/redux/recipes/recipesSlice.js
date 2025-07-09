@@ -81,10 +81,12 @@ const recipesSlice = createSlice({
     setSearchQuery: (state, action) => {
       state.searchQuery = action.payload;
       state.totalItems = 0;
+      state.currentPage = 1; // Скидаємо на першу сторінку
     },
     setFilters: (state, action) => {
       state.filters = action.payload;
       state.totalItems = 0;
+      state.currentPage = 1; // Скидаємо на першу сторінку
     },
     clearRecipes: state => {
       state.items = [];
