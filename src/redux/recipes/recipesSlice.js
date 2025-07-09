@@ -79,14 +79,30 @@ const recipesSlice = createSlice({
   initialState,
   reducers: {
     setSearchQuery: (state, action) => {
-      state.searchQuery = action.payload;
-      state.totalItems = 0;
-      state.currentPage = 1; // Скидаємо на першу сторінку
+      const newSearchQuery = action.payload;
+
+      // Скидаємо totalItems тільки якщо пошуковий запит дійсно змінився
+      if (state.searchQuery !== newSearchQuery) {
+        state.searchQuery = newSearchQuery;
+        state.items = []; // Очищаємо старі рецепти
+        state.totalItems = 0;
+        state.currentPage = 1; // Скидаємо на першу сторінку
+      }
     },
     setFilters: (state, action) => {
-      state.filters = action.payload;
-      state.totalItems = 0;
-      state.currentPage = 1; // Скидаємо на першу сторінку
+      const newFilters = action.payload;
+      const filtersChanged =
+        state.filters.category !== newFilters.category ||
+        state.filters.ingredient !== newFilters.ingredient;
+
+      state.filters = newFilters;
+
+      // Скидаємо totalItems тільки якщо фільтри дійсно змінилися
+      if (filtersChanged) {
+        state.items = []; // Очищаємо старі рецепти
+        state.totalItems = 0;
+        state.currentPage = 1; // Скидаємо на першу сторінку
+      }
     },
     clearRecipes: state => {
       state.items = [];

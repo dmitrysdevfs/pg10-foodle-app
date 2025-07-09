@@ -60,6 +60,7 @@ const MainPage = () => {
     }
   }, [dispatch, categories.length, ingredients.length]);
 
+  // Синхронізація URL параметрів з Redux
   useEffect(() => {
     const newFilters = {
       category: categoryValue,
@@ -76,17 +77,34 @@ const MainPage = () => {
     if (searchValue !== searchQuery) {
       dispatch(setSearchQuery(searchValue));
     }
-  }, [categoryValue, ingredientValue, searchValue, dispatch, filters.category, filters.ingredient, searchQuery]);
+  }, [
+    categoryValue,
+    ingredientValue,
+    searchValue,
+    dispatch,
+    filters.category,
+    filters.ingredient,
+    searchQuery,
+  ]);
 
+  // Завантаження рецептів
   useEffect(() => {
-    dispatch(
-      fetchRecipes({
-        search: searchQuery,
-        ...filters,
-        page,
-      })
-    );
-  }, [searchQuery, filters, dispatch, page]);
+    const fetchParams = {
+      search: searchValue || searchQuery,
+      category: categoryValue,
+      ingredient: ingredientValue,
+      page,
+    };
+
+    dispatch(fetchRecipes(fetchParams));
+  }, [
+    categoryValue,
+    ingredientValue,
+    searchValue,
+    searchQuery,
+    page,
+    dispatch,
+  ]);
 
   useEffect(() => {
     if (isLoggedIn) {
@@ -107,6 +125,7 @@ const MainPage = () => {
         params.delete('page');
         return params;
       });
+      // setSearchQuery буде викликано автоматично в useEffect при зміні URL параметрів
     },
     [setSearchParams]
   );
@@ -128,7 +147,7 @@ const MainPage = () => {
       params.delete('page');
       return params;
     });
-    dispatch(setFilters(newFilters));
+    // setFilters буде викликано автоматично в useEffect при зміні URL параметрів
   };
 
   const handlePageChange = newPage => {
@@ -140,8 +159,9 @@ const MainPage = () => {
 
     dispatch(
       fetchRecipes({
-        search: searchQuery,
-        ...filters,
+        search: searchValue || searchQuery,
+        category: categoryValue,
+        ingredient: ingredientValue,
         page: newPage,
       })
     );
