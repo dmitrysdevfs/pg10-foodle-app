@@ -5,6 +5,8 @@ import {
   selectOwnPage,
   selectLoading,
   selectError,
+  selectOwnTotalItems,
+  selectPerPage,
 } from '../../redux/profile/selectors';
 import { fetchOwnRecipes } from '../../redux/profile/operations';
 
@@ -17,6 +19,8 @@ const ProfileOwnRecipes = () => {
       selectError={selectError}
       selectHasMore={selectOwnHasMore}
       selectPage={selectOwnPage}
+      selectTotalItems={selectOwnTotalItems}
+      perPage={selectPerPage}
       type="own"
     />
   );

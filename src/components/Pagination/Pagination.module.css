@@ -1,0 +1,28 @@
+.pagination {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  margin-top: 24px;
+}
+
+.pageBtn {
+  padding: 6px 12px;
+  border: 1px solid #ccc;
+  background: #fff;
+  color: #333;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background 0.2s ease;
+}
+
+.pageBtn:hover {
+  background: #f0f0f0;
+}
+
+.active {
+  background: #333;
+  color: #fff;
+  border-color: #333;
+  cursor: default;
+}

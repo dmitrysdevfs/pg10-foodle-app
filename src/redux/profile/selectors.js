@@ -1,5 +1,6 @@
 export const selectOwnRecipes = state => state.profile.ownRecipes;
 export const selectFavoriteRecipes = state => state.profile.favoriteRecipes;
+export const selectPerPage = state => state.profile.perPage;
 
 export const selectOwnPage = state => state.profile.ownPage;
 export const selectFavoritePage = state => state.profile.favoritePage;

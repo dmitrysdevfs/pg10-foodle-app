@@ -5,6 +5,8 @@ import {
   selectFavoritePage,
   selectLoading,
   selectError,
+  selectFavoriteTotalItems,
+  selectPerPage,
 } from '../../redux/profile/selectors';
 import { fetchFavoriteRecipes } from '../../redux/profile/operations';
 
@@ -17,6 +19,8 @@ export default function ProfileFavoriteRecipes() {
       selectError={selectError}
       selectHasMore={selectFavoriteHasMore}
       selectPage={selectFavoritePage}
+      selectTotalItems={selectFavoriteTotalItems}
+      perPage={selectPerPage}
       type="favorites"
     />
   );
