@@ -2,6 +2,8 @@ import { useState } from 'react';
 import { useLocation, Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 
+import toast from 'react-hot-toast';
+
 import {
   addToFavorites,
   removeFromFavorites,
@@ -30,13 +32,31 @@ const SaveRecipeButton = ({ recipeId }) => {
       return;
     }
 
-    if (isFavorite) {
-      dispatch(removeFromFavorites(recipeId));
-    } else {
-      dispatch(addToFavorites(recipeId));
-    }
-  };
+    const action = isFavorite
+      ? removeFromFavorites(recipeId)
+      : addToFavorites(recipeId);
 
+    dispatch(action)
+      .unwrap()
+      .then(() => {
+        toast.success(
+          isFavorite ? 'Recipe removed from saved' : 'Recipe saved successfully'
+        );
+      })
+      .catch(err => {
+        const status =
+          err?.response?.status || err?.status || err?.originalStatus;
+        const message = err?.response?.data?.message || err?.message || '';
+
+        console.log('REAL ERROR STATUS:', status);
+        console.log('REAL ERROR MESSAGE:', message);
+        if (status === 401 || message.includes('Access token expired')) {
+          setShowModal(true);
+        } else {
+          toast.error('Something went wrong');
+        }
+      });
+  };
   const actions = [
     {
       element: <Link to="/auth/login">Log in</Link>,
