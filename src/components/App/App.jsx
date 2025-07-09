@@ -11,7 +11,6 @@ import { selectRefreshing } from '../../redux/auth/selectors';
 import RestrictedRoute from '../RestrictedRoute';
 import PrivateRoute from '../RrivateRoute';
 import SessionManager from '../SessionManager/SessionManager.jsx';
-import GoogleCallback from '../Auth/GoogleCallback.jsx';
 
 const MainPage = lazy(() => import('../../pages/MainPage/MainPage'));
 const RecipeViewPage = lazy(() =>
@@ -74,7 +73,6 @@ export default function App() {
               element={<PrivateRoute component={AddRecipePage} />}
             />
           </Route>
-          <Route path="/auth/google-callback" element={<GoogleCallback />} />
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </Suspense>

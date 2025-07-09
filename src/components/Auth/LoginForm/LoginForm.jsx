@@ -36,26 +36,6 @@ export default function LoginForm() {
     }
   };
 
-  const handleGoogleLogin = async () => {
-    try {
-      const response = await fetch(
-        `${import.meta.env.VITE_API_BASE_URL}/api/auth/google-oauth-url`
-      );
-      const data = await response.json();
-
-      const url = data?.data?.oauth_url;
-
-      if (url) {
-        window.location.href = url;
-      } else {
-        toast.error('Failed to get Google login URL');
-      }
-    } catch (error) {
-      toast.error('Something went wrong');
-      console.error(error);
-    }
-  };
-
   return (
     <div className={css.wrap}>
       <h2 className={css.title}>Login</h2>
@@ -159,8 +139,6 @@ export default function LoginForm() {
           Register
         </Link>
       </p>
-
-      <button onClick={handleGoogleLogin}>Sign in with Google</button>
     </div>
   );
 }
