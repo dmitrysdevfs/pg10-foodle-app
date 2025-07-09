@@ -64,11 +64,29 @@ const Filters = ({ totalItems, onChange }) => {
     setInputs(prev => ({
       ...prev,
       category: filters.category || '',
-      ingredient: filters.ingredient || '',
+      ingredient: filters.ingredient || '', // This will be ID, but we need to show name
       categoryMob: filters.category || '',
-      ingredientMob: filters.ingredient || '',
+      ingredientMob: filters.ingredient || '', // This will be ID, but we need to show name
     }));
   }, [filters.category, filters.ingredient]);
+
+  // Separate useEffect to handle ingredient name display
+  useEffect(() => {
+    if (filters.ingredient && ingredients.length > 0) {
+      const ingredient = ingredients.find(
+        ing => (typeof ing === 'string' ? ing : ing._id) === filters.ingredient
+      );
+      if (ingredient) {
+        const ingredientName =
+          typeof ingredient === 'string' ? ingredient : ingredient.name;
+        setInputs(prev => ({
+          ...prev,
+          ingredient: ingredientName,
+          ingredientMob: ingredientName,
+        }));
+      }
+    }
+  }, [filters.ingredient, ingredients]);
 
   useEffect(() => {
     if (categories.length === 0) {
@@ -307,11 +325,19 @@ const Filters = ({ totalItems, onChange }) => {
                 disabled={filtersLoading}
                 onKeyDown={e => {
                   if (e.key === 'Enter' && filteredIngredientsMob.length > 0) {
-                    handleDropdownSelect(
-                      'ingredientMob',
-                      filteredIngredientsMob[0].name,
-                      'ingredient'
-                    );
+                    const ing = filteredIngredientsMob[0];
+                    const ingredientName =
+                      typeof ing === 'string' ? ing : ing.name;
+                    const ingredientId =
+                      typeof ing === 'string' ? ing : ing._id;
+                    setInputs(prev => ({
+                      ...prev,
+                      ingredientMob: ingredientName,
+                    }));
+                    setDropdowns(prev => ({ ...prev, ingredientMob: false }));
+                    const newFilters = { ...filters, ingredient: ingredientId };
+                    dispatch(setFilters(newFilters));
+                    if (onChange) onChange(newFilters);
                   }
                 }}
               />
@@ -353,11 +379,24 @@ const Filters = ({ totalItems, onChange }) => {
                       onClick={e => {
                         e.preventDefault();
                         e.stopPropagation();
-                        handleDropdownSelect(
-                          'ingredientMob',
-                          ing.name,
-                          'ingredient'
-                        );
+                        const ingredientName =
+                          typeof ing === 'string' ? ing : ing.name;
+                        const ingredientId =
+                          typeof ing === 'string' ? ing : ing._id;
+                        setInputs(prev => ({
+                          ...prev,
+                          ingredientMob: ingredientName,
+                        }));
+                        setDropdowns(prev => ({
+                          ...prev,
+                          ingredientMob: false,
+                        }));
+                        const newFilters = {
+                          ...filters,
+                          ingredient: ingredientId,
+                        };
+                        dispatch(setFilters(newFilters));
+                        if (onChange) onChange(newFilters);
                       }}
                     >
                       {typeof ing === 'string' ? ing : ing.name}
@@ -458,11 +497,15 @@ const Filters = ({ totalItems, onChange }) => {
               disabled={filtersLoading}
               onKeyDown={e => {
                 if (e.key === 'Enter' && filteredIngredients.length > 0) {
-                  handleDropdownSelect(
-                    'ingredient',
-                    filteredIngredients[0].name,
-                    'ingredient'
-                  );
+                  const ing = filteredIngredients[0];
+                  const ingredientName =
+                    typeof ing === 'string' ? ing : ing.name;
+                  const ingredientId = typeof ing === 'string' ? ing : ing._id;
+                  setInputs(prev => ({ ...prev, ingredient: ingredientName }));
+                  setDropdowns(prev => ({ ...prev, ingredient: false }));
+                  const newFilters = { ...filters, ingredient: ingredientId };
+                  dispatch(setFilters(newFilters));
+                  if (onChange) onChange(newFilters);
                 }
               }}
             />
@@ -502,11 +545,21 @@ const Filters = ({ totalItems, onChange }) => {
                     onClick={e => {
                       e.preventDefault();
                       e.stopPropagation();
-                      handleDropdownSelect(
-                        'ingredient',
-                        ing.name,
-                        'ingredient'
-                      );
+                      const ingredientName =
+                        typeof ing === 'string' ? ing : ing.name;
+                      const ingredientId =
+                        typeof ing === 'string' ? ing : ing._id;
+                      setInputs(prev => ({
+                        ...prev,
+                        ingredient: ingredientName,
+                      }));
+                      setDropdowns(prev => ({ ...prev, ingredient: false }));
+                      const newFilters = {
+                        ...filters,
+                        ingredient: ingredientId,
+                      };
+                      dispatch(setFilters(newFilters));
+                      if (onChange) onChange(newFilters);
                     }}
                   >
                     {typeof ing === 'string' ? ing : ing.name}
