@@ -19,7 +19,7 @@
 
 @media screen and (min-width: 1440px) {
   .container {
-    margin: 48px 107.5px;
+    margin: 48px auto;
     max-width: 1440px;
   }
 }
