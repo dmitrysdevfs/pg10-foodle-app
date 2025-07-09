@@ -12,6 +12,7 @@ const initialState = {
   favoriteRecipes: [],
   ownPage: 1,
   favoritePage: 1,
+  perPage: 12,
   ownHasMore: false,
   favoriteHasMore: false,
   ownTotalItems: 0,
@@ -33,8 +34,7 @@ const profileSlice = createSlice({
       .addCase(fetchOwnRecipes.fulfilled, (state, action) => {
         const { recipes, hasMore, page, totalItems } = action.payload;
         state.isLoading = false;
-        state.ownRecipes =
-          page === 1 ? recipes : [...state.ownRecipes, ...recipes];
+        state.ownRecipes = recipes;
         state.ownHasMore = hasMore;
         state.ownPage = page;
         state.ownTotalItems = totalItems;
@@ -51,8 +51,7 @@ const profileSlice = createSlice({
       .addCase(fetchFavoriteRecipes.fulfilled, (state, action) => {
         const { recipes, hasMore, page, totalItems } = action.payload;
         state.isLoading = false;
-        state.favoriteRecipes =
-          page === 1 ? recipes : [...state.favoriteRecipes, ...recipes];
+        state.favoriteRecipes = recipes;
         state.favoriteHasMore = hasMore;
         state.favoritePage = page;
         state.favoriteTotalItems = totalItems;
