@@ -4,7 +4,7 @@ import { useSearchParams } from 'react-router-dom';
 import SearchBox from '../../components/SearchBox/SearchBox';
 import Filters from '../../components/Filters/Filters';
 import RecipesList from '../../components/RecipesList/RecipesList';
-import LoadMoreBtn from '../../components/Button/Button';
+import Pagination from '../../components/Pagination/Pagination';
 import Loader from '../../components/Loader/Loader';
 import {
   fetchRecipes,
@@ -17,12 +17,12 @@ import {
   selectRecipes,
   selectIsLoading,
   selectError,
-  selectHasNextPage,
   selectSearchQuery,
   selectFilters,
   selectTotalItems,
   selectCategories,
   selectIngredients,
+  selectPerPage,
 } from '../../redux/recipes/selectors';
 import { fetchFavoriteRecipes } from '../../redux/profile/operations';
 import { selectIsLoggedIn } from '../../redux/auth/selectors';
@@ -39,13 +39,17 @@ const MainPage = () => {
   const recipes = useSelector(selectRecipes);
   const isLoading = useSelector(selectIsLoading);
   const error = useSelector(selectError);
-  const hasNextPage = useSelector(selectHasNextPage);
   const searchQuery = useSelector(selectSearchQuery);
   const filters = useSelector(selectFilters);
   const totalItems = useSelector(selectTotalItems);
   const categories = useSelector(selectCategories);
   const ingredients = useSelector(selectIngredients);
   const isLoggedIn = useSelector(selectIsLoggedIn);
+  const perPageValue = useSelector(selectPerPage);
+
+  const pageParam = Number(searchParams.get('page')) || 1;
+  const page = pageParam;
+  const totalPages = Math.ceil(totalItems / perPageValue);
 
   useEffect(() => {
     if (categories.length === 0) {
@@ -72,16 +76,17 @@ const MainPage = () => {
     if (searchValue !== searchQuery) {
       dispatch(setSearchQuery(searchValue));
     }
-  }, [categoryValue, ingredientValue, searchValue, dispatch]);
+  }, [categoryValue, ingredientValue, searchValue, dispatch, filters.category, filters.ingredient, searchQuery]);
 
   useEffect(() => {
     dispatch(
       fetchRecipes({
         search: searchQuery,
         ...filters,
+        page,
       })
     );
-  }, [searchQuery, filters.category, filters.ingredient, dispatch]);
+  }, [searchQuery, filters, dispatch, page]);
 
   useEffect(() => {
     if (isLoggedIn) {
@@ -98,6 +103,8 @@ const MainPage = () => {
         } else {
           params.delete('search');
         }
+        // Скидаємо сторінку при новому пошуку
+        params.delete('page');
         return params;
       });
     },
@@ -117,17 +124,25 @@ const MainPage = () => {
       } else {
         params.delete('ingredient');
       }
+      // Скидаємо сторінку при зміні фільтрів
+      params.delete('page');
       return params;
     });
     dispatch(setFilters(newFilters));
   };
 
-  const handleLoadMore = () => {
+  const handlePageChange = newPage => {
+    setSearchParams(prev => {
+      const params = new URLSearchParams(prev);
+      params.set('page', newPage);
+      return params;
+    });
+
     dispatch(
       fetchRecipes({
         search: searchQuery,
         ...filters,
-        page: Math.ceil(recipes.length / 10) + 1,
+        page: newPage,
       })
     );
   };
@@ -156,11 +171,11 @@ const MainPage = () => {
         {isLoading && <Loader />}
         {error && <div className={s.error}>Error: {error}</div>}
         <RecipesList recipes={recipes} />
-        {!isLoading && hasNextPage && (
-          <LoadMoreBtn
-            onClick={handleLoadMore}
-            text="Load More"
-            className={s.loadMoreBtn}
+        {totalPages > 1 && (
+          <Pagination
+            totalPages={totalPages}
+            currentPage={page}
+            onPageChange={handlePageChange}
           />
         )}
       </section>

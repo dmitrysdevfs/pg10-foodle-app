@@ -2,7 +2,7 @@ import css from './AddRecipeForm.module.css';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { useEffect, useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { clsx } from 'clsx';
 import Container from '../../assets/Container.png';
 import RecipeAddIngredient from '../RecipeAddIngredient/RecipeAddIngredient';
@@ -19,10 +19,10 @@ import {
   selectIsLoading,
   selectError,
 } from '../../redux/recipes/selectors';
+import Modal from '../Modal/Modal';
 
 const AddRecipeForm = () => {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
 
   const categories = useSelector(selectCategories);
   const ingredients = useSelector(selectIngredients);
@@ -38,6 +38,8 @@ const AddRecipeForm = () => {
   });
   const [ingredientInput, setIngredientInput] = useState('');
   const [showDropdown, setShowDropdown] = useState(false);
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [createdRecipeId, setCreatedRecipeId] = useState(null);
 
   const filteredIngredients = ingredients.filter(ing =>
     ing.name.toLowerCase().includes(ingredientInput.toLowerCase())
@@ -130,7 +132,7 @@ const AddRecipeForm = () => {
 
   const handleSubmit = async (
     values,
-    { setSubmitting, setTouched, validateForm }
+    { setSubmitting, setTouched, validateForm, resetForm }
   ) => {
     // Перевірка на незаповнені поля через Formik
     const errors = await validateForm();
@@ -177,8 +179,14 @@ const AddRecipeForm = () => {
       const result = await dispatch(createRecipe(formData)).unwrap();
       if (result.data) {
         toast.success('Recipe created successfully');
-        // Navigate to the created recipe page
-        navigate(`/recipes/${result.data._id}`);
+
+        setCreatedRecipeId(result.data._id);
+        setShowSuccessModal(true);
+
+        resetForm();
+        setIngredientsList([]);
+        setPreview(null);
+        setSelectedImage(null);
       }
     } catch (error) {
       console.error('Error creating recipe:', error);
@@ -482,6 +490,22 @@ const AddRecipeForm = () => {
           );
         }}
       </Formik>
+      {showSuccessModal && (
+        <Modal
+          open={showSuccessModal}
+          onOpenChange={setShowSuccessModal}
+          title="Done! Recipe saved"
+          message="You can find recipe in our profile"
+          actions={[
+            {
+              element: (
+                <Link to={`/recipes/${createdRecipeId}`}>Go to My profile</Link>
+              ),
+              type: 'secondary',
+            },
+          ]}
+        />
+      )}
     </div>
   );
 };
