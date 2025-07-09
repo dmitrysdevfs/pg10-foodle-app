@@ -104,3 +104,25 @@ export const removeFromFavorites = createAsyncThunk(
     }
   }
 );
+
+export const deleteOwnRecipe = createAsyncThunk(
+  'profile/deleteOwnRecipe',
+  async (recipeId, thunkAPI) => {
+    try {
+      const state = thunkAPI.getState();
+      const token = state.auth.token;
+
+      if (!token) {
+        return thunkAPI.rejectWithValue('No auth token');
+      }
+
+      setAuthHeader(`Bearer ${token}`);
+
+      await axios.delete(`/api/recipes/${recipeId}`);
+
+      return recipeId;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.message);
+    }
+  }
+);

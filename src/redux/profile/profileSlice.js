@@ -4,6 +4,7 @@ import {
   fetchFavoriteRecipes,
   addToFavorites,
   removeFromFavorites,
+  deleteOwnRecipe,
 } from './operations';
 
 const initialState = {
@@ -95,7 +96,23 @@ const profileSlice = createSlice({
         state.isLoading = false;
         state.error = action.payload || action.error.message;
       })
-      .addCase('auth/logOut/fulfilled', () => initialState);
+      .addCase('auth/logOut/fulfilled', () => initialState)
+      .addCase(deleteOwnRecipe.pending, state => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(deleteOwnRecipe.fulfilled, (state, action) => {
+        state.isLoading = false;
+        const deletedId = action.payload;
+        state.ownRecipes = state.ownRecipes.filter(
+          recipe => recipe._id !== deletedId
+        );
+        state.ownTotalItems = state.ownTotalItems - 1;
+      })
+      .addCase(deleteOwnRecipe.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload || action.error.message;
+      });
   },
 });
 
