@@ -16,6 +16,7 @@ import {
   selectIsLoading,
 } from '../../redux/recipes/selectors';
 import s from './Filters.module.css';
+import { useSearchParams } from 'react-router-dom';
 
 const Filters = ({ totalItems, onChange }) => {
   const dispatch = useDispatch();
@@ -28,26 +29,46 @@ const Filters = ({ totalItems, onChange }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const mobileMenuRef = useRef(null);
   const filterButtonRef = useRef(null);
-  // Desktop
-  const [ingredientInput, setIngredientInput] = useState('');
-  const [showDropdown, setShowDropdown] = useState(false);
-  const ingredientInputRef = useRef(null);
-  const dropdownRef = useRef(null);
-  // Mobile
-  const [ingredientInputMob, setIngredientInputMob] = useState('');
-  const [showDropdownMob, setShowDropdownMob] = useState(false);
-  const ingredientInputRefMob = useRef(null);
-  const dropdownRefMob = useRef(null);
-  // Додаю стейт для кастомного дропдауна категорій
-  const [categoryInput, setCategoryInput] = useState('');
-  const [showCategoryDropdown, setShowCategoryDropdown] = useState(false);
-  const categoryInputRef = useRef(null);
-  const categoryDropdownRef = useRef(null);
-  // Мобільний
-  const [categoryInputMob, setCategoryInputMob] = useState('');
-  const [showCategoryDropdownMob, setShowCategoryDropdownMob] = useState(false);
-  const categoryInputRefMob = useRef(null);
-  const categoryDropdownRefMob = useRef(null);
+  const [, setSearchParams] = useSearchParams();
+
+  // Unified state for inputs
+  const [inputs, setInputs] = useState({
+    category: '',
+    ingredient: '',
+    categoryMob: '',
+    ingredientMob: '',
+  });
+  // Unified state for dropdowns
+  const [dropdowns, setDropdowns] = useState({
+    category: false,
+    ingredient: false,
+    categoryMob: false,
+    ingredientMob: false,
+  });
+  // Unified refs
+  const inputRefs = {
+    category: useRef(null),
+    ingredient: useRef(null),
+    categoryMob: useRef(null),
+    ingredientMob: useRef(null),
+  };
+  const dropdownRefs = {
+    category: useRef(null),
+    ingredient: useRef(null),
+    categoryMob: useRef(null),
+    ingredientMob: useRef(null),
+  };
+
+  // Sync local input state with Redux filters
+  useEffect(() => {
+    setInputs(prev => ({
+      ...prev,
+      category: filters.category || '',
+      ingredient: filters.ingredient || '',
+      categoryMob: filters.category || '',
+      ingredientMob: filters.ingredient || '',
+    }));
+  }, [filters.category, filters.ingredient]);
 
   useEffect(() => {
     if (categories.length === 0) {
@@ -69,232 +90,105 @@ const Filters = ({ totalItems, onChange }) => {
       ) {
         setIsMobileMenuOpen(false);
       }
+      // Dropdowns
+      Object.keys(dropdowns).forEach(key => {
+        if (
+          dropdowns[key] &&
+          dropdownRefs[key].current &&
+          !dropdownRefs[key].current.contains(event.target) &&
+          inputRefs[key].current &&
+          !inputRefs[key].current.contains(event.target)
+        ) {
+          setDropdowns(prev => ({ ...prev, [key]: false }));
+        }
+      });
     };
-
     document.addEventListener('mousedown', handleClickOutside);
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
-  }, [isMobileMenuOpen]);
+  }, [isMobileMenuOpen, dropdowns]);
 
+  // Filtered lists
   const filteredIngredients = ingredients.filter(ing => {
     const name = typeof ing === 'string' ? ing : ing.name;
-    return name && name.toLowerCase().includes(ingredientInput.toLowerCase());
+    return name && name.toLowerCase().includes(inputs.ingredient.toLowerCase());
   });
   const filteredIngredientsMob = ingredients.filter(ing => {
     const name = typeof ing === 'string' ? ing : ing.name;
     return (
-      name && name.toLowerCase().includes(ingredientInputMob.toLowerCase())
+      name && name.toLowerCase().includes(inputs.ingredientMob.toLowerCase())
     );
   });
-
-  // Додаю фільтрацію категорій
   const filteredCategories = categories.filter(cat => {
     const name = typeof cat === 'string' ? cat : cat.name;
-    return name && name.toLowerCase().includes(categoryInput.toLowerCase());
+    return name && name.toLowerCase().includes(inputs.category.toLowerCase());
   });
   const filteredCategoriesMob = categories.filter(cat => {
     const name = typeof cat === 'string' ? cat : cat.name;
-    return name && name.toLowerCase().includes(categoryInputMob.toLowerCase());
+    return (
+      name && name.toLowerCase().includes(inputs.categoryMob.toLowerCase())
+    );
   });
 
-  useEffect(() => {
-    const handleClickOutside = event => {
-      if (
-        dropdownRef.current &&
-        !dropdownRef.current.contains(event.target) &&
-        ingredientInputRef.current &&
-        !ingredientInputRef.current.contains(event.target)
-      ) {
-        setShowDropdown(false);
-      }
-    };
-    if (showDropdown) {
-      document.addEventListener('mousedown', handleClickOutside);
-    }
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, [showDropdown]);
-  useEffect(() => {
-    const handleClickOutside = event => {
-      if (
-        dropdownRefMob.current &&
-        !dropdownRefMob.current.contains(event.target) &&
-        ingredientInputRefMob.current &&
-        !ingredientInputRefMob.current.contains(event.target)
-      ) {
-        setShowDropdownMob(false);
-      }
-    };
-    if (showDropdownMob) {
-      document.addEventListener('mousedown', handleClickOutside);
-    }
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, [showDropdownMob]);
-
-  // Додаю useEffect для закриття дропдауна категорій по кліку поза
-  useEffect(() => {
-    const handleClickOutside = event => {
-      if (
-        categoryDropdownRef.current &&
-        !categoryDropdownRef.current.contains(event.target) &&
-        categoryInputRef.current &&
-        !categoryInputRef.current.contains(event.target)
-      ) {
-        setShowCategoryDropdown(false);
-      }
-    };
-    if (showCategoryDropdown) {
-      document.addEventListener('mousedown', handleClickOutside);
-    }
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, [showCategoryDropdown]);
-  useEffect(() => {
-    const handleClickOutside = event => {
-      if (
-        categoryDropdownRefMob.current &&
-        !categoryDropdownRefMob.current.contains(event.target) &&
-        categoryInputRefMob.current &&
-        !categoryInputRefMob.current.contains(event.target)
-      ) {
-        setShowCategoryDropdownMob(false);
-      }
-    };
-    if (showCategoryDropdownMob) {
-      document.addEventListener('mousedown', handleClickOutside);
-    }
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, [showCategoryDropdownMob]);
-
-  // Desktop
-  const handleIngredientInput = e => {
+  // Handlers
+  const handleInput = field => e => {
     const value = e.target.value;
-    // Якщо category порожнє і у фільтрах воно було встановлене — скидаємо обидва
-    if (!categoryInput && filters.category) {
-      setIngredientInput('');
-      setCategoryInput('');
+    // Reset both if needed (logic for cross-reset)
+    if (
+      (field === 'ingredient' && !inputs.category && filters.category) ||
+      (field === 'category' && !inputs.ingredient && filters.ingredient)
+    ) {
+      setInputs(prev => ({ ...prev, ingredient: '', category: '' }));
+      dispatch(setFilters({ category: '', ingredient: '' }));
+      if (onChange) onChange({ category: '', ingredient: '' });
+    } else if (
+      (field === 'ingredientMob' && !inputs.categoryMob && filters.category) ||
+      (field === 'categoryMob' && !inputs.ingredientMob && filters.ingredient)
+    ) {
+      setInputs(prev => ({ ...prev, ingredientMob: '', categoryMob: '' }));
       dispatch(setFilters({ category: '', ingredient: '' }));
       if (onChange) onChange({ category: '', ingredient: '' });
     } else {
-      setIngredientInput(value);
+      setInputs(prev => ({ ...prev, [field]: value }));
     }
-    setShowDropdown(true);
-  };
-  const handleIngredientSelect = ing => {
-    const value = typeof ing === 'string' ? ing : ing._id;
-    setIngredientInput(typeof ing === 'string' ? ing : ing.name);
-    setShowDropdown(false);
-    const newFilters = { ...filters, ingredient: value };
-    dispatch(setFilters(newFilters));
-    if (onChange) onChange(newFilters);
-  };
-  const handleIngredientReset = () => {
-    setIngredientInput('');
-    setCategoryInput('');
-    dispatch(setFilters({ category: '', ingredient: '' }));
-    if (onChange) onChange({ category: '', ingredient: '' });
-  };
-  // Mobile
-  const handleIngredientInputMob = e => {
-    const value = e.target.value;
-    if (!categoryInputMob && filters.category) {
-      setIngredientInputMob('');
-      setCategoryInputMob('');
-      dispatch(setFilters({ category: '', ingredient: '' }));
-      if (onChange) onChange({ category: '', ingredient: '' });
-    } else {
-      setIngredientInputMob(value);
-    }
-    setShowDropdownMob(true);
-  };
-  const handleIngredientSelectMob = ing => {
-    const value = typeof ing === 'string' ? ing : ing._id;
-    setIngredientInputMob(typeof ing === 'string' ? ing : ing.name);
-    setShowDropdownMob(false);
-    const newFilters = { ...filters, ingredient: value };
-    dispatch(setFilters(newFilters));
-    if (onChange) onChange(newFilters);
-  };
-  const handleIngredientResetMob = () => {
-    setIngredientInputMob('');
-    setCategoryInputMob('');
-    dispatch(setFilters({ category: '', ingredient: '' }));
-    if (onChange) onChange({ category: '', ingredient: '' });
+    setDropdowns(prev => ({ ...prev, [field]: true }));
   };
 
-  // Додаю обробники для вибору категорії
-  const handleCategoryInput = e => {
-    const value = e.target.value;
-    // Якщо ingredient порожнє і у фільтрах воно було встановлене — скидаємо обидва
-    if (!ingredientInput && filters.ingredient) {
-      setIngredientInput('');
-      setCategoryInput('');
-      dispatch(setFilters({ category: '', ingredient: '' }));
-      if (onChange) onChange({ category: '', ingredient: '' });
-    } else {
-      setCategoryInput(value);
-    }
-    setShowCategoryDropdown(true);
-  };
-  const handleCategorySelect = cat => {
-    const value = typeof cat === 'string' ? cat : cat.name;
-    setCategoryInput(value);
-    setShowCategoryDropdown(false);
-    const newFilters = { ...filters, category: value };
+  const handleDropdownSelect = (field, value, filterKey) => {
+    setInputs(prev => ({ ...prev, [field]: value }));
+    setDropdowns(prev => ({ ...prev, [field]: false }));
+    const newFilters = { ...filters, [filterKey]: value };
     dispatch(setFilters(newFilters));
     if (onChange) onChange(newFilters);
   };
-  const handleCategoryReset = () => {
-    setIngredientInput('');
-    setCategoryInput('');
-    dispatch(setFilters({ category: '', ingredient: '' }));
-    if (onChange) onChange({ category: '', ingredient: '' });
-  };
-  // Мобільний
-  const handleCategoryInputMob = e => {
-    const value = e.target.value;
-    if (!ingredientInputMob && filters.ingredient) {
-      setIngredientInputMob('');
-      setCategoryInputMob('');
-      dispatch(setFilters({ category: '', ingredient: '' }));
-      if (onChange) onChange({ category: '', ingredient: '' });
-    } else {
-      setCategoryInputMob(value);
-    }
-    setShowCategoryDropdownMob(true);
-  };
-  const handleCategorySelectMob = cat => {
-    const value = typeof cat === 'string' ? cat : cat.name;
-    setCategoryInputMob(value);
-    setShowCategoryDropdownMob(false);
-    const newFilters = { ...filters, category: value };
-    dispatch(setFilters(newFilters));
-    if (onChange) onChange(newFilters);
-  };
-  const handleCategoryResetMob = () => {
-    setIngredientInputMob('');
-    setCategoryInputMob('');
+
+  const handleDropdownReset = (field1, field2) => {
+    setInputs(prev => ({ ...prev, [field1]: '', [field2]: '' }));
     dispatch(setFilters({ category: '', ingredient: '' }));
     if (onChange) onChange({ category: '', ingredient: '' });
   };
 
   const handleReset = () => {
-    setCategoryInput('');
-    setIngredientInput('');
-    setCategoryInputMob('');
-    setIngredientInputMob('');
+    setInputs({
+      category: '',
+      ingredient: '',
+      categoryMob: '',
+      ingredientMob: '',
+    });
     const newFilters = { category: '', ingredient: '' };
     dispatch(setFilters(newFilters));
-    if (onChange) {
+    // Only call onChange if filters actually changed
+    if (onChange && (filters.category !== '' || filters.ingredient !== '')) {
       onChange(newFilters);
     }
+    setSearchParams(params => {
+      const newParams = new URLSearchParams(params);
+      newParams.delete('category');
+      newParams.delete('ingredient');
+      newParams.delete('search');
+      return newParams;
+    });
   };
 
   const toggleMobileMenu = () => {
@@ -334,17 +228,19 @@ const Filters = ({ totalItems, onChange }) => {
           <div className={s.filterGroup}>
             <div className={s.selectWrapper}>
               <input
-                ref={categoryInputRefMob}
+                ref={inputRefs.categoryMob}
                 className={s.select}
                 type="text"
                 placeholder="Category"
-                value={categoryInputMob}
-                onChange={handleCategoryInputMob}
-                onFocus={() => setShowCategoryDropdownMob(true)}
+                value={inputs.categoryMob}
+                onChange={handleInput('categoryMob')}
+                onFocus={() =>
+                  setDropdowns(prev => ({ ...prev, categoryMob: true }))
+                }
                 autoComplete="off"
                 disabled={filtersLoading}
               />
-              {!categoryInputMob && (
+              {!inputs.categoryMob && (
                 <svg
                   className={s.selectArrow}
                   width="20"
@@ -362,17 +258,19 @@ const Filters = ({ totalItems, onChange }) => {
                   />
                 </svg>
               )}
-              {categoryInputMob && (
+              {inputs.categoryMob && (
                 <button
                   type="button"
                   className={s.resetInputFilterBtn}
-                  onClick={handleCategoryResetMob}
+                  onClick={() =>
+                    handleDropdownReset('categoryMob', 'categoryMob')
+                  }
                 >
                   <IoMdCloseCircleOutline className={s.resetInputIcon} />
                 </button>
               )}
-              {showCategoryDropdownMob && filteredCategoriesMob.length > 0 && (
-                <ul className={s.dropdown} ref={categoryDropdownRefMob}>
+              {dropdowns.categoryMob && filteredCategoriesMob.length > 0 && (
+                <ul className={s.dropdown} ref={dropdownRefs.categoryMob}>
                   {filteredCategoriesMob.map(cat => {
                     const name = typeof cat === 'string' ? cat : cat.name;
                     return (
@@ -382,7 +280,7 @@ const Filters = ({ totalItems, onChange }) => {
                         onClick={e => {
                           e.preventDefault();
                           e.stopPropagation();
-                          handleCategorySelectMob(cat);
+                          handleDropdownSelect('categoryMob', name, 'category');
                         }}
                       >
                         {name}
@@ -396,22 +294,28 @@ const Filters = ({ totalItems, onChange }) => {
           <div className={s.filterGroup}>
             <div className={s.selectWrapper}>
               <input
-                ref={ingredientInputRefMob}
+                ref={inputRefs.ingredientMob}
                 className={s.select}
                 type="text"
                 placeholder="Ingredients"
-                value={ingredientInputMob}
-                onChange={handleIngredientInputMob}
-                onFocus={() => setShowDropdownMob(true)}
+                value={inputs.ingredientMob}
+                onChange={handleInput('ingredientMob')}
+                onFocus={() =>
+                  setDropdowns(prev => ({ ...prev, ingredientMob: true }))
+                }
                 autoComplete="off"
                 disabled={filtersLoading}
                 onKeyDown={e => {
                   if (e.key === 'Enter' && filteredIngredientsMob.length > 0) {
-                    handleIngredientSelectMob(filteredIngredientsMob[0]);
+                    handleDropdownSelect(
+                      'ingredientMob',
+                      filteredIngredientsMob[0].name,
+                      'ingredient'
+                    );
                   }
                 }}
               />
-              {!ingredientInputMob && (
+              {!inputs.ingredientMob && (
                 <svg
                   className={s.selectArrow}
                   width="20"
@@ -429,17 +333,19 @@ const Filters = ({ totalItems, onChange }) => {
                   />
                 </svg>
               )}
-              {ingredientInputMob && (
+              {inputs.ingredientMob && (
                 <button
                   type="button"
                   className={s.resetInputFilterBtn}
-                  onClick={handleIngredientResetMob}
+                  onClick={() =>
+                    handleDropdownReset('ingredientMob', 'ingredientMob')
+                  }
                 >
                   <IoMdCloseCircleOutline className={s.resetInputIcon} />
                 </button>
               )}
-              {showDropdownMob && filteredIngredientsMob.length > 0 && (
-                <ul className={s.dropdown} ref={dropdownRefMob}>
+              {dropdowns.ingredientMob && filteredIngredientsMob.length > 0 && (
+                <ul className={s.dropdown} ref={dropdownRefs.ingredientMob}>
                   {filteredIngredientsMob.map(ing => (
                     <li
                       key={typeof ing === 'string' ? ing : ing._id}
@@ -447,7 +353,11 @@ const Filters = ({ totalItems, onChange }) => {
                       onClick={e => {
                         e.preventDefault();
                         e.stopPropagation();
-                        handleIngredientSelectMob(ing);
+                        handleDropdownSelect(
+                          'ingredientMob',
+                          ing.name,
+                          'ingredient'
+                        );
                       }}
                     >
                       {typeof ing === 'string' ? ing : ing.name}
@@ -470,17 +380,19 @@ const Filters = ({ totalItems, onChange }) => {
         <div className={s.filterGroup}>
           <div className={s.selectWrapper}>
             <input
-              ref={categoryInputRef}
+              ref={inputRefs.category}
               className={s.select}
               type="text"
               placeholder="Category"
-              value={categoryInput}
-              onChange={handleCategoryInput}
-              onFocus={() => setShowCategoryDropdown(true)}
+              value={inputs.category}
+              onChange={handleInput('category')}
+              onFocus={() =>
+                setDropdowns(prev => ({ ...prev, category: true }))
+              }
               autoComplete="off"
               disabled={filtersLoading}
             />
-            {!categoryInput && (
+            {!inputs.category && (
               <svg
                 className={s.selectArrow}
                 width="20"
@@ -498,17 +410,17 @@ const Filters = ({ totalItems, onChange }) => {
                 />
               </svg>
             )}
-            {categoryInput && (
+            {inputs.category && (
               <button
                 type="button"
                 className={s.resetInputFilterBtn}
-                onClick={handleCategoryReset}
+                onClick={() => handleDropdownReset('category', 'category')}
               >
                 <IoMdCloseCircleOutline className={s.resetInputIcon} />
               </button>
             )}
-            {showCategoryDropdown && filteredCategories.length > 0 && (
-              <ul className={s.dropdown} ref={categoryDropdownRef}>
+            {dropdowns.category && filteredCategories.length > 0 && (
+              <ul className={s.dropdown} ref={dropdownRefs.category}>
                 {filteredCategories.map(cat => {
                   const name = typeof cat === 'string' ? cat : cat.name;
                   return (
@@ -518,7 +430,7 @@ const Filters = ({ totalItems, onChange }) => {
                       onClick={e => {
                         e.preventDefault();
                         e.stopPropagation();
-                        handleCategorySelect(cat);
+                        handleDropdownSelect('category', name, 'category');
                       }}
                     >
                       {name}
@@ -533,22 +445,28 @@ const Filters = ({ totalItems, onChange }) => {
         <div className={s.filterGroup}>
           <div className={s.selectWrapper}>
             <input
-              ref={ingredientInputRef}
+              ref={inputRefs.ingredient}
               className={s.select}
               type="text"
               placeholder="Ingredients"
-              value={ingredientInput}
-              onChange={handleIngredientInput}
-              onFocus={() => setShowDropdown(true)}
+              value={inputs.ingredient}
+              onChange={handleInput('ingredient')}
+              onFocus={() =>
+                setDropdowns(prev => ({ ...prev, ingredient: true }))
+              }
               autoComplete="off"
               disabled={filtersLoading}
               onKeyDown={e => {
                 if (e.key === 'Enter' && filteredIngredients.length > 0) {
-                  handleIngredientSelect(filteredIngredients[0]);
+                  handleDropdownSelect(
+                    'ingredient',
+                    filteredIngredients[0].name,
+                    'ingredient'
+                  );
                 }
               }}
             />
-            {!ingredientInput && (
+            {!inputs.ingredient && (
               <svg
                 className={s.selectArrow}
                 width="20"
@@ -566,17 +484,17 @@ const Filters = ({ totalItems, onChange }) => {
                 />
               </svg>
             )}
-            {ingredientInput && (
+            {inputs.ingredient && (
               <button
                 type="button"
                 className={s.resetInputFilterBtn}
-                onClick={handleIngredientReset}
+                onClick={() => handleDropdownReset('ingredient', 'ingredient')}
               >
                 <IoMdCloseCircleOutline className={s.resetInputIcon} />
               </button>
             )}
-            {showDropdown && filteredIngredients.length > 0 && (
-              <ul className={s.dropdown} ref={dropdownRef}>
+            {dropdowns.ingredient && filteredIngredients.length > 0 && (
+              <ul className={s.dropdown} ref={dropdownRefs.ingredient}>
                 {filteredIngredients.map(ing => (
                   <li
                     key={typeof ing === 'string' ? ing : ing._id}
@@ -584,7 +502,11 @@ const Filters = ({ totalItems, onChange }) => {
                     onClick={e => {
                       e.preventDefault();
                       e.stopPropagation();
-                      handleIngredientSelect(ing);
+                      handleDropdownSelect(
+                        'ingredient',
+                        ing.name,
+                        'ingredient'
+                      );
                     }}
                   >
                     {typeof ing === 'string' ? ing : ing.name}

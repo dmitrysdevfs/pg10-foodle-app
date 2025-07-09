@@ -83,7 +83,6 @@ const recipesSlice = createSlice({
     },
     setFilters: (state, action) => {
       state.filters = action.payload;
-      state.totalItems = 0;
     },
     clearRecipes: state => {
       state.items = [];
