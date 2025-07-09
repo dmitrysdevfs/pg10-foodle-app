@@ -3,7 +3,6 @@ import SaveRecipeButton from '../SaveRecipeButton/SaveRecipeButton.jsx';
 import NoPhoto from '../../assets/img/no_photo.jpg';
 
 const RecipeDetails = ({ recipe }) => {
-
   return (
     <div className={styles.recipeContainer}>
       <div className={styles.topSection}>
@@ -16,7 +15,7 @@ const RecipeDetails = ({ recipe }) => {
               className={styles.image}
               onError={e => {
                 e.target.src = NoPhoto;
-                e.target.alt = "Recipe image not available";
+                e.target.alt = 'Recipe image not available';
               }}
             />
           ) : (
@@ -26,7 +25,6 @@ const RecipeDetails = ({ recipe }) => {
               className={styles.image}
             />
           )}
-
         </div>
       </div>
 
@@ -86,8 +84,7 @@ const RecipeDetails = ({ recipe }) => {
             </div>
           </div>
 
-          {/* Кнопка Save уже вставлена як компонент */}
-          <SaveRecipeButton />
+          <SaveRecipeButton recipeId={recipe._id} />
         </aside>
       </div>
     </div>
