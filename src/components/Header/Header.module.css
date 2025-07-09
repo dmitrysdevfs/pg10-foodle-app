@@ -65,7 +65,7 @@
   flex-direction: column;
   gap: 32px;
   position: fixed;
-  top: 81px;
+  top: 74px;
   right: 0;
   background-color: var(--dark-brown);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);

@@ -9,19 +9,22 @@ import {
   selectPerPage,
 } from '../../redux/profile/selectors';
 import { fetchFavoriteRecipes } from '../../redux/profile/operations';
+import s from './ProfileNavigation/ProfileNavigation.module.css';
 
 export default function ProfileFavoriteRecipes() {
   return (
-    <ProfileRecipesSection
-      fetchAction={fetchFavoriteRecipes}
-      selectRecipes={selectFavoriteRecipes}
-      selectLoading={selectLoading}
-      selectError={selectError}
-      selectHasMore={selectFavoriteHasMore}
-      selectPage={selectFavoritePage}
-      selectTotalItems={selectFavoriteTotalItems}
-      perPage={selectPerPage}
-      type="favorites"
-    />
+    <div className={s.innerWrapper}>
+      <ProfileRecipesSection
+        fetchAction={fetchFavoriteRecipes}
+        selectRecipes={selectFavoriteRecipes}
+        selectLoading={selectLoading}
+        selectError={selectError}
+        selectHasMore={selectFavoriteHasMore}
+        selectPage={selectFavoritePage}
+        selectTotalItems={selectFavoriteTotalItems}
+        perPage={selectPerPage}
+        type="favorites"
+      />
+    </div>
   );
 }
