@@ -67,7 +67,7 @@
 }
 
 .title {
-  font-family: "Montserrat", sans-serif;
+  font-family: 'Montserrat', sans-serif;
   font-weight: 600;
   font-size: 32px;
   text-align: center;
@@ -89,7 +89,7 @@
 }
 
 .label {
-  font-family: "Montserrat", sans-serif;
+  font-family: 'Montserrat', sans-serif;
   font-weight: 400;
   font-size: 12px;
   color: #000;
@@ -106,7 +106,7 @@
   padding: 8px;
   width: 298px;
   height: 41px;
-  font-family: "Montserrat", sans-serif;
+  font-family: 'Montserrat', sans-serif;
   font-weight: 400;
   font-size: 16px;
   line-height: 1.55;
@@ -125,7 +125,6 @@
 .input:hover,
 .input:focus {
   border-color: #6d554b;
-
 }
 
 .eyeButton {
@@ -145,15 +144,17 @@
   width: 298px;
   height: 36px;
   background: #9b6c43;
-  font-family: "Montserrat", sans-serif;
+  font-family: 'Montserrat', sans-serif;
   font-weight: 600;
   font-size: 16px;
   color: #fff;
   margin-bottom: 20px;
   cursor: pointer;
   border: none;
-  text-align: center;
-  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
 }
 
 .submitButton:hover,
@@ -161,8 +162,28 @@
   background: #6d554b;
 }
 
+.submitButton:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.submitButton:disabled:hover {
+  background: #9b6c43;
+}
+
+.loaderContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.loginLoader {
+  width: 20px;
+  height: 20px;
+}
 .bottomText {
-  font-family: "Montserrat", sans-serif;
+  font-family: 'Montserrat', sans-serif;
   font-weight: 400;
   font-size: 16px;
   line-height: 1.55;
@@ -208,10 +229,8 @@
 }
 
 @media screen and (min-width: 1025px) {
-
   .wrap {
     width: 420px;
-
   }
 
   .title {
@@ -228,5 +247,4 @@
     text-align: center;
     white-space: nowrap;
   }
-
 }
