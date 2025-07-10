@@ -34,11 +34,15 @@ const RegistrationForm = () => {
         resetForm();
       }, 200);
     } catch (error) {
-      toast.error(error.message || "Registration failed", {
-        duration: 5000,
-      });
+      if (Array.isArray(error)) {
+        error.forEach(element => {
+          toast.error(element, {
+            duration: 5000,
           });
         });
+      } else {
+        toast.error(error, {
+          duration: 5000,
         });
       }
     } finally {
