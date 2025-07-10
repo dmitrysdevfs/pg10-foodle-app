@@ -9,7 +9,8 @@ import { logIn } from '../../../redux/auth/operations';
 
 import EyeIcon from '../../../assets/castom-icons/eye.svg';
 import EyeClosedIcon from '../../../assets/castom-icons/eye-clossed.svg';
-import GoogleButton from '../../../components/GoogleButton/GoogleButton';
+// import GoogleButton from '../../../components/GoogleButton/GoogleButton';
+import Loader from '../../Loader/Loader';
 
 export default function LoginForm() {
   const [showPassword, setShowPassword] = useState(false);
@@ -119,7 +120,14 @@ export default function LoginForm() {
               className={css.submitButton}
               disabled={isSubmitting || loading}
             >
-              {loading ? 'Logging in...' : 'Login'}
+              {loading ? (
+                <div className={css.loaderContainer}>
+                  <span>Logging in...</span>
+                  <Loader />
+                </div>
+              ) : (
+                'Login'
+              )}
             </button>
           </Form>
         )}
@@ -132,7 +140,7 @@ export default function LoginForm() {
           Register
         </Link>
       </p>
-      <GoogleButton />
+      {/* <GoogleButton /> */}
     </div>
   );
 }

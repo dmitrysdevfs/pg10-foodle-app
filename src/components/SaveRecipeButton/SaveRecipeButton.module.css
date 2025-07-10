@@ -62,3 +62,35 @@
   outline: none;
   box-shadow: none;
 }
+
+.iconBtn:disabled,
+.button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.iconBtn:disabled:hover,
+.button:disabled:hover {
+  background-color: inherit;
+  color: inherit;
+  border: 1px solid var(--black);
+}
+
+.loaderContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+}
+
+.loaderContainer :global(.loader) {
+  min-height: 24px;
+}
+
+.loaderContainer :global(.spinner) {
+  width: 20px;
+  height: 20px;
+  border: 2px solid #e0e0e0;
+  border-top: 2px solid var(--white);
+}

@@ -9,7 +9,8 @@ import { register } from '../../../redux/auth/operations';
 
 import EyeIcon from '../../../assets/castom-icons/eye.svg';
 import EyeClosedIcon from '../../../assets/castom-icons/eye-clossed.svg';
-import GoogleButton from '../../GoogleButton/GoogleButton';
+// import GoogleButton from '../../GoogleButton/GoogleButton';
+import Loader from '../../Loader/Loader';
 
 const RegistrationForm = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -177,7 +178,14 @@ const RegistrationForm = () => {
               className={css.submitButton}
               disabled={isSubmitting || loading}
             >
-              {loading ? 'Creating account...' : 'Create account'}
+              {loading ? (
+                <div className={css.loaderContainer}>
+                  <Loader />
+                  <span>Creating account...</span>
+                </div>
+              ) : (
+                'Create account'
+              )}
             </button>
           </Form>
         )}
@@ -189,7 +197,7 @@ const RegistrationForm = () => {
           Log in
         </Link>
       </p>
-      <GoogleButton />
+      {/* <GoogleButton /> */}
     </div>
   );
 };
