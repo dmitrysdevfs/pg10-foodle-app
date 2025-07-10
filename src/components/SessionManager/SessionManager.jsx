@@ -8,7 +8,7 @@ const SESSION_CONFIG = {
   inactivityTimeout: 30 * 60 * 1000, // 30 хв
   throttleDelay: 1000, // 1 сек
   retryDelays: [1000, 3000, 5000], // Прогресивні затримки (exponential backoff)
-  maxRetries: 3
+  maxRetries: 3,
 };
 
 // Винести createThrottle за межі компонента для оптимізації
@@ -50,7 +50,7 @@ export default function SessionManager() {
       timestamp,
       event,
       ...data,
-      sessionId: sessionStorage.getItem('sessionId') || 'unknown'
+      sessionId: sessionStorage.getItem('sessionId') || 'unknown',
     };
 
     if (import.meta.env.MODE === 'development') {
@@ -61,75 +61,84 @@ export default function SessionManager() {
     // analytics.track('session_event', logData);
   }, []);
 
-  const refreshSession = useCallback(async (retryCount = 0) => {
-    logSessionEvent('refresh_started', { retryCount });
+  const refreshSession = useCallback(
+    async (retryCount = 0) => {
+      logSessionEvent('refresh_started', { retryCount });
 
-    // Створюємо новий AbortController для кожного запиту
-    const controller = new AbortController();
-    refreshSessionRef.current = controller;
+      // Створюємо новий AbortController для кожного запиту
+      const controller = new AbortController();
+      refreshSessionRef.current = controller;
 
-    try {
-      const res = await axios.post('/api/auth/refresh', null, {
-        withCredentials: true,
-        signal: controller.signal,
-        timeout: 10000 // 10 секунд таймаут
-      });
+      try {
+        const res = await axios.post('/api/auth/refresh', null, {
+          withCredentials: true,
+          signal: controller.signal,
+          timeout: 10000, // 10 секунд таймаут
+        });
 
-      const newToken = res.data.data.accessToken;
-      dispatch(updateToken(newToken));
-      logSessionEvent('refresh_success');
-      return newToken;
+        const newToken = res.data.data.accessToken;
+        dispatch(updateToken(newToken));
+        logSessionEvent('refresh_success');
+        return newToken;
+      } catch (err) {
+        // Якщо запит був скасований, не обробляємо помилку
+        if (err.name === 'AbortError') {
+          logSessionEvent('refresh_aborted');
+          return;
+        }
 
-    } catch (err) {
-      // Якщо запит був скасований, не обробляємо помилку
-      if (err.name === 'AbortError') {
-        logSessionEvent('refresh_aborted');
-        return;
+        logSessionEvent('refresh_failed', {
+          error: err.message,
+          retryCount,
+          status: err.response?.status,
+          code: err.code,
+        });
+
+        // Перевірка на помилку авторизації
+        if (err.response?.status === 401) {
+          logSessionEvent('unauthorized_error');
+          window.location.href = '/auth/login';
+          return;
+        }
+
+        // Визначаємо, чи потрібно повторити запит
+        const shouldRetry =
+          retryCount < SESSION_CONFIG.maxRetries &&
+          (err.response?.status >= 500 ||
+            err.code === 'NETWORK_ERROR' ||
+            err.code === 'ECONNABORTED' ||
+            err.code === 'TIMEOUT');
+
+        if (shouldRetry) {
+          const delay =
+            SESSION_CONFIG.retryDelays[retryCount] ||
+            SESSION_CONFIG.retryDelays[SESSION_CONFIG.retryDelays.length - 1];
+
+          logSessionEvent('retry_scheduled', {
+            delay,
+            retryCount: retryCount + 1,
+          });
+
+          // Чекаємо перед повторною спробою
+          await new Promise(resolve => setTimeout(resolve, delay));
+          return refreshSession(retryCount + 1);
+        } else {
+          logSessionEvent('session_refresh_failed', {
+            finalError: err.message,
+          });
+          window.location.href = '/auth/login';
+        }
       }
-
-      logSessionEvent('refresh_failed', {
-        error: err.message,
-        retryCount,
-        status: err.response?.status,
-        code: err.code
-      });
-
-      // Перевірка на помилку авторизації
-      if (err.response?.status === 401) {
-        logSessionEvent('unauthorized_error');
-        window.location.href = '/auth/login';
-        return;
-      }
-
-      // Визначаємо, чи потрібно повторити запит
-      const shouldRetry = retryCount < SESSION_CONFIG.maxRetries &&
-        (err.response?.status >= 500 ||
-          err.code === 'NETWORK_ERROR' ||
-          err.code === 'ECONNABORTED' ||
-          err.code === 'TIMEOUT');
-
-      if (shouldRetry) {
-        const delay = SESSION_CONFIG.retryDelays[retryCount] ||
-          SESSION_CONFIG.retryDelays[SESSION_CONFIG.retryDelays.length - 1];
-
-        logSessionEvent('retry_scheduled', { delay, retryCount: retryCount + 1 });
-
-        // Чекаємо перед повторною спробою
-        await new Promise(resolve => setTimeout(resolve, delay));
-        return refreshSession(retryCount + 1);
-      } else {
-        logSessionEvent('session_refresh_failed', { finalError: err.message });
-        window.location.href = '/auth/login';
-      }
-    }
-  }, [dispatch, logSessionEvent]);
+    },
+    [dispatch, logSessionEvent]
+  );
 
   const performLogout = useCallback(async () => {
     logSessionEvent('logout_started');
     try {
       await axios.post('/api/auth/logout', null, {
         withCredentials: true,
-        timeout: 5000
+        timeout: 5000,
       });
       logSessionEvent('logout_success');
     } catch (err) {
@@ -153,13 +162,13 @@ export default function SessionManager() {
       if (inactiveDuration < SESSION_CONFIG.inactivityTimeout) {
         logSessionEvent('activity_check', {
           inactiveDuration,
-          inactiveMinutes: Math.floor(inactiveDuration / 60000)
+          inactiveMinutes: Math.floor(inactiveDuration / 60000),
         });
         await refreshSession();
       } else {
         logSessionEvent('inactivity_timeout', {
           inactiveDuration,
-          inactiveMinutes: Math.floor(inactiveDuration / 60000)
+          inactiveMinutes: Math.floor(inactiveDuration / 60000),
         });
         await performLogout();
       }
@@ -176,7 +185,14 @@ export default function SessionManager() {
 
   useEffect(() => {
     // Події для відстеження активності користувача
-    const events = ['mousemove', 'mousedown', 'keydown', 'scroll', 'touchstart', 'click'];
+    const events = [
+      'mousemove',
+      'mousedown',
+      'keydown',
+      'scroll',
+      'touchstart',
+      'click',
+    ];
 
     // Додаємо слухачі подій
     events.forEach(event => {
@@ -254,7 +270,7 @@ export default function SessionManager() {
       refreshSession: () => refreshSession(),
       getLastActivity: () => lastActivityRef.current,
       getInactivityDuration: () => Date.now() - lastActivityRef.current,
-      updateActivity: () => updateActivity()
+      updateActivity: () => updateActivity(),
     };
 
     return () => {

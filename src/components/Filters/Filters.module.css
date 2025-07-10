@@ -152,7 +152,7 @@ input.select {
   transition: border 0.3s;
 }
 input.select:focus {
-  border: 1px solid #7c3aed;
+  border: 1px solid var(--black);
 }
 
 .resetInputFilterBtn {
