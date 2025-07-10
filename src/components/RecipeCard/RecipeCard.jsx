@@ -6,16 +6,30 @@ import NoPhoto from '../../assets/img/no_photo.jpg';
 import { GoClock } from 'react-icons/go';
 import DeleteRecipeButton from '../DeleteRecipeButton/DeleteRecipeButton.jsx';
 
-import { selectUser } from '../../redux/auth/selectors.js';
+import { selectUser, selectRefreshing, selectIsLoggedIn } from '../../redux/auth/selectors.js';
 import { useSelector } from 'react-redux';
 
 export default function RecipeCard({ recipe, recipes, recipeId }) {
   const { title, description, time, thumb, photo, calories, owner } = recipe;
 
   const user = useSelector(selectUser);
+  const isRefreshing = useSelector(selectRefreshing);
+  const isLoggedIn = useSelector(selectIsLoggedIn);
 
   const ownerId = typeof owner === 'object' ? owner._id : owner;
-  const isOwner = user?._id === ownerId;
+  const isOwner = user?._id === ownerId && !isRefreshing && isLoggedIn && user?._id;
+
+  // Діагностичне логування
+  if (import.meta.env.MODE === 'development') {
+    console.log('RecipeCard debug:', {
+      userId: user?._id,
+      ownerId,
+      isRefreshing,
+      isLoggedIn,
+      isOwner,
+      user: user
+    });
+  }
 
   return (
     <div className={css.item}>
