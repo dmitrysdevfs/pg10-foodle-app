@@ -235,3 +235,10 @@
   color: var(--white);
   transition: all 0.3s ease;
 }
+
+.largeDeleteBtn:hover {
+  background-color: transparent;
+  color: #c80000;
+  border: 2px solid #c80000;
+  transform: scale(1.02);
+}
