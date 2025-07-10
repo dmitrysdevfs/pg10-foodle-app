@@ -9,6 +9,7 @@ export default function Footer() {
     location.pathname === '/auth/register';
   return (
     <footer className={css.footer}>
+      <div className={css.container}>
       <div className={css.footerWrapper}>
         <NavLink to="/" className={css.logoLink}>
           <LogoIcon className={css.logo} />
@@ -27,6 +28,7 @@ export default function Footer() {
             </NavLink>
           )}
         </div>
+      </div>
       </div>
     </footer>
   );
