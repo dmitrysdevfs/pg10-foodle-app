@@ -192,3 +192,16 @@
   height: 100%;
   object-fit: cover;
 }
+
+.largeDeleteBtn {
+  display: flex;
+  gap: 16px;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  padding: 16px;
+  border-radius: 8px;
+  background: #c80000;
+  color: var(--white);
+  transition: all 0.3s ease;
+}
