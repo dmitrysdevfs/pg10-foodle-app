@@ -110,14 +110,7 @@ export const logInWithGoogle = createAsyncThunk(
   async (code, thunkAPI) => {
     try {
       const response = await axios.post('/api/auth/confirm-oauth', { code });
-      console.log('OAuth response', response.data);
-
-      const token = response.data.data.accessToken;
-      const user = response.data.data.user;
-
-      setAuthHeader(`Bearer ${token}`);
-
-      return { token, user };
+      return processAuthResponse(response.data.data, {});
     } catch (error) {
       return thunkAPI.rejectWithValue(
         error.response?.data?.message || error.message
