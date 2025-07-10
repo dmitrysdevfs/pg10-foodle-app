@@ -9,6 +9,7 @@ import { register } from '../../../redux/auth/operations';
 
 import EyeIcon from '../../../assets/castom-icons/eye.svg';
 import EyeClosedIcon from '../../../assets/castom-icons/eye-clossed.svg';
+import GoogleButton from '../../GoogleButton/GoogleButton';
 
 const RegistrationForm = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -20,11 +21,13 @@ const RegistrationForm = () => {
 
   const handleSubmit = async (values, { resetForm, setSubmitting }) => {
     try {
-      await dispatch(register({
-        name: values.name,
-        email: values.email,
-        password: values.password,
-      })).unwrap();
+      await dispatch(
+        register({
+          name: values.name,
+          email: values.email,
+          password: values.password,
+        })
+      ).unwrap();
 
       toast.success('Registration successful!', {
         duration: 4000,
@@ -34,7 +37,7 @@ const RegistrationForm = () => {
         resetForm();
       }, 200);
     } catch (error) {
-      toast.error(error.message || "Registration failed", {
+      toast.error(error.message || 'Registration failed', {
         duration: 5000,
       });
     } finally {
@@ -64,7 +67,9 @@ const RegistrationForm = () => {
         {({ isSubmitting }) => (
           <Form className={css.form}>
             <div className={css.inputGroup}>
-              <label htmlFor="email" className={css.label}>Enter your email address</label>
+              <label htmlFor="email" className={css.label}>
+                Enter your email address
+              </label>
               <div className={css.inputWrapper}>
                 <Field
                   id="email"
@@ -74,11 +79,17 @@ const RegistrationForm = () => {
                   placeholder="email@gmail.com"
                 />
               </div>
-              <ErrorMessage name="email" component="div" className={css.error} />
+              <ErrorMessage
+                name="email"
+                component="div"
+                className={css.error}
+              />
             </div>
 
             <div className={css.inputGroup}>
-              <label htmlFor="name" className={css.label}>Enter your name</label>
+              <label htmlFor="name" className={css.label}>
+                Enter your name
+              </label>
               <div className={css.inputWrapper}>
                 <Field
                   id="name"
@@ -92,7 +103,9 @@ const RegistrationForm = () => {
             </div>
 
             <div className={css.inputGroup}>
-              <label htmlFor="password" className={css.label}>Create a strong password</label>
+              <label htmlFor="password" className={css.label}>
+                Create a strong password
+              </label>
               <div className={css.inputWrapper}>
                 <Field
                   id="password"
@@ -107,14 +120,24 @@ const RegistrationForm = () => {
                   onClick={() => setShowPassword(prev => !prev)}
                   aria-label={showPassword ? 'Hide password' : 'Show password'}
                 >
-                  {showPassword ? <EyeClosedIcon width={20} height={20} /> : <EyeIcon width={20} height={20} />}
+                  {showPassword ? (
+                    <EyeClosedIcon width={20} height={20} />
+                  ) : (
+                    <EyeIcon width={20} height={20} />
+                  )}
                 </button>
               </div>
-              <ErrorMessage name="password" component="div" className={css.error} />
+              <ErrorMessage
+                name="password"
+                component="div"
+                className={css.error}
+              />
             </div>
 
             <div className={css.inputGroup}>
-              <label htmlFor="confirmPassword" className={css.label}>Repeat your password</label>
+              <label htmlFor="confirmPassword" className={css.label}>
+                Repeat your password
+              </label>
               <div className={css.inputWrapper}>
                 <Field
                   id="confirmPassword"
@@ -129,15 +152,23 @@ const RegistrationForm = () => {
                   onClick={() => setShowConfirm(prev => !prev)}
                   aria-label={showConfirm ? 'Hide password' : 'Show password'}
                 >
-                  {showConfirm ? <EyeClosedIcon width={20} height={20} /> : <EyeIcon width={20} height={20} />}
+                  {showConfirm ? (
+                    <EyeClosedIcon width={20} height={20} />
+                  ) : (
+                    <EyeIcon width={20} height={20} />
+                  )}
                 </button>
               </div>
-              <ErrorMessage name="confirmPassword" component="div" className={css.error} />
+              <ErrorMessage
+                name="confirmPassword"
+                component="div"
+                className={css.error}
+              />
             </div>
 
             <label className={css.checkboxLabel}>
-              <Field type="checkbox" name="terms" />
-              I agree to the Terms of Service and Privacy Policy
+              <Field type="checkbox" name="terms" />I agree to the Terms of
+              Service and Privacy Policy
             </label>
             <ErrorMessage name="terms" component="div" className={css.error} />
 
@@ -158,6 +189,7 @@ const RegistrationForm = () => {
           Log in
         </Link>
       </p>
+      <GoogleButton />
     </div>
   );
 };

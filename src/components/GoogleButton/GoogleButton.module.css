@@ -1,0 +1,52 @@
+.googleBtn {
+  width: 100%;
+  padding: 8px 20px;
+  background: var(--light-brown);
+  border-radius: 8px;
+  font-weight: var(--semibold-font-weight);
+  line-height: normal;
+
+  color: var(--white);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  transition: background 0.3s, border-color 0.3s;
+}
+
+.googleBtn:hover,
+.googleBtn:focus {
+  background: var(--brown);
+}
+
+.googleIcon {
+  font-size: 20px;
+}
+
+.divider {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  margin: 16px 0;
+}
+
+.divider::before,
+.divider::after {
+  content: '';
+  flex: 1;
+  border-bottom: 1px solid #ccc;
+}
+
+.divider:not(:empty)::before {
+  margin-right: 12px;
+}
+
+.divider:not(:empty)::after {
+  margin-left: 12px;
+}
+
+.dividerText {
+  font-size: 14px;
+  color: var(--gray);
+}
