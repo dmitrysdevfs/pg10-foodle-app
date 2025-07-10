@@ -4,7 +4,7 @@ import { deleteOwnRecipe } from '../../redux/profile/operations';
 import css from './DeleteRecipeButton.module.css';
 import DeleteTreshIcon from '../../assets/icons/DeleteTreshIcon.svg';
 
-export default function DeleteRecipeButton({ recipeId }) {
+export default function DeleteRecipeButton({ recipeId, className = '' }) {
   const dispatch = useDispatch();
 
   const handleDelete = () => {
@@ -39,7 +39,7 @@ export default function DeleteRecipeButton({ recipeId }) {
 
   return (
     <button
-      className={css.deleteBtn}
+      className={`${css.deleteBtn} ${className}`}
       onClick={handleDelete}
       title="Delete recipe"
     >
