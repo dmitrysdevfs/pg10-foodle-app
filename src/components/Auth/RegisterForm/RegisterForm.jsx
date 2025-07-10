@@ -37,6 +37,10 @@ const RegistrationForm = () => {
       toast.error(error.message || "Registration failed", {
         duration: 5000,
       });
+          });
+        });
+        });
+      }
     } finally {
       setSubmitting(false);
     }
