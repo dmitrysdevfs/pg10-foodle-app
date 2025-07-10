@@ -8,6 +8,7 @@ import { FiLogOut } from 'react-icons/fi';
 import clsx from 'clsx';
 import { useEffect, useState } from 'react';
 import Modal from '../Modal/Modal.jsx';
+import toast from 'react-hot-toast';
 
 export default function UserMenu() {
   const dispatch = useDispatch();
@@ -24,9 +25,14 @@ export default function UserMenu() {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  const handleLogout = () => {
-    dispatch(logOut());
-    navigate('/');
+  const handleLogout = async () => {
+    try {
+      await dispatch(logOut()).unwrap();
+      navigate('/');
+    } catch (error) {
+      console.error('Logout error:', error);
+      toast.error('Failed to log out. Try again.');
+    }
   };
 
   if (!isLoggedIn) {

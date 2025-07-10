@@ -9,23 +9,25 @@ export default function Footer() {
     location.pathname === '/auth/register';
   return (
     <footer className={css.footer}>
-      <div className={css.footerWrapper}>
-        <NavLink to="/" className={css.logoLink}>
-          <LogoIcon className={css.logo} />
-          <span className={css.logoText}>Tasteorama</span>
-        </NavLink>
-        <p className={css.footerTextSettings}>
-          &copy; 2025 CookingCompanion. All rights reserved.
-        </p>
-        <div className={css.footerRoutesLink}>
-          <NavLink to="/" className={css.footerLink}>
-            Recipes
+      <div className={css.container}>
+        <div className={css.footerWrapper}>
+          <NavLink to="/" className={css.logoLink}>
+            <LogoIcon className={css.logo} />
+            <span className={css.logoText}>Tasteorama</span>
           </NavLink>
-          {!isAuthPage && (
-            <NavLink to="/profile" className={css.footerLink}>
-              Account
+          <p className={css.footerTextSettings}>
+            &copy; 2025 CookingCompanion. All rights reserved.
+          </p>
+          <div className={css.footerRoutesLink}>
+            <NavLink to="/" className={css.footerLink}>
+              Recipes
             </NavLink>
-          )}
+            {!isAuthPage && (
+              <NavLink to="/profile" className={css.footerLink}>
+                Account
+              </NavLink>
+            )}
+          </div>
         </div>
       </div>
     </footer>
