@@ -9,6 +9,8 @@ import { logIn } from '../../../redux/auth/operations';
 
 import EyeIcon from '../../../assets/castom-icons/eye.svg';
 import EyeClosedIcon from '../../../assets/castom-icons/eye-clossed.svg';
+// import GoogleButton from '../../../components/GoogleButton/GoogleButton';
+import Loader from '../../Loader/Loader';
 
 export default function LoginForm() {
   const [showPassword, setShowPassword] = useState(false);
@@ -27,9 +29,17 @@ export default function LoginForm() {
         navigate('/');
       }, 200);
     } catch (error) {
-      toast.error(error.message || 'Login failed', {
-        duration: 5000,
-      });
+      if (Array.isArray(error)) {
+        error.forEach(element => {
+          toast.error(element, {
+            duration: 5000,
+          });
+        });
+      } else {
+        toast.error(error, {
+          duration: 5000,
+        });
+      }
     } finally {
       setSubmitting(false);
     }
@@ -60,12 +70,17 @@ export default function LoginForm() {
                     id="email"
                     type="email"
                     placeholder="email@gmail.com"
-                    className={`${css.input} ${touched.email && errors.email ? css.inputError : ''
-                      }`}
+                    className={`${css.input} ${
+                      touched.email && errors.email ? css.inputError : ''
+                    }`}
                   />
                 )}
               </Field>
-              <ErrorMessage name="email" component="div" className={css.error} />
+              <ErrorMessage
+                name="email"
+                component="div"
+                className={css.error}
+              />
             </div>
 
             <div className={css.inputGroup}>
@@ -80,21 +95,32 @@ export default function LoginForm() {
                       id="password"
                       type={showPassword ? 'text' : 'password'}
                       placeholder="*********"
-                      className={`${css.input} ${touched.password && errors.password ? css.inputError : ''
-                        }`}
+                      className={`${css.input} ${
+                        touched.password && errors.password
+                          ? css.inputError
+                          : ''
+                      }`}
                     />
                   )}
                 </Field>
                 <button
                   type="button"
                   className={css.eyeButton}
-                  onClick={() => setShowPassword((prev) => !prev)}
+                  onClick={() => setShowPassword(prev => !prev)}
                   aria-label={showPassword ? 'Hide password' : 'Show password'}
                 >
-                  {showPassword ? <EyeClosedIcon width={24} height={24} /> : <EyeIcon width={24} height={24} />}
+                  {showPassword ? (
+                    <EyeClosedIcon width={24} height={24} />
+                  ) : (
+                    <EyeIcon width={24} height={24} />
+                  )}
                 </button>
               </div>
-              <ErrorMessage name="password" component="div" className={css.error} />
+              <ErrorMessage
+                name="password"
+                component="div"
+                className={css.error}
+              />
             </div>
 
             <button
@@ -102,7 +128,14 @@ export default function LoginForm() {
               className={css.submitButton}
               disabled={isSubmitting || loading}
             >
-              {loading ? 'Logging in...' : 'Login'}
+              {loading ? (
+                <div className={css.loaderContainer}>
+                  <span>Logging in...</span>
+                  <Loader />
+                </div>
+              ) : (
+                'Login'
+              )}
             </button>
           </Form>
         )}
@@ -110,8 +143,12 @@ export default function LoginForm() {
 
       <p className={css.bottomText}>
         Don&apos;t have an account?
-        <Link to="/auth/register" className={css.registerLink}> Register</Link>
+        <Link to="/auth/register" className={css.registerLink}>
+          {' '}
+          Register
+        </Link>
       </p>
+      {/* <GoogleButton /> */}
     </div>
   );
 }

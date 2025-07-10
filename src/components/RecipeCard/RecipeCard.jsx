@@ -6,8 +6,30 @@ import NoPhoto from '../../assets/img/no_photo.jpg';
 import { GoClock } from 'react-icons/go';
 import DeleteRecipeButton from '../DeleteRecipeButton/DeleteRecipeButton.jsx';
 
-export default function RecipeCard({ recipe, recipes, recipeId, type }) {
-  const { title, description, time, thumb, photo, calories } = recipe;
+import { selectUser, selectRefreshing, selectIsLoggedIn } from '../../redux/auth/selectors.js';
+import { useSelector } from 'react-redux';
+
+export default function RecipeCard({ recipe, recipes, recipeId }) {
+  const { title, description, time, thumb, photo, calories, owner } = recipe;
+
+  const user = useSelector(selectUser);
+  const isRefreshing = useSelector(selectRefreshing);
+  const isLoggedIn = useSelector(selectIsLoggedIn);
+
+  const ownerId = typeof owner === 'object' ? owner._id : owner;
+  const isOwner = user?._id === ownerId && !isRefreshing && isLoggedIn && user?._id;
+
+  // Діагностичне логування
+  if (import.meta.env.MODE === 'development') {
+    console.log('RecipeCard debug:', {
+      userId: user?._id,
+      ownerId,
+      isRefreshing,
+      isLoggedIn,
+      isOwner,
+      user: user
+    });
+  }
 
   return (
     <div className={css.item}>
@@ -42,7 +64,7 @@ export default function RecipeCard({ recipe, recipes, recipeId, type }) {
       </div>
       <div className={css.buttonContainer}>
         <RecipeList recipes={recipes} recipeId={recipeId} />
-        {type === 'own' ? (
+        {isOwner ? (
           <DeleteRecipeButton recipeId={recipeId} />
         ) : (
           <SaveRecipeButton recipeId={recipeId} />
