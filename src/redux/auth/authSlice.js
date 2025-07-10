@@ -1,5 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { logIn, logOut, refreshUser, register } from './operations';
+import {
+  logIn,
+  logOut,
+  refreshUser,
+  register,
+  logInWithGoogle,
+} from './operations';
 
 const authSlice = createSlice({
   name: 'auth',
@@ -18,6 +24,9 @@ const authSlice = createSlice({
   reducers: {
     clearError: state => {
       state.error = null;
+    },
+    updateToken: (state, action) => {
+      state.token = action.payload;
     },
   },
 
@@ -99,9 +108,24 @@ const authSlice = createSlice({
         state.refreshing = false;
         state.user = { name: null, email: null };
         state.isLoggedIn = false;
+      })
+      .addCase(logInWithGoogle.pending, state => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(logInWithGoogle.fulfilled, (state, action) => {
+        state.user = action.payload.user;
+        state.token = action.payload.token;
+        state.isLoggedIn = true;
+        state.loading = false;
+        state.error = null;
+      })
+      .addCase(logInWithGoogle.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload || 'Google login failed';
       }),
 });
 
-export const { clearError } = authSlice.actions;
+export const { clearError, updateToken } = authSlice.actions;
 
 export default authSlice.reducer;

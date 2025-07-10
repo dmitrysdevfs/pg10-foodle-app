@@ -96,13 +96,16 @@
 
 .secondaryBtn {
   padding: 8px;
+  background-color: var(--light-brown);
+  border: 1px solid var(--light-brown);
+  color: var(--white);
 }
 
 .secondaryBtn:hover,
 .secondaryBtn:focus {
-  background-color: var(--light-brown);
-  border: 1px solid var(--light-brown);
-  color: var(--white);
+  background-color: transparent;
+  border: 1px solid var(--black);
+  color: var(--black);
 }
 
 @keyframes backdropFade {

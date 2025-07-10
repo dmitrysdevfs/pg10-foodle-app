@@ -35,6 +35,26 @@ export default function LoginForm() {
     }
   };
 
+  const handleGoogleLogin = async () => {
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_API_BASE_URL}/api/auth/google-oauth-url`
+      );
+      const data = await response.json();
+
+      const url = data?.data?.oauth_url;
+
+      if (url) {
+        window.location.href = url;
+      } else {
+        toast.error('Failed to get Google login URL');
+      }
+    } catch (error) {
+      toast.error('Something went wrong');
+      console.error(error);
+    }
+  };
+
   return (
     <div className={css.wrap}>
       <h2 className={css.title}>Login</h2>
@@ -60,12 +80,17 @@ export default function LoginForm() {
                     id="email"
                     type="email"
                     placeholder="email@gmail.com"
-                    className={`${css.input} ${touched.email && errors.email ? css.inputError : ''
-                      }`}
+                    className={`${css.input} ${
+                      touched.email && errors.email ? css.inputError : ''
+                    }`}
                   />
                 )}
               </Field>
-              <ErrorMessage name="email" component="div" className={css.error} />
+              <ErrorMessage
+                name="email"
+                component="div"
+                className={css.error}
+              />
             </div>
 
             <div className={css.inputGroup}>
@@ -80,21 +105,32 @@ export default function LoginForm() {
                       id="password"
                       type={showPassword ? 'text' : 'password'}
                       placeholder="*********"
-                      className={`${css.input} ${touched.password && errors.password ? css.inputError : ''
-                        }`}
+                      className={`${css.input} ${
+                        touched.password && errors.password
+                          ? css.inputError
+                          : ''
+                      }`}
                     />
                   )}
                 </Field>
                 <button
                   type="button"
                   className={css.eyeButton}
-                  onClick={() => setShowPassword((prev) => !prev)}
+                  onClick={() => setShowPassword(prev => !prev)}
                   aria-label={showPassword ? 'Hide password' : 'Show password'}
                 >
-                  {showPassword ? <EyeClosedIcon width={24} height={24} /> : <EyeIcon width={24} height={24} />}
+                  {showPassword ? (
+                    <EyeClosedIcon width={24} height={24} />
+                  ) : (
+                    <EyeIcon width={24} height={24} />
+                  )}
                 </button>
               </div>
-              <ErrorMessage name="password" component="div" className={css.error} />
+              <ErrorMessage
+                name="password"
+                component="div"
+                className={css.error}
+              />
             </div>
 
             <button
@@ -110,8 +146,13 @@ export default function LoginForm() {
 
       <p className={css.bottomText}>
         Don&apos;t have an account?
-        <Link to="/auth/register" className={css.registerLink}> Register</Link>
+        <Link to="/auth/register" className={css.registerLink}>
+          {' '}
+          Register
+        </Link>
       </p>
+
+      <button onClick={handleGoogleLogin}>Sign in with Google</button>
     </div>
   );
 }

@@ -10,3 +10,4 @@ export const selectCategories = state => state.recipes.categories;
 export const selectIngredients = state => state.recipes.ingredients;
 export const selectFiltersLoading = state => state.recipes.filtersLoading;
 export const selectFiltersError = state => state.recipes.filtersError;
+export const selectPerPage = state => state.recipes.perPage;

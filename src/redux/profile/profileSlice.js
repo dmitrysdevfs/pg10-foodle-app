@@ -4,6 +4,7 @@ import {
   fetchFavoriteRecipes,
   addToFavorites,
   removeFromFavorites,
+  deleteOwnRecipe,
 } from './operations';
 
 const initialState = {
@@ -11,6 +12,7 @@ const initialState = {
   favoriteRecipes: [],
   ownPage: 1,
   favoritePage: 1,
+  perPage: 12,
   ownHasMore: false,
   favoriteHasMore: false,
   ownTotalItems: 0,
@@ -32,8 +34,7 @@ const profileSlice = createSlice({
       .addCase(fetchOwnRecipes.fulfilled, (state, action) => {
         const { recipes, hasMore, page, totalItems } = action.payload;
         state.isLoading = false;
-        state.ownRecipes =
-          page === 1 ? recipes : [...state.ownRecipes, ...recipes];
+        state.ownRecipes = recipes;
         state.ownHasMore = hasMore;
         state.ownPage = page;
         state.ownTotalItems = totalItems;
@@ -50,8 +51,7 @@ const profileSlice = createSlice({
       .addCase(fetchFavoriteRecipes.fulfilled, (state, action) => {
         const { recipes, hasMore, page, totalItems } = action.payload;
         state.isLoading = false;
-        state.favoriteRecipes =
-          page === 1 ? recipes : [...state.favoriteRecipes, ...recipes];
+        state.favoriteRecipes = recipes;
         state.favoriteHasMore = hasMore;
         state.favoritePage = page;
         state.favoriteTotalItems = totalItems;
@@ -95,7 +95,23 @@ const profileSlice = createSlice({
         state.isLoading = false;
         state.error = action.payload || action.error.message;
       })
-      .addCase('auth/logOut/fulfilled', () => initialState);
+      .addCase('auth/logOut/fulfilled', () => initialState)
+      .addCase(deleteOwnRecipe.pending, state => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(deleteOwnRecipe.fulfilled, (state, action) => {
+        state.isLoading = false;
+        const deletedId = action.payload;
+        state.ownRecipes = state.ownRecipes.filter(
+          recipe => recipe._id !== deletedId
+        );
+        state.ownTotalItems = state.ownTotalItems - 1;
+      })
+      .addCase(deleteOwnRecipe.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload || action.error.message;
+      });
   },
 });
 

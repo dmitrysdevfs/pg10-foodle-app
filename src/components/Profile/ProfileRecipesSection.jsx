@@ -1,8 +1,8 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import RecipesList from '../RecipesList/RecipesList';
-import Button from '../Button/Button';
 import Loader from '../Loader/Loader';
+import Pagination from '../Pagination/Pagination.jsx';
 import s from './ProfileNavigation/ProfileNavigation.module.css';
 
 const ProfileRecipesSection = ({
@@ -10,23 +10,29 @@ const ProfileRecipesSection = ({
   selectRecipes,
   selectLoading,
   selectError,
-  selectHasMore,
   selectPage,
+  selectTotalItems,
+  perPage,
   type,
 }) => {
   const dispatch = useDispatch();
   const recipes = useSelector(selectRecipes);
   const loading = useSelector(selectLoading);
   const error = useSelector(selectError);
-  const hasMore = useSelector(selectHasMore);
   const page = useSelector(selectPage);
+  const totalItems = useSelector(selectTotalItems);
+  const perPageValue = useSelector(perPage);
+
+  const totalPages = Math.ceil(totalItems / perPageValue);
 
   useEffect(() => {
-    dispatch(fetchAction());
-  }, [dispatch]);
+    if (page) {
+      dispatch(fetchAction(page));
+    }
+  }, [dispatch, page, fetchAction]);
 
-  const handleLoadMore = () => {
-    dispatch(fetchAction(page + 1));
+  const handlePageChange = newPage => {
+    dispatch(fetchAction(newPage));
   };
 
   if (loading && page === 1) return <Loader />;
@@ -50,15 +56,12 @@ const ProfileRecipesSection = ({
   return (
     <div className={s.listWrapper}>
       <RecipesList recipes={recipes} type={type} />
-      {hasMore && (
-        <div className={s.buttonContainer}>
-          <Button
-            onClick={handleLoadMore}
-            text="Load more"
-            type="button"
-            disabled={loading}
-          />
-        </div>
+      {totalPages > 1 && (
+        <Pagination
+          totalPages={totalPages}
+          currentPage={page}
+          onPageChange={handlePageChange}
+        />
       )}
     </div>
   );

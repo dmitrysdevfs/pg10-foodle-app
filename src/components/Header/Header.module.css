@@ -27,7 +27,7 @@
   align-items: center;
   justify-content: flex-start;
   flex-direction: row;
-  padding: 12px;
+  padding: 8px 12px;
 }
 
 .logo {
@@ -65,7 +65,7 @@
   flex-direction: column;
   gap: 32px;
   position: fixed;
-  top: 81px;
+  top: 73px;
   right: 0;
   background-color: var(--dark-brown);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -129,7 +129,7 @@
 
 @media screen and (min-width: 768px) {
   .headerNav {
-    padding: 15px 32px;
+    padding: 14px 32px;
   }
 
   .burgerButton {
@@ -191,6 +191,7 @@
 
 @media screen and (min-width: 1440px) {
   .headerNav {
-    padding: 15px 108px;
+    padding-right: 108px;
+    padding-left: 108px;
   }
 }

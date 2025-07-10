@@ -4,11 +4,13 @@ import { FaRegTrashCan } from 'react-icons/fa6';
 const RecipeAddIngredient = ({ ingredients, onRemove }) => {
   return (
     <div className={css.container}>
-      <div className={css.boxName}>
-        <h3 className={css.name}>Name:</h3>
-        <h3 className={css.amount}>Amount:</h3>
-        <div></div>
-      </div>
+      {ingredients.length > 0 && (
+        <div className={css.boxName}>
+          <h3 className={css.name}>Name:</h3>
+          <h3 className={css.amount}>Amount:</h3>
+          <div></div>
+        </div>
+      )}
       {ingredients.map((item, index) => (
         <div
           className={css.boxIngredient}

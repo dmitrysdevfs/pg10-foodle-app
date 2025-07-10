@@ -71,6 +71,7 @@ const initialState = {
   ingredients: [],
   filtersLoading: false,
   filtersError: null,
+  perPage: 12,
 };
 
 const recipesSlice = createSlice({
@@ -78,12 +79,30 @@ const recipesSlice = createSlice({
   initialState,
   reducers: {
     setSearchQuery: (state, action) => {
-      state.searchQuery = action.payload;
-      state.totalItems = 0;
+      const newSearchQuery = action.payload;
+
+      // Скидаємо totalItems тільки якщо пошуковий запит дійсно змінився
+      if (state.searchQuery !== newSearchQuery) {
+        state.searchQuery = newSearchQuery;
+        state.items = []; // Очищаємо старі рецепти
+        state.totalItems = 0;
+        state.currentPage = 1; // Скидаємо на першу сторінку
+      }
     },
     setFilters: (state, action) => {
-      state.filters = action.payload;
-      state.totalItems = 0;
+      const newFilters = action.payload;
+      const filtersChanged =
+        state.filters.category !== newFilters.category ||
+        state.filters.ingredient !== newFilters.ingredient;
+
+      state.filters = newFilters;
+
+      // Скидаємо totalItems тільки якщо фільтри дійсно змінилися
+      if (filtersChanged) {
+        state.items = []; // Очищаємо старі рецепти
+        state.totalItems = 0;
+        state.currentPage = 1; // Скидаємо на першу сторінку
+      }
     },
     clearRecipes: state => {
       state.items = [];
@@ -98,18 +117,11 @@ const recipesSlice = createSlice({
       .addCase(fetchRecipes.pending, state => {
         state.isLoading = true;
         state.error = null;
-        state.totalItems = 0;
       })
       .addCase(fetchRecipes.fulfilled, (state, action) => {
         state.isLoading = false;
         const { data, page, hasNextPage, totalItems } = action.payload;
-
-        if (page === 1) {
-          state.items = data;
-        } else {
-          state.items = [...state.items, ...data];
-        }
-
+        state.items = data;
         state.currentPage = page;
         state.hasNextPage = hasNextPage;
         state.totalItems = totalItems;
@@ -150,7 +162,6 @@ const recipesSlice = createSlice({
       })
       .addCase(createRecipe.fulfilled, (state, action) => {
         state.isLoading = false;
-        // Optionally add the new recipe to the beginning of the list
         if (action.payload.data) {
           state.items.unshift(action.payload.data);
         }
