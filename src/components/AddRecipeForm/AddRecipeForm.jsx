@@ -39,7 +39,6 @@ const AddRecipeForm = () => {
   const [ingredientInput, setIngredientInput] = useState('');
   const [showDropdown, setShowDropdown] = useState(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
-  const [createdRecipeId, setCreatedRecipeId] = useState(null);
 
   const filteredIngredients = ingredients.filter(ing =>
     ing.name.toLowerCase().includes(ingredientInput.toLowerCase())
@@ -180,7 +179,6 @@ const AddRecipeForm = () => {
       if (result.data) {
         toast.success('Recipe created successfully');
 
-        setCreatedRecipeId(result.data._id);
         setShowSuccessModal(true);
 
         resetForm();
@@ -498,9 +496,7 @@ const AddRecipeForm = () => {
           message="You can find recipe in our profile"
           actions={[
             {
-              element: (
-                <Link to={`/recipes/${createdRecipeId}`}>Go to My profile</Link>
-              ),
+              element: <Link to={`/profile`}>Go to My profile</Link>,
               type: 'secondary',
             },
           ]}

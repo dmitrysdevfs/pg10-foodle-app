@@ -34,7 +34,7 @@ export default function Header() {
 
   return (
     <header className={clsx(css.headerNav, isScrolled && css.scrolled)}>
-      <div className={css.container}>
+      <div className="container">
         <div className={css.inner}>
           <NavLink to="/" className={css.logoLink}>
             <LogoIcon className={css.logo} />
