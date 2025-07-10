@@ -11,6 +11,7 @@ import {
 import { selectIsLoggedIn } from '../../redux/auth/selectors.js';
 import { selectFavoriteRecipes } from '../../redux/profile/selectors.js';
 import Modal from '../Modal/Modal';
+import Loader from '../Loader/Loader';
 
 import SaveIcon from '../../assets/icons/SaveIcon.svg';
 import s from './SaveRecipeButton.module.css';
@@ -22,40 +23,48 @@ const SaveRecipeButton = ({ recipeId }) => {
   const dispatch = useDispatch();
   const isLoggedIn = useSelector(selectIsLoggedIn);
   const favoriteRecipes = useSelector(selectFavoriteRecipes);
+  const [isLoading, setIsLoading] = useState(false);
   const [showModal, setShowModal] = useState(false);
 
   const isFavorite = favoriteRecipes.some(recipe => recipe._id === recipeId);
 
-  const handleSaveClick = () => {
+  const handleSaveClick = async () => {
     if (!isLoggedIn) {
       setShowModal(true);
       return;
     }
 
-    const action = isFavorite
-      ? removeFromFavorites(recipeId)
-      : addToFavorites(recipeId);
+    if (isLoading) {
+      return; // Запобігаємо подвійним клікам
+    }
 
-    dispatch(action)
-      .unwrap()
-      .then(() => {
-        toast.success(
-          isFavorite ? 'Recipe removed from saved' : 'Recipe saved successfully'
-        );
-      })
-      .catch(err => {
-        const status =
-          err?.response?.status || err?.status || err?.originalStatus;
-        const message = err?.response?.data?.message || err?.message || '';
+    setIsLoading(true);
 
-        console.log('REAL ERROR STATUS:', status);
-        console.log('REAL ERROR MESSAGE:', message);
-        if (status === 401 || message.includes('Access token expired')) {
-          setShowModal(true);
-        } else {
-          toast.error('Something went wrong');
-        }
-      });
+    try {
+      const action = isFavorite
+        ? removeFromFavorites(recipeId)
+        : addToFavorites(recipeId);
+
+      await dispatch(action).unwrap();
+
+      toast.success(
+        isFavorite ? 'Recipe removed from saved' : 'Recipe saved successfully'
+      );
+    } catch (err) {
+      const status =
+        err?.response?.status || err?.status || err?.originalStatus;
+      const message = err?.response?.data?.message || err?.message || '';
+
+      console.log('REAL ERROR STATUS:', status);
+      console.log('REAL ERROR MESSAGE:', message);
+      if (status === 401 || message.includes('Access token expired')) {
+        setShowModal(true);
+      } else {
+        toast.error('Something went wrong');
+      }
+    } finally {
+      setIsLoading(false);
+    }
   };
   const actions = [
     {
@@ -77,8 +86,13 @@ const SaveRecipeButton = ({ recipeId }) => {
         type="button"
         aria-label={isFavorite ? 'Remove from saved' : 'Save this recipe'}
         onClick={handleSaveClick}
+        disabled={isLoading}
       >
-        {isRecipeView ? (
+        {isLoading ? (
+          <div className={s.loaderContainer}>
+            <Loader />
+          </div>
+        ) : isRecipeView ? (
           <>
             <span className={s.text}> {isFavorite ? 'Remove' : 'Save'}</span>
             <SaveIcon className={s.icon} />

@@ -61,12 +61,7 @@ const profileSlice = createSlice({
         state.error = action.payload || action.error.message;
       })
 
-      .addCase(addToFavorites.pending, state => {
-        state.isLoading = true;
-        state.error = null;
-      })
       .addCase(addToFavorites.fulfilled, (state, action) => {
-        state.isLoading = false;
         const id = action.payload;
 
         const alreadyExists = state.favoriteRecipes.some(r => r._id === id);
@@ -75,16 +70,10 @@ const profileSlice = createSlice({
         }
       })
       .addCase(addToFavorites.rejected, (state, action) => {
-        state.isLoading = false;
         state.error = action.payload || action.error.message;
       })
 
-      .addCase(removeFromFavorites.pending, state => {
-        state.isLoading = true;
-        state.error = null;
-      })
       .addCase(removeFromFavorites.fulfilled, (state, action) => {
-        state.isLoading = false;
         const removedId = action.payload;
         state.favoriteRecipes = state.favoriteRecipes.filter(
           recipe => recipe._id !== removedId
@@ -92,7 +81,6 @@ const profileSlice = createSlice({
         state.favoriteTotalItems = state.favoriteTotalItems - 1;
       })
       .addCase(removeFromFavorites.rejected, (state, action) => {
-        state.isLoading = false;
         state.error = action.payload || action.error.message;
       })
       .addCase('auth/logOut/fulfilled', () => initialState)
