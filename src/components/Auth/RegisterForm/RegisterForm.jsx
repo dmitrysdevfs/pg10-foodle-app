@@ -76,6 +76,22 @@ const RegistrationForm = () => {
         {({ isSubmitting }) => (
           <Form className={css.form}>
             <div className={css.inputGroup}>
+              <label htmlFor="name" className={css.label}>
+                Enter your name
+              </label>
+              <div className={css.inputWrapper}>
+                <Field
+                  id="name"
+                  name="name"
+                  type="text"
+                  className={css.input}
+                  placeholder="Max"
+                />
+              </div>
+              <ErrorMessage name="name" component="div" className={css.error} />
+            </div>
+
+            <div className={css.inputGroup}>
               <label htmlFor="email" className={css.label}>
                 Enter your email address
               </label>
@@ -93,22 +109,6 @@ const RegistrationForm = () => {
                 component="div"
                 className={css.error}
               />
-            </div>
-
-            <div className={css.inputGroup}>
-              <label htmlFor="name" className={css.label}>
-                Enter your name
-              </label>
-              <div className={css.inputWrapper}>
-                <Field
-                  id="name"
-                  name="name"
-                  type="text"
-                  className={css.input}
-                  placeholder="Max"
-                />
-              </div>
-              <ErrorMessage name="name" component="div" className={css.error} />
             </div>
 
             <div className={css.inputGroup}>
