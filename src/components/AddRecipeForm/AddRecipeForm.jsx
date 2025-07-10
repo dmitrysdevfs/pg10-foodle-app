@@ -2,7 +2,7 @@ import css from './AddRecipeForm.module.css';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { useEffect, useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { clsx } from 'clsx';
 import Container from '../../assets/Container.png';
 import RecipeAddIngredient from '../RecipeAddIngredient/RecipeAddIngredient';
@@ -19,10 +19,10 @@ import {
   selectIsLoading,
   selectError,
 } from '../../redux/recipes/selectors';
-import Modal from '../Modal/Modal';
 
 const AddRecipeForm = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const categories = useSelector(selectCategories);
   const ingredients = useSelector(selectIngredients);
@@ -38,8 +38,6 @@ const AddRecipeForm = () => {
   });
   const [ingredientInput, setIngredientInput] = useState('');
   const [showDropdown, setShowDropdown] = useState(false);
-  const [showSuccessModal, setShowSuccessModal] = useState(false);
-  const [createdRecipeId, setCreatedRecipeId] = useState(null);
 
   const filteredIngredients = ingredients.filter(ing =>
     ing.name.toLowerCase().includes(ingredientInput.toLowerCase())
@@ -180,8 +178,8 @@ const AddRecipeForm = () => {
       if (result.data) {
         toast.success('Recipe created successfully');
 
-        setCreatedRecipeId(result.data._id);
-        setShowSuccessModal(true);
+        // Переадресація на щойно створений рецепт
+        navigate(`/recipes/${result.data._id}`);
 
         resetForm();
         setIngredientsList([]);
@@ -490,22 +488,6 @@ const AddRecipeForm = () => {
           );
         }}
       </Formik>
-      {showSuccessModal && (
-        <Modal
-          open={showSuccessModal}
-          onOpenChange={setShowSuccessModal}
-          title="Done! Recipe saved"
-          message="You can find recipe in our profile"
-          actions={[
-            {
-              element: (
-                <Link to={`/recipes/${createdRecipeId}`}>Go to My profile</Link>
-              ),
-              type: 'secondary',
-            },
-          ]}
-        />
-      )}
     </div>
   );
 };

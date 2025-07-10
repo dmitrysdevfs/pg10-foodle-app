@@ -9,6 +9,7 @@ import { logIn } from '../../../redux/auth/operations';
 
 import EyeIcon from '../../../assets/castom-icons/eye.svg';
 import EyeClosedIcon from '../../../assets/castom-icons/eye-clossed.svg';
+import Loader from '../../Loader/Loader';
 
 export default function LoginForm() {
   const [showPassword, setShowPassword] = useState(false);
@@ -32,26 +33,6 @@ export default function LoginForm() {
       });
     } finally {
       setSubmitting(false);
-    }
-  };
-
-  const handleGoogleLogin = async () => {
-    try {
-      const response = await fetch(
-        `${import.meta.env.VITE_API_BASE_URL}/api/auth/google-oauth-url`
-      );
-      const data = await response.json();
-
-      const url = data?.data?.oauth_url;
-
-      if (url) {
-        window.location.href = url;
-      } else {
-        toast.error('Failed to get Google login URL');
-      }
-    } catch (error) {
-      toast.error('Something went wrong');
-      console.error(error);
     }
   };
 
@@ -138,7 +119,14 @@ export default function LoginForm() {
               className={css.submitButton}
               disabled={isSubmitting || loading}
             >
-              {loading ? 'Logging in...' : 'Login'}
+              {loading ? (
+                <div className={css.loaderContainer}>
+                  <span>Logging in...</span>
+                  <Loader />
+                </div>
+              ) : (
+                'Login'
+              )}
             </button>
           </Form>
         )}
@@ -151,8 +139,6 @@ export default function LoginForm() {
           Register
         </Link>
       </p>
-
-      <button onClick={handleGoogleLogin}>Sign in with Google</button>
     </div>
   );
 }
