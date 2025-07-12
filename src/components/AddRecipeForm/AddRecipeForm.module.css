@@ -6,6 +6,7 @@
 
 .description {
   height: 144px;
+  resize: none;
 }
 
 .formContainer {
@@ -19,6 +20,10 @@
 }
 .ingredientNameWrapper {
   position: relative;
+}
+
+.instructions {
+  resize: none;
 }
 
 .dropdown {
@@ -98,6 +103,7 @@
     display: flex;
     flex-direction: column;
     gap: 8px;
+    position: relative;
   }
 
   .input {
@@ -110,15 +116,42 @@
     color: var(--black);
   }
 
-  .error {
+  /* .error {
     color: #ff0000;
     font-size: 14px;
+  } */
+
+  .errorRecipe{
+    color: #ff0000;
+    font-size: 14px;
+    position: absolute;
+    bottom: -25px;
+    left: 0;
+  }
+
+  .description{
   }
 
   .descriptionRecipe {
     max-width: 361px;
     height: 144px;
     margin-bottom: 16px;
+  }
+
+  .errorDescription{
+    color: #ff0000;
+    font-size: 14px;
+    position: absolute;
+    bottom: -25px;
+    left: 0;
+  }
+
+  .errorCooking{
+    color: #ff0000;
+    font-size: 14px;
+    position: absolute;
+    bottom: -25px;
+    left: 0;
   }
 
   .containerFood {
@@ -134,12 +167,19 @@
     width: 100%;
   }
 
+  .errorCalories{
+    color: #ff0000;
+    font-size: 14px;
+    position: absolute;
+    bottom: -25px;
+    left: 0;
+  }
+
   .category {
     max-width: 172px;
     flex: 1 1 0;
     border: 1px solid #d9d9d9;
     outline: none;
-
     font-size: 18px;
     color: var(--black);
     border: 1px solid #d9d9d9;
@@ -148,11 +188,35 @@
     height: 48px;
   }
 
+  .errorCategory{
+    color: #ff0000;
+    font-size: 14px;
+    position: absolute;
+    bottom: -25px;
+    left: 0;
+  }
+
+  .errorName{
+    color: #ff0000;
+    font-size: 14px;
+    position: absolute;
+    bottom: -25px;
+    left: 0;
+  }
+
   .nameAmount {
     display: flex;
     flex-direction: column;
     gap: 16px;
     width: 100%;
+  }
+
+  .errorAmount{
+    color: #ff0000;
+    font-size: 14px;
+    position: absolute;
+    bottom: -25px;
+    left: 0;
   }
 
   .titleList {
@@ -209,6 +273,15 @@
   .instructions {
     height: 144px;
     max-width: 361px;
+    resize: none;
+  }
+
+  .errorInstructions{
+    color: #ff0000;
+    font-size: 14px;
+    position: absolute;
+    bottom: -25px;
+    left: 0;
   }
 
   .buttonSubmitbox {
@@ -291,6 +364,7 @@
     display: flex;
     flex-direction: column;
     gap: 8px;
+    position: relative;
   }
 
   .input {
@@ -305,15 +379,39 @@
     width: 100%;
   }
 
-  .error {
+  /* .error {
     color: #ff0000;
     font-size: 14px;
-  }
+  } */
 
+  .errorRecipe {
+    color: #ff0000;
+    font-size: 14px;
+    position: absolute;
+    bottom: -25px;
+    left: 0;
+  }
+  
   .descriptionRecipe {
     width: 704px;
     height: 144px;
     margin-bottom: 16px;
+  }
+  
+  .errorDescription {
+    color: #ff0000;
+    font-size: 14px;
+    position: absolute;
+    bottom: -25px;
+    left: 0;
+  }
+
+  .errorCooking {
+    color: #ff0000;
+    font-size: 14px;
+    position: absolute;
+    bottom: -25px;
+    left: 0;
   }
 
   .containerFood {
@@ -325,6 +423,14 @@
   .calories {
     width: 340px;
     height: 46px;
+  }
+
+  .errorCalories {
+    color: #ff0000;
+    font-size: 14px;
+    position: absolute;
+    bottom: -25px;
+    left: 0;
   }
 
   .category {
@@ -339,12 +445,36 @@
     height: 48px;
   }
 
+  .errorCategory {
+    color: #ff0000;
+    font-size: 14px;
+    position: absolute;
+    bottom: -25px;
+    left: 0;
+  }
+
+  .errorName {
+    color: #ff0000;
+    font-size: 14px;
+    position: absolute;
+    bottom: -25px;
+    left: 0;
+  }
+
   .nameAmount {
     display: flex;
     flex-direction: row;
     gap: 16px;
     width: 100%;
     margin-bottom: 32px;
+  }
+
+  .errorAmount {
+    color: #ff0000;
+    font-size: 14px;
+    position: absolute;
+    bottom: -25px;
+    left: 0;
   }
 
   .amountWrapper {
@@ -421,6 +551,15 @@
     width: 704px;
     height: 144px;
   }
+
+  .errorInstructions {
+    color: #ff0000;
+    font-size: 14px;
+    position: absolute;
+    bottom: -25px;
+    left: 0;
+  }
+
   .buttonSubmitbox {
     display: flex;
     flex-direction: column;

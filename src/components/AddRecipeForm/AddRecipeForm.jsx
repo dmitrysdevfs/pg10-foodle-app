@@ -236,7 +236,9 @@ const AddRecipeForm = () => {
                 acc[key] = true;
                 return acc;
               }, {});
-              setFieldTouched(touchedFields, true, false);
+              Object.keys(touchedFields).forEach(key => {
+                setFieldTouched(key, true, false);
+              });
               return;
             }
             submitForm();
@@ -280,7 +282,7 @@ const AddRecipeForm = () => {
                     <ErrorMessage
                       name="title"
                       component="div"
-                      className={css.error}
+                      className={css.errorRecipe}
                     />
                   </label>
                   <label className={css.titleText}>
@@ -294,7 +296,7 @@ const AddRecipeForm = () => {
                     <ErrorMessage
                       name="description"
                       component="div"
-                      className={css.error}
+                      className={css.errorDescription}
                     />
                   </label>
                   <label className={css.titleText}>
@@ -308,7 +310,7 @@ const AddRecipeForm = () => {
                     <ErrorMessage
                       name="time"
                       component="div"
-                      className={css.error}
+                      className={css.errorCooking}
                     />
                   </label>
 
@@ -324,7 +326,7 @@ const AddRecipeForm = () => {
                       <ErrorMessage
                         name="calories"
                         component="div"
-                        className={css.error}
+                        className={css.errorCalories}
                       />
                     </label>
                     <label className={css.titleText}>
@@ -344,7 +346,7 @@ const AddRecipeForm = () => {
                       <ErrorMessage
                         name="category"
                         component="div"
-                        className={css.error}
+                        className={css.errorCategory}
                       />
                     </label>
                   </div>
@@ -404,7 +406,7 @@ const AddRecipeForm = () => {
                   <ErrorMessage
                     name="ingredients"
                     component="div"
-                    className={css.error}
+                    className={css.errorName}
                   />
                 </label>
                 <div className={css.amountWrapper}>
@@ -427,7 +429,7 @@ const AddRecipeForm = () => {
                     <ErrorMessage
                       name="measure"
                       component="div"
-                      className={css.error}
+                      className={css.errorAmount}
                     />
                   </label>
                   <button
@@ -471,7 +473,7 @@ const AddRecipeForm = () => {
                 <ErrorMessage
                   name="instructions"
                   component="div"
-                  className={css.error}
+                  className={css.errorInstructions}
                 />
               </label>
               <div className={css.buttonSubmitbox}>
