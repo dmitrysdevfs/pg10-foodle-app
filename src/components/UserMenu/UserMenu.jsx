@@ -25,15 +25,15 @@ export default function UserMenu() {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  const handleLogout = async () => {
-    try {
-      await dispatch(logOut()).unwrap();
-      navigate('/');
-    } catch (error) {
-      console.error('Logout error:', error);
-      toast.error('Failed to log out. Try again.');
-    }
-  };
+ const handleLogout = async () => {
+  try {
+    await dispatch(logOut()).unwrap();
+    navigate('/');
+  } catch (error) {
+    console.error('Logout error:', error);
+    toast.error('Failed to log out. Try again.');
+  }
+};
 
   if (!isLoggedIn) {
     return null;
