@@ -148,7 +148,7 @@ const AddRecipeForm = () => {
       return;
     }
     if (ingredientsList.length === 0) {
-      toast.error('Please add at least two ingredient');
+      toast.error('Please add at least one ingredient');
       setSubmitting(false);
       return;
     }
@@ -240,8 +240,8 @@ const AddRecipeForm = () => {
               Object.keys(touchedFields).forEach(key => {
                 setFieldTouched(key, true, false);
               });
-              if (ingredientsList.length < 2) {
-                toast.error('Please add at least two ingredients');
+              if (ingredientsList.length < 1) {
+                toast.error('Please add at least one ingredients');
                 return;
               }
               return;
