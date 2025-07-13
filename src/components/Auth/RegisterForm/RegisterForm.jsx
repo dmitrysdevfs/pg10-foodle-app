@@ -9,6 +9,7 @@ import { register } from '../../../redux/auth/operations';
 
 import EyeIcon from '../../../assets/castom-icons/eye.svg';
 import EyeClosedIcon from '../../../assets/castom-icons/eye-clossed.svg';
+// import GoogleButton from '../../GoogleButton/GoogleButton';
 import Loader from '../../Loader/Loader';
 
 const RegistrationForm = () => {
@@ -37,9 +38,17 @@ const RegistrationForm = () => {
         resetForm();
       }, 200);
     } catch (error) {
-      toast.error(error.message || 'Registration failed', {
-        duration: 5000,
-      });
+      if (Array.isArray(error)) {
+        error.forEach(element => {
+          toast.error(element, {
+            duration: 5000,
+          });
+        });
+      } else {
+        toast.error(error, {
+          duration: 5000,
+        });
+      }
     } finally {
       setSubmitting(false);
     }
@@ -67,6 +76,22 @@ const RegistrationForm = () => {
         {({ isSubmitting }) => (
           <Form className={css.form}>
             <div className={css.inputGroup}>
+              <label htmlFor="name" className={css.label}>
+                Enter your name
+              </label>
+              <div className={css.inputWrapper}>
+                <Field
+                  id="name"
+                  name="name"
+                  type="text"
+                  className={css.input}
+                  placeholder="Max"
+                />
+              </div>
+              <ErrorMessage name="name" component="div" className={css.error} />
+            </div>
+
+            <div className={css.inputGroup}>
               <label htmlFor="email" className={css.label}>
                 Enter your email address
               </label>
@@ -84,22 +109,6 @@ const RegistrationForm = () => {
                 component="div"
                 className={css.error}
               />
-            </div>
-
-            <div className={css.inputGroup}>
-              <label htmlFor="name" className={css.label}>
-                Enter your name
-              </label>
-              <div className={css.inputWrapper}>
-                <Field
-                  id="name"
-                  name="name"
-                  type="text"
-                  className={css.input}
-                  placeholder="Max"
-                />
-              </div>
-              <ErrorMessage name="name" component="div" className={css.error} />
             </div>
 
             <div className={css.inputGroup}>
@@ -196,6 +205,7 @@ const RegistrationForm = () => {
           Log in
         </Link>
       </p>
+      {/* <GoogleButton /> */}
     </div>
   );
 };

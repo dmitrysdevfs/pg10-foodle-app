@@ -7,7 +7,7 @@ import { refreshUser } from '../../redux/auth/operations';
 import Loader from '../Loader/Loader';
 import Layout from '../Layout/Layout';
 import css from './App.module.css';
-import { selectRefreshing } from '../../redux/auth/selectors';
+import { selectRefreshing, selectToken } from '../../redux/auth/selectors';
 import RestrictedRoute from '../RestrictedRoute';
 import PrivateRoute from '../RrivateRoute';
 import SessionManager from '../SessionManager/SessionManager.jsx';
@@ -42,10 +42,13 @@ const PageLoader = () => (
 export default function App() {
   const dispatch = useDispatch();
   const isRefreshing = useSelector(selectRefreshing);
+  const token = useSelector(selectToken);
 
   useEffect(() => {
-    dispatch(refreshUser());
-  }, [dispatch]);
+    if (token) {
+      dispatch(refreshUser());
+    }
+  }, [dispatch, token]);
 
   return isRefreshing ? (
     <PageLoader />

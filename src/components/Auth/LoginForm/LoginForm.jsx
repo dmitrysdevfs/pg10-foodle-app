@@ -9,6 +9,7 @@ import { logIn } from '../../../redux/auth/operations';
 
 import EyeIcon from '../../../assets/castom-icons/eye.svg';
 import EyeClosedIcon from '../../../assets/castom-icons/eye-clossed.svg';
+// import GoogleButton from '../../../components/GoogleButton/GoogleButton';
 import Loader from '../../Loader/Loader';
 
 export default function LoginForm() {
@@ -28,9 +29,17 @@ export default function LoginForm() {
         navigate('/');
       }, 200);
     } catch (error) {
-      toast.error(error.message || 'Login failed', {
-        duration: 5000,
-      });
+      if (Array.isArray(error)) {
+        error.forEach(element => {
+          toast.error(element, {
+            duration: 5000,
+          });
+        });
+      } else {
+        toast.error(error, {
+          duration: 5000,
+        });
+      }
     } finally {
       setSubmitting(false);
     }
@@ -139,6 +148,7 @@ export default function LoginForm() {
           Register
         </Link>
       </p>
+      {/* <GoogleButton /> */}
     </div>
   );
 }

@@ -55,12 +55,18 @@
 }
 
 .content {
+  flex-direction: column;
+  gap: 16px;
+  align-items: center;
+}
+
+.sidebar {
   display: flex;
+
+  flex: 1;
   flex-direction: column;
-  gap: 40px;
-  flex: 2;
-  flex-direction: column;
-  gap: 40px;
+  align-items: stretch;
+  gap: 16px;
 }
 
 .stepsTitle {
@@ -81,6 +87,8 @@
   flex-direction: column;
   gap: 16px;
   align-items: center;
+  display: flex;
+  flex: 1;
 }
 
 .infoBox {
@@ -102,15 +110,6 @@
 .infoTitle {
   font-weight: 600;
   font-size: 24px;
-}
-
-.sidebar {
-  display: flex;
-
-  flex: 1;
-  flex-direction: column;
-  align-items: stretch;
-  gap: 16px;
 }
 
 .infoBox {
@@ -170,7 +169,6 @@
     justify-content: space-between;
     align-items: flex-start;
     width: 100%;
-
     gap: 24px;
     width: 100%;
     max-width: 100%;
@@ -178,6 +176,11 @@
 
   .infoBox {
     min-width: 431px;
+  }
+
+  .image {
+    max-width: 704px;
+    height: 624px;
   }
 }
 
@@ -198,6 +201,11 @@
     flex-shrink: 0;
   }
 
+  .informations {
+    font-weight: 700;
+    font-size: 24px;
+  }
+
   .infoBox {
     background-color: #fdf7e3;
     font-size: 16px;
@@ -214,12 +222,47 @@
     font-style: 24px;
   }
 
-  .informations {
-    font-weight: 700;
-    font-size: 24px;
-  }
-
   .span {
     font-weight: 400;
   }
+}
+
+.largeDeleteBtn {
+  display: flex;
+  gap: 16px;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  padding: 16px;
+  border-radius: 8px;
+  background: #c80000;
+  color: var(--white);
+  transition: all 0.3s ease;
+}
+
+.largeDeleteBtn:hover {
+  background-color: transparent;
+  color: #c80000;
+  border: 2px solid #c80000;
+  transform: scale(1.02);
+}
+
+.largeDeleteBtn {
+  display: flex;
+  gap: 16px;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  padding: 16px;
+  border-radius: 8px;
+  background: #c80000;
+  color: var(--white);
+  transition: all 0.3s ease;
+}
+
+.largeDeleteBtn:hover {
+  background-color: transparent;
+  color: #c80000;
+  border: 2px solid #c80000;
+  transform: scale(1.02);
 }

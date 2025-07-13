@@ -54,6 +54,15 @@ const SaveRecipeButton = ({ recipeId }) => {
       const status =
         err?.response?.status || err?.status || err?.originalStatus;
       const message = err?.response?.data?.message || err?.message || '';
+      await dispatch(action).unwrap();
+
+      toast.success(
+        isFavorite ? 'Recipe removed from saved' : 'Recipe saved successfully'
+      );
+    } catch (err) {
+      const status =
+        err?.response?.status || err?.status || err?.originalStatus;
+      const message = err?.response?.data?.message || err?.message || '';
 
       console.log('REAL ERROR STATUS:', status);
       console.log('REAL ERROR MESSAGE:', message);
@@ -66,6 +75,49 @@ const SaveRecipeButton = ({ recipeId }) => {
       setIsLoading(false);
     }
   };
+      console.log('REAL ERROR STATUS:', status);
+      console.log('REAL ERROR MESSAGE:', message);
+      if (status === 401 || message.includes('Access token expired')) {
+        setShowModal(true);
+      } else {
+        toast.error('Something went wrong');
+      }
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  // const handleSaveClick = () => {
+  //   if (!isLoggedIn) {
+  //     setShowModal(true);
+  //     return;
+  //   }
+
+  //   const action = isFavorite
+  //     ? removeFromFavorites(recipeId)
+  //     : addToFavorites(recipeId);
+
+  //   dispatch(action)
+  //     .unwrap()
+  //     .then(() => {
+  //       toast.success(
+  //         isFavorite ? 'Recipe removed from saved' : 'Recipe saved successfully'
+  //       );
+  //     })
+  //     .catch(err => {
+  //       const status =
+  //         err?.response?.status || err?.status || err?.originalStatus;
+  //       const message = err?.response?.data?.message || err?.message || '';
+
+  //       console.log('REAL ERROR STATUS:', status);
+  //       console.log('REAL ERROR MESSAGE:', message);
+  //       if (status === 401 || message.includes('Access token expired')) {
+  //         setShowModal(true);
+  //       } else {
+  //         toast.error('Something went wrong');
+  //       }
+  //     });
+  // };
   const actions = [
     {
       element: <Link to="/auth/login">Log in</Link>,

@@ -248,3 +248,24 @@
     white-space: nowrap;
   }
 }
+
+.submitButton:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.submitButton:disabled:hover {
+  background: #9b6c43;
+}
+
+.loaderContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.loginLoader {
+  width: 20px;
+  height: 20px;
+}

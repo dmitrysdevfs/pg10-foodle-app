@@ -2,12 +2,13 @@ import css from './AddRecipeForm.module.css';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { useEffect, useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { clsx } from 'clsx';
 import Container from '../../assets/Container.png';
 import RecipeAddIngredient from '../RecipeAddIngredient/RecipeAddIngredient';
 import { addRecipeSchema } from '../../utils/validationSchemas';
 import toast from 'react-hot-toast';
+import Modal from '../Modal/Modal';
 import {
   fetchCategoriesAsync,
   fetchIngredientsAsync,
@@ -38,6 +39,7 @@ const AddRecipeForm = () => {
   });
   const [ingredientInput, setIngredientInput] = useState('');
   const [showDropdown, setShowDropdown] = useState(false);
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
 
   const filteredIngredients = ingredients.filter(ing =>
     ing.name.toLowerCase().includes(ingredientInput.toLowerCase())
@@ -178,8 +180,7 @@ const AddRecipeForm = () => {
       if (result.data) {
         toast.success('Recipe created successfully');
 
-        // Переадресація на щойно створений рецепт
-        navigate(`/recipes/${result.data._id}`);
+        setShowSuccessModal(true);
 
         resetForm();
         setIngredientsList([]);
@@ -488,6 +489,20 @@ const AddRecipeForm = () => {
           );
         }}
       </Formik>
+      {showSuccessModal && (
+        <Modal
+          open={showSuccessModal}
+          onOpenChange={setShowSuccessModal}
+          title="Done! Recipe saved"
+          message="You can find recipe in our profile"
+          actions={[
+            {
+              element: <Link to={`/profile`}>Go to My profile</Link>,
+              type: 'secondary',
+            },
+          ]}
+        />
+      )}
     </div>
   );
 };

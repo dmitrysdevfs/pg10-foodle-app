@@ -24,11 +24,9 @@
   --light-beige: #faf3e0;
   --accent-hover: #c58447;
 
-  --background-gradient: linear-gradient(
-    90deg,
-    rgba(0, 0, 0, 0.9) 0%,
-    rgba(0, 0, 0, 0.3) 100%
-  );
+  --background-gradient: linear-gradient(90deg,
+      rgba(0, 0, 0, 0.9) 0%,
+      rgba(0, 0, 0, 0.3) 100%);
 
   /* responsiveness */
   --pre-mobile: 392.98px;

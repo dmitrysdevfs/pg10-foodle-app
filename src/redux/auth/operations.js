@@ -104,3 +104,21 @@ export const refreshUser = createAsyncThunk(
     },
   }
 );
+
+export const logInWithGoogle = createAsyncThunk(
+  'auth/logInWithGoogle',
+  async (code, thunkAPI) => {
+    try {
+      const response = await axios.post(
+        '/api/auth/confirm-oauth',
+        { code },
+        { withCredentials: true }
+      );
+      return processAuthResponse(response.data.data, {});
+    } catch (error) {
+      return thunkAPI.rejectWithValue(
+        error.response?.data?.message || error.message
+      );
+    }
+  }
+);
