@@ -228,11 +228,6 @@ const AddRecipeForm = () => {
           const handleCustomSubmit = async e => {
             e.preventDefault();
 
-            if (ingredientsList.length < 2) {
-              toast.error('Please add at least two ingredients');
-              return;
-            }
-
             const errors = await validateForm();
             if (Object.keys(errors).length > 0) {
               const firstError = errors[Object.keys(errors)[0]];
@@ -245,6 +240,10 @@ const AddRecipeForm = () => {
               Object.keys(touchedFields).forEach(key => {
                 setFieldTouched(key, true, false);
               });
+              if (ingredientsList.length < 2) {
+                toast.error('Please add at least two ingredients');
+                return;
+              }
               return;
             }
             submitForm();
