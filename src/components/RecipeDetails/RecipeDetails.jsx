@@ -2,15 +2,17 @@ import styles from './RecipeDetails.module.css';
 import SaveRecipeButton from '../SaveRecipeButton/SaveRecipeButton.jsx';
 import NoPhoto from '../../assets/img/no_photo.jpg';
 import DeleteRecipeButton from '../DeleteRecipeButton/DeleteRecipeButton.jsx';
-import { selectUser } from '../../redux/auth/selectors';
+import { selectUser, selectRefreshing, selectIsLoggedIn } from '../../redux/auth/selectors';
 import { useSelector } from 'react-redux';
 
 const RecipeDetails = ({ recipe }) => {
   const user = useSelector(selectUser);
+  const isRefreshing = useSelector(selectRefreshing);
+  const isLoggedIn = useSelector(selectIsLoggedIn);
 
   const ownerId =
     typeof recipe.owner === 'object' ? recipe.owner._id : recipe.owner;
-  const isOwner = user?._id === ownerId;
+  const isOwner = user?._id === ownerId && !isRefreshing && isLoggedIn && user?._id;
 
   return (
     <div className={styles.recipeContainer}>

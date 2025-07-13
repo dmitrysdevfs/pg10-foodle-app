@@ -43,7 +43,6 @@
 }
 .message {
   text-align: center;
-  font-size: 40px;
   padding: 40px 0;
   font-weight: var(--semibold-font-weight);
 }
@@ -71,6 +70,11 @@
 
   .innerWrapper {
     min-height: calc(100vh - (74px + 197px));
+  }
+
+  .message {
+    font-size: 40px;
+    line-height: normal;
   }
 }
 

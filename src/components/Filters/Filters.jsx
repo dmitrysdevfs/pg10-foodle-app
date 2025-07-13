@@ -288,7 +288,7 @@ const Filters = ({ totalItems, onChange }) => {
                 >
                   <path
                     d="M5 8L10 13L15 8"
-                    stroke="#7C3AED"
+                    stroke="black"
                     strokeWidth="2"
                     strokeLinecap="round"
                     strokeLinejoin="round"
@@ -365,7 +365,7 @@ const Filters = ({ totalItems, onChange }) => {
                 >
                   <path
                     d="M5 8L10 13L15 8"
-                    stroke="#7C3AED"
+                    stroke="black"
                     strokeWidth="2"
                     strokeLinecap="round"
                     strokeLinejoin="round"
@@ -442,7 +442,7 @@ const Filters = ({ totalItems, onChange }) => {
               >
                 <path
                   d="M5 8L10 13L15 8"
-                  stroke="#7C3AED"
+                  stroke="black"
                   strokeWidth="2"
                   strokeLinecap="round"
                   strokeLinejoin="round"
@@ -518,7 +518,7 @@ const Filters = ({ totalItems, onChange }) => {
               >
                 <path
                   d="M5 8L10 13L15 8"
-                  stroke="#7C3AED"
+                  stroke="black"
                   strokeWidth="2"
                   strokeLinecap="round"
                   strokeLinejoin="round"
