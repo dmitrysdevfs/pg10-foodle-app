@@ -147,11 +147,7 @@ const AddRecipeForm = () => {
       setSubmitting(false);
       return;
     }
-    if (ingredientsList.length === 0) {
-      toast.error('Please add at least one ingredient');
-      setSubmitting(false);
-      return;
-    }
+
     try {
       const formData = new FormData();
       // Add basic recipe data
