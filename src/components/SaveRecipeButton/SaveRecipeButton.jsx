@@ -26,7 +26,7 @@ const SaveRecipeButton = ({ recipeId }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [showModal, setShowModal] = useState(false);
 
-  const isFavorite = favoriteRecipes.some(recipe => recipe._id === recipeId);
+  const isFavorite = isLoggedIn && favoriteRecipes.some(recipe => recipe._id === recipeId);
 
   const handleSaveClick = async () => {
     if (!isLoggedIn) {
@@ -110,9 +110,8 @@ const SaveRecipeButton = ({ recipeId }) => {
   return (
     <>
       <button
-        className={`${isRecipeView ? s.button : s.iconBtn} ${
-          isFavorite ? s.saved : ''
-        }`}
+        className={`${isRecipeView ? s.button : s.iconBtn} ${isFavorite ? s.saved : ''
+          }`}
         type="button"
         aria-label={isFavorite ? 'Remove from saved' : 'Save this recipe'}
         onClick={handleSaveClick}
