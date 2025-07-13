@@ -33,6 +33,7 @@ export default function Header() {
   }, []);
 
   return (
+    <>
     <header className={clsx(css.headerNav, isScrolled && css.scrolled)}>
       <div className="container">
         <div className={css.inner}>
@@ -81,5 +82,6 @@ export default function Header() {
         </div>
       </div>
     </header>
+    </>
   );
 }

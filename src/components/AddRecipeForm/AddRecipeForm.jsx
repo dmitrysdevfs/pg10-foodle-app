@@ -227,6 +227,12 @@ const AddRecipeForm = () => {
         }) => {
           const handleCustomSubmit = async e => {
             e.preventDefault();
+
+            if (ingredientsList.length < 2) {
+              toast.error('Please add at least two ingredients');
+              return;
+            }
+
             const errors = await validateForm();
             if (Object.keys(errors).length > 0) {
               const firstError = errors[Object.keys(errors)[0]];
@@ -282,7 +288,7 @@ const AddRecipeForm = () => {
                     <ErrorMessage
                       name="title"
                       component="div"
-                      className={css.errorRecipe}
+                      className={css.error}
                     />
                   </label>
                   <label className={css.titleText}>
@@ -296,7 +302,7 @@ const AddRecipeForm = () => {
                     <ErrorMessage
                       name="description"
                       component="div"
-                      className={css.errorDescription}
+                      className={css.error}
                     />
                   </label>
                   <label className={css.titleText}>
@@ -310,7 +316,7 @@ const AddRecipeForm = () => {
                     <ErrorMessage
                       name="time"
                       component="div"
-                      className={css.errorCooking}
+                      className={css.error}
                     />
                   </label>
 
@@ -326,7 +332,7 @@ const AddRecipeForm = () => {
                       <ErrorMessage
                         name="calories"
                         component="div"
-                        className={css.errorCalories}
+                        className={css.error}
                       />
                     </label>
                     <label className={css.titleText}>
@@ -346,7 +352,7 @@ const AddRecipeForm = () => {
                       <ErrorMessage
                         name="category"
                         component="div"
-                        className={css.errorCategory}
+                        className={css.error}
                       />
                     </label>
                   </div>
@@ -406,7 +412,7 @@ const AddRecipeForm = () => {
                   <ErrorMessage
                     name="ingredients"
                     component="div"
-                    className={css.errorName}
+                    className={css.error}
                   />
                 </label>
                 <div className={css.amountWrapper}>
@@ -429,7 +435,7 @@ const AddRecipeForm = () => {
                     <ErrorMessage
                       name="measure"
                       component="div"
-                      className={css.errorAmount}
+                      className={css.error}
                     />
                   </label>
                   <button
@@ -473,7 +479,7 @@ const AddRecipeForm = () => {
                 <ErrorMessage
                   name="instructions"
                   component="div"
-                  className={css.errorInstructions}
+                  className={css.error}
                 />
               </label>
               <div className={css.buttonSubmitbox}>
