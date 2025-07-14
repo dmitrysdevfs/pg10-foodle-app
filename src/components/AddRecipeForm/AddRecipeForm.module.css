@@ -6,6 +6,7 @@
 
 .description {
   height: 144px;
+  resize: none;
 }
 
 .formContainer {
@@ -19,6 +20,10 @@
 }
 .ingredientNameWrapper {
   position: relative;
+}
+
+.instructions {
+  resize: none;
 }
 
 .dropdown {
@@ -41,6 +46,18 @@
 }
 .dropdownItem:hover {
   background: #f0f0f0;
+}
+
+.titleText {
+  position: relative;
+}
+
+.error {
+  color: #ff0000;
+  font-size: 14px;
+  position: absolute;
+  bottom: -25px;
+  left: 0;
 }
 
 @media screen and (max-width: 767px) {
@@ -110,17 +127,6 @@
     color: var(--black);
   }
 
-  .error {
-    color: #ff0000;
-    font-size: 14px;
-  }
-
-  .descriptionRecipe {
-    max-width: 361px;
-    height: 144px;
-    margin-bottom: 16px;
-  }
-
   .containerFood {
     display: flex;
     gap: 16px;
@@ -139,13 +145,16 @@
     flex: 1 1 0;
     border: 1px solid #d9d9d9;
     outline: none;
-
     font-size: 18px;
     color: var(--black);
     border: 1px solid #d9d9d9;
     border-radius: 8px;
     padding: 12px;
     height: 48px;
+  }
+
+  .errorIngredients{
+    bottom: -5px;
   }
 
   .nameAmount {
@@ -169,6 +178,7 @@
     outline: none;
     font-size: 18px;
     color: var(--black);
+    margin-bottom: 24px;
   }
 
   .buttonRemove {
@@ -209,6 +219,7 @@
   .instructions {
     height: 144px;
     max-width: 361px;
+    resize: none;
   }
 
   .buttonSubmitbox {
@@ -299,21 +310,9 @@
     border-radius: 8px;
     border: 1px solid #d9d9d9;
     outline: none;
-
     font-size: 18px;
     color: var(--black);
     width: 100%;
-  }
-
-  .error {
-    color: #ff0000;
-    font-size: 14px;
-  }
-
-  .descriptionRecipe {
-    width: 704px;
-    height: 144px;
-    margin-bottom: 16px;
   }
 
   .containerFood {
@@ -345,6 +344,10 @@
     gap: 16px;
     width: 100%;
     margin-bottom: 32px;
+  }
+
+  .errorIngredients {
+    bottom: 30px;
   }
 
   .amountWrapper {
@@ -421,6 +424,7 @@
     width: 704px;
     height: 144px;
   }
+
   .buttonSubmitbox {
     display: flex;
     flex-direction: column;
@@ -482,16 +486,6 @@
 
   .input {
     width: 809px;
-  }
-
-  .error {
-    color: #ff0000;
-    font-size: 14px;
-  }
-
-  .descriptionRecipe {
-    width: 809px;
-    height: 144px;
   }
 
   .containerFood {

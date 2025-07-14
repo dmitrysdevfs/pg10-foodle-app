@@ -39,6 +39,7 @@ const AddRecipeForm = () => {
   const [ingredientInput, setIngredientInput] = useState('');
   const [showDropdown, setShowDropdown] = useState(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [ingredientError, setIngredientError] = useState('');
 
   const filteredIngredients = ingredients.filter(ing =>
     ing.name.toLowerCase().includes(ingredientInput.toLowerCase())
@@ -112,6 +113,7 @@ const AddRecipeForm = () => {
           setIngredientInput('');
           setFieldValue('ingredients', '');
           setFieldValue('measure', '');
+          setIngredientError('');
           if (typeof setFieldTouched === 'function') {
             setFieldTouched('ingredients', false);
             setFieldTouched('measure', false);
@@ -148,9 +150,13 @@ const AddRecipeForm = () => {
       return;
     }
     if (ingredientsList.length === 0) {
+      setIngredientError('Please add at least one ingredient');
+
       toast.error('Please add at least one ingredient');
       setSubmitting(false);
       return;
+    } else {
+      setIngredientError('');
     }
     try {
       const formData = new FormData();
@@ -211,7 +217,6 @@ const AddRecipeForm = () => {
           calories: '',
           category: '',
           instructions: '',
-          ingredients: '',
           measure: '',
         }}
         validationSchema={addRecipeSchema}
@@ -227,6 +232,7 @@ const AddRecipeForm = () => {
         }) => {
           const handleCustomSubmit = async e => {
             e.preventDefault();
+
             const errors = await validateForm();
             if (Object.keys(errors).length > 0) {
               const firstError = errors[Object.keys(errors)[0]];
@@ -236,7 +242,16 @@ const AddRecipeForm = () => {
                 acc[key] = true;
                 return acc;
               }, {});
-              setFieldTouched(touchedFields, true, false);
+              Object.keys(touchedFields).forEach(key => {
+                setFieldTouched(key, true, false);
+              });
+              if (ingredientsList.length === 0) {
+                setIngredientError('Please add at least one ingredient');
+                toast.error('Please add at least one ingredients');
+                return;
+              } else {
+                setIngredientError('');
+              }
               return;
             }
             submitForm();
@@ -372,6 +387,15 @@ const AddRecipeForm = () => {
                         setCurrentIngredient(prev => ({ ...prev, id: '' }));
                       }}
                       onFocus={() => setShowDropdown(true)}
+                      onBlur={() => {
+                        if (ingredientsList.length === 0) {
+                          setIngredientError(
+                            'Please add at least one ingredient'
+                          );
+                        } else {
+                          setIngredientError('');
+                        }
+                      }}
                       autoComplete="off"
                       onKeyDown={e => {
                         if (
@@ -382,6 +406,7 @@ const AddRecipeForm = () => {
                         }
                       }}
                     />
+
                     {showDropdown && filteredIngredients.length > 0 && (
                       <ul className={css.dropdown} ref={dropdownRef}>
                         {filteredIngredients.map(ing => (
@@ -401,6 +426,11 @@ const AddRecipeForm = () => {
                       </ul>
                     )}
                   </div>
+                  {ingredientError && (
+                    <div className={clsx(css.error, css.errorIngredients)}>
+                      {ingredientError}
+                    </div>
+                  )}
                   <ErrorMessage
                     name="ingredients"
                     component="div"
