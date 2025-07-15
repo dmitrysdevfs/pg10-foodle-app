@@ -35,7 +35,13 @@ const ProfileRecipesSection = ({
     dispatch(fetchAction(newPage));
   };
 
-  if (loading && page === 1) return <Loader />;
+  if (loading && page === 1) {
+    return (
+      <div className={s.loaderContainer}>
+        <Loader />
+      </div>
+    );
+  }
 
   if (error) {
     return (

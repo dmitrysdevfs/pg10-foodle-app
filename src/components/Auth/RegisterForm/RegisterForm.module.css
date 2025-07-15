@@ -180,6 +180,11 @@
   margin-left: 4px;
 }
 
+.registerLoader {
+  width: 26px;
+  height: 26px;
+}
+
 @media screen and (min-width: 768px) and (max-width: 1024px) {
   .wrap {
     width: 522px;
@@ -214,10 +219,7 @@
 
   .bottomText {
     min-width: 458px;
-
   }
-
-
 }
 
 @media screen and (min-width: 1025px) {
@@ -249,8 +251,6 @@
   .bottomText {
     min-width: 356px;
   }
-}
-
 }
 
 .submitButton:disabled {

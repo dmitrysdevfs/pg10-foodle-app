@@ -54,27 +54,7 @@ const SaveRecipeButton = ({ recipeId }) => {
       const status =
         err?.response?.status || err?.status || err?.originalStatus;
       const message = err?.response?.data?.message || err?.message || '';
-      await dispatch(action).unwrap();
 
-      toast.success(
-        isFavorite ? 'Recipe removed from saved' : 'Recipe saved successfully'
-      );
-    } catch (err) {
-      const status =
-        err?.response?.status || err?.status || err?.originalStatus;
-      const message = err?.response?.data?.message || err?.message || '';
-
-      console.log('REAL ERROR STATUS:', status);
-      console.log('REAL ERROR MESSAGE:', message);
-      if (status === 401 || message.includes('Access token expired')) {
-        setShowModal(true);
-      } else {
-        toast.error('Something went wrong');
-      }
-    } finally {
-      setIsLoading(false);
-    }
-  };
       console.log('REAL ERROR STATUS:', status);
       console.log('REAL ERROR MESSAGE:', message);
       if (status === 401 || message.includes('Access token expired')) {
@@ -142,7 +122,7 @@ const SaveRecipeButton = ({ recipeId }) => {
       >
         {isLoading ? (
           <div className={s.loaderContainer}>
-            <Loader />
+            <Loader className={s.loader} />
           </div>
         ) : isRecipeView ? (
           <>

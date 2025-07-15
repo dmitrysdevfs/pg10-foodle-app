@@ -54,6 +54,14 @@
   flex: 1;
 }
 
+.loaderContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 400px;
+  width: 100%;
+}
+
 .buttonContainer {
   max-width: 372px;
   width: 100%;

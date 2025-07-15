@@ -2,7 +2,7 @@ import css from './AddRecipeForm.module.css';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { useEffect, useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { clsx } from 'clsx';
 import Container from '../../assets/Container.png';
 import RecipeAddIngredient from '../RecipeAddIngredient/RecipeAddIngredient';
@@ -23,7 +23,6 @@ import {
 
 const AddRecipeForm = () => {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
 
   const categories = useSelector(selectCategories);
   const ingredients = useSelector(selectIngredients);

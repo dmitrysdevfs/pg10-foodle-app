@@ -131,7 +131,7 @@ export default function LoginForm() {
               {loading ? (
                 <div className={css.loaderContainer}>
                   <span>Logging in...</span>
-                  <Loader />
+                  <Loader className={css.loginLoader} />
                 </div>
               ) : (
                 'Login'
