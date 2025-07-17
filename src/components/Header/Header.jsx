@@ -34,54 +34,54 @@ export default function Header() {
 
   return (
     <>
-    <header className={clsx(css.headerNav, isScrolled && css.scrolled)}>
-      <div className="container">
-        <div className={css.inner}>
-          <NavLink to="/" className={css.logoLink}>
-            <LogoIcon className={css.logo} />
-            <span className={css.logoText}>Tasteorama</span>
-          </NavLink>
-          <button
-            className={css.burgerButton}
-            onClick={toggleMenu}
-            aria-label="Menu"
-          >
-            {isMenuOpen ? <BsXCircle /> : <RxHamburgerMenu />}
-          </button>
-
-          <nav
-            className={clsx(
-              css.nav,
-              isMenuOpen && css.navMobileOpen,
-              isMenuOpen && isScrolled && css.scrolled
-            )}
-            onClick={closeMenu}
-          >
-            <NavLink to="/" className={buildLinkClass}>
-              Recipes
+      <header className={clsx(css.headerNav, isScrolled && css.scrolled)}>
+        <div className="container">
+          <div className={css.inner}>
+            <NavLink to="/" className={css.logoLink}>
+              <LogoIcon className={css.logo} />
+              <span className={css.logoText}>Tasteorama</span>
             </NavLink>
+            <button
+              className={css.burgerButton}
+              onClick={toggleMenu}
+              aria-label="Menu"
+            >
+              {isMenuOpen ? <BsXCircle /> : <RxHamburgerMenu />}
+            </button>
 
-            {isLoggedIn ? (
-              <UserMenu />
-            ) : (
-              <>
-                <NavLink to="/auth/login" className={buildLinkClass}>
-                  Log in
-                </NavLink>
-                <NavLink
-                  to="/auth/register"
-                  className={({ isActive }) =>
-                    clsx(css.linkBtn, isActive && css.activeBtn)
-                  }
-                >
-                  Register
-                </NavLink>
-              </>
-            )}
-          </nav>
+            <nav
+              className={clsx(
+                css.nav,
+                isMenuOpen && css.navMobileOpen,
+                isMenuOpen && isScrolled && css.scrolled
+              )}
+              onClick={closeMenu}
+            >
+              <NavLink to="/" className={buildLinkClass}>
+                Recipes
+              </NavLink>
+
+              {isLoggedIn ? (
+                <UserMenu />
+              ) : (
+                <>
+                  <NavLink to="/auth/login" className={buildLinkClass}>
+                    Log in
+                  </NavLink>
+                  <NavLink
+                    to="/auth/register"
+                    className={({ isActive }) =>
+                      clsx(css.linkBtn, isActive && css.activeBtn)
+                    }
+                  >
+                    Register
+                  </NavLink>
+                </>
+              )}
+            </nav>
+          </div>
         </div>
-      </div>
-    </header>
+      </header>
     </>
   );
 }

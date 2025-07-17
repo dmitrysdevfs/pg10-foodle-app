@@ -32,8 +32,6 @@ import clsx from 'clsx';
 const MainPage = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const searchValue = searchParams.get('search') || '';
-  const categoryValue = searchParams.get('category') || '';
-  const ingredientValue = searchParams.get('ingredient') || '';
   const dispatch = useDispatch();
 
   const recipes = useSelector(selectRecipes);
@@ -60,51 +58,17 @@ const MainPage = () => {
     }
   }, [dispatch, categories.length, ingredients.length]);
 
-  // Синхронізація URL параметрів з Redux
+  // fetchRecipes тільки по Redux-стану
   useEffect(() => {
-    const newFilters = {
-      category: categoryValue,
-      ingredient: ingredientValue,
-    };
-
-    if (
-      categoryValue !== filters.category ||
-      ingredientValue !== filters.ingredient
-    ) {
-      dispatch(setFilters(newFilters));
-    }
-
-    if (searchValue !== searchQuery) {
-      dispatch(setSearchQuery(searchValue));
-    }
-  }, [
-    categoryValue,
-    ingredientValue,
-    searchValue,
-    dispatch,
-    filters.category,
-    filters.ingredient,
-    searchQuery,
-  ]);
-
-  // Завантаження рецептів
-  useEffect(() => {
-    const fetchParams = {
-      search: searchValue || searchQuery,
-      category: categoryValue,
-      ingredient: ingredientValue,
-      page,
-    };
-
-    dispatch(fetchRecipes(fetchParams));
-  }, [
-    categoryValue,
-    ingredientValue,
-    searchValue,
-    searchQuery,
-    page,
-    dispatch,
-  ]);
+    dispatch(
+      fetchRecipes({
+        search: searchQuery,
+        category: filters.category,
+        ingredient: filters.ingredient,
+        page,
+      })
+    );
+  }, [searchQuery, filters.category, filters.ingredient, page, dispatch]);
 
   useEffect(() => {
     if (isLoggedIn) {
@@ -121,13 +85,12 @@ const MainPage = () => {
         } else {
           params.delete('search');
         }
-        // Скидаємо сторінку при новому пошуку
         params.delete('page');
         return params;
       });
-      // setSearchQuery буде викликано автоматично в useEffect при зміні URL параметрів
+      dispatch(setSearchQuery(query));
     },
-    [setSearchParams]
+    [setSearchParams, dispatch]
   );
 
   const handleFiltersChange = newFilters => {
@@ -143,11 +106,23 @@ const MainPage = () => {
       } else {
         params.delete('ingredient');
       }
-      // Скидаємо сторінку при зміні фільтрів
       params.delete('page');
       return params;
     });
-    // setFilters буде викликано автоматично в useEffect при зміні URL параметрів
+    dispatch(setFilters(newFilters));
+  };
+
+  const handleResetAll = () => {
+    setSearchParams(prev => {
+      const params = new URLSearchParams(prev);
+      params.delete('search');
+      params.delete('category');
+      params.delete('ingredient');
+      params.delete('page');
+      return params;
+    });
+    dispatch(setFilters({ category: '', ingredient: '' }));
+    dispatch(setSearchQuery(''));
   };
 
   const handlePageChange = newPage => {
@@ -156,12 +131,11 @@ const MainPage = () => {
       params.set('page', newPage);
       return params;
     });
-
     dispatch(
       fetchRecipes({
-        search: searchValue || searchQuery,
-        category: categoryValue,
-        ingredient: ingredientValue,
+        search: searchQuery,
+        category: filters.category,
+        ingredient: filters.ingredient,
         page: newPage,
       })
     );
@@ -186,11 +160,23 @@ const MainPage = () => {
           {searchQuery ? `Search Results for "${searchQuery}"` : 'Recipes'}
         </h2>
         <div className={s.filterContainer}>
-          <Filters totalItems={totalItems} onChange={handleFiltersChange} />
+          <Filters
+            totalItems={totalItems}
+            onChange={handleFiltersChange}
+            onReset={handleResetAll}
+          />
         </div>
-        {isLoading && <Loader />}
-        {error && <div className={s.error}>Error: {error}</div>}
-        <RecipesList recipes={recipes} />
+        <div className={s.recipesContainer}>
+          {isLoading ? (
+            <div className={s.loaderContainer}>
+              <Loader />
+            </div>
+          ) : error ? (
+            <div className={s.error}>Error: {error}</div>
+          ) : (
+            <RecipesList recipes={recipes} />
+          )}
+        </div>
         {totalPages > 1 && (
           <Pagination
             totalPages={totalPages}

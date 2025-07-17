@@ -137,12 +137,22 @@
 }
 
 @media (min-width: 768px) {
-  .recipeContainer {
-    padding: 0 32px;
+  .layoutWrapper {
+    flex-direction: row;
+    gap: 24px;
   }
 
   .topSection {
     flex-direction: column;
+  }
+
+  .image {
+    max-width: 704px;
+    height: 624px;
+  }
+
+  .layoutWrapper {
+    flex-direction: column-reverse;
   }
 
   .content {
@@ -217,10 +227,24 @@
   }
 }
 
-.image {
-  width: auto;
-  height: 100%;
-  object-fit: cover;
+.largeDeleteBtn {
+  display: flex;
+  gap: 16px;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  padding: 16px;
+  border-radius: 8px;
+  background: #c80000;
+  color: var(--white);
+  transition: all 0.3s ease;
+}
+
+.largeDeleteBtn:hover {
+  background-color: transparent;
+  color: #c80000;
+  border: 2px solid #c80000;
+  transform: scale(1.02);
 }
 
 .largeDeleteBtn {

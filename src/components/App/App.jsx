@@ -11,7 +11,6 @@ import { selectRefreshing, selectToken } from '../../redux/auth/selectors';
 import RestrictedRoute from '../RestrictedRoute';
 import PrivateRoute from '../RrivateRoute';
 import SessionManager from '../SessionManager/SessionManager.jsx';
-import GoogleCallback from '../Auth/GoogleCallback.jsx';
 
 const MainPage = lazy(() => import('../../pages/MainPage/MainPage'));
 const RecipeViewPage = lazy(() =>
@@ -77,14 +76,13 @@ export default function App() {
               element={<PrivateRoute component={AddRecipePage} />}
             />
           </Route>
-          <Route path="/auth/google-callback" element={<GoogleCallback />} />
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </Suspense>
       <Toaster
-        position="top-right"
+        position="bottom-center"
         toastOptions={{
-          duration: 4000,
+          duration: 3000,
           style: {
             background: '#fff',
             color: '#333',
@@ -95,14 +93,14 @@ export default function App() {
             border: '1px solid #e5e7eb',
           },
           success: {
-            duration: 4000,
+            duration: 3000,
             iconTheme: {
               primary: '#4ade80',
               secondary: '#fff',
             },
           },
           error: {
-            duration: 5000,
+            duration: 4000,
             iconTheme: {
               primary: '#ef4444',
               secondary: '#fff',

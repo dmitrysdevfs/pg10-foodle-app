@@ -188,8 +188,8 @@ const RegistrationForm = () => {
             >
               {loading ? (
                 <div className={css.loaderContainer}>
-                  <Loader />
                   <span>Creating account...</span>
+                  <Loader className={css.registerLoader} />
                 </div>
               ) : (
                 'Create account'

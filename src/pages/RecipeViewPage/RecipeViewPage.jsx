@@ -6,12 +6,6 @@ import NotFound from '../NotFoundPage/NotFoundPage.jsx';
 import Loader from '../../components/Loader/Loader';
 import css from './RecipeViewPage.module.css';
 
-const PageLoader = () => (
-  <div className={css.pageLoader}>
-    <Loader />
-  </div>
-);
-
 export default function RecipeViewPage() {
   const { id } = useParams();
   const [recipe, setRecipe] = useState(null);
@@ -37,12 +31,17 @@ export default function RecipeViewPage() {
       }
     };
 
-
     getRecipe();
   }, [id]);
 
   if (loading) {
-    return <PageLoader />;
+    return (
+      <div className={css.container}>
+        <div className={css.loaderContainer}>
+          <Loader />
+        </div>
+      </div>
+    );
   }
 
   if (error || !recipe) {

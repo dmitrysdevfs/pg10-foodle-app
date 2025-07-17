@@ -2,10 +2,12 @@ import { useEffect, useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { FiFilter } from 'react-icons/fi';
 import { IoMdCloseCircleOutline } from 'react-icons/io';
+import toast from 'react-hot-toast';
 import {
   fetchCategoriesAsync,
   fetchIngredientsAsync,
   setFilters,
+  setSearchQuery,
 } from '../../redux/recipes/recipesSlice';
 import {
   selectCategories,
@@ -16,9 +18,8 @@ import {
   selectIsLoading,
 } from '../../redux/recipes/selectors';
 import s from './Filters.module.css';
-import { useSearchParams } from 'react-router-dom';
 
-const Filters = ({ totalItems, onChange }) => {
+const Filters = ({ totalItems, onChange, onReset = null }) => {
   const dispatch = useDispatch();
   const categories = useSelector(selectCategories);
   const ingredients = useSelector(selectIngredients);
@@ -29,7 +30,6 @@ const Filters = ({ totalItems, onChange }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const mobileMenuRef = useRef(null);
   const filterButtonRef = useRef(null);
-  const [, setSearchParams] = useSearchParams();
 
   // Unified state for inputs
   const [inputs, setInputs] = useState({
@@ -59,15 +59,46 @@ const Filters = ({ totalItems, onChange }) => {
     ingredientMob: useRef(null),
   };
 
+  // Filtered data for dropdowns
+  const filteredCategories = categories.filter(cat => {
+    const name = cat.name;
+    return (
+      inputs.category === '' ||
+      name.toLowerCase().includes(inputs.category.toLowerCase())
+    );
+  });
+
+  const filteredCategoriesMob = categories.filter(cat => {
+    const name = cat.name;
+    return (
+      inputs.categoryMob === '' ||
+      name.toLowerCase().includes(inputs.categoryMob.toLowerCase())
+    );
+  });
+
+  const filteredIngredients = ingredients.filter(ing => {
+    const name = ing.name;
+    return (
+      inputs.ingredient === '' ||
+      name.toLowerCase().includes(inputs.ingredient.toLowerCase())
+    );
+  });
+
+  const filteredIngredientsMob = ingredients.filter(ing => {
+    const name = ing.name;
+    return (
+      inputs.ingredientMob === '' ||
+      name.toLowerCase().includes(inputs.ingredientMob.toLowerCase())
+    );
+  });
+
   // Sync local input state with Redux filters
   useEffect(() => {
     // Знайти назву інгредієнта за ID
     let ingredientName = '';
     if (filters.ingredient) {
-      const found = ingredients.find(
-        ing => (typeof ing === 'string' ? ing : ing._id) === filters.ingredient
-      );
-      ingredientName = typeof found === 'string' ? found : found?.name || '';
+      const found = ingredients.find(ing => ing._id === filters.ingredient);
+      ingredientName = found?.name || '';
     }
     setInputs(prev => ({
       ...prev,
@@ -111,98 +142,32 @@ const Filters = ({ totalItems, onChange }) => {
         }
       });
     };
+
     document.addEventListener('mousedown', handleClickOutside);
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, [isMobileMenuOpen, dropdowns]);
 
-  // Filtered lists
-  const filteredIngredients = ingredients.filter(ing => {
-    const name = typeof ing === 'string' ? ing : ing.name;
-    return name && name.toLowerCase().includes(inputs.ingredient.toLowerCase());
-  });
-  const filteredIngredientsMob = ingredients.filter(ing => {
-    const name = typeof ing === 'string' ? ing : ing.name;
-    return (
-      name && name.toLowerCase().includes(inputs.ingredientMob.toLowerCase())
-    );
-  });
-  const filteredCategories = categories.filter(cat => {
-    const name = typeof cat === 'string' ? cat : cat.name;
-    return name && name.toLowerCase().includes(inputs.category.toLowerCase());
-  });
-  const filteredCategoriesMob = categories.filter(cat => {
-    const name = typeof cat === 'string' ? cat : cat.name;
-    return (
-      name && name.toLowerCase().includes(inputs.categoryMob.toLowerCase())
-    );
-  });
-
-  // Handlers
-  const handleInput = field => e => {
-    const value = e.target.value;
-    // Reset both if needed (logic for cross-reset)
-    if (
-      (field === 'ingredient' && !inputs.category && filters.category) ||
-      (field === 'category' && !inputs.ingredient && filters.ingredient)
-    ) {
-      setInputs(prev => ({ ...prev, ingredient: '', category: '' }));
-      dispatch(setFilters({ category: '', ingredient: '' }));
-      if (onChange) onChange({ category: '', ingredient: '' });
-    } else if (
-      (field === 'ingredientMob' && !inputs.categoryMob && filters.category) ||
-      (field === 'categoryMob' && !inputs.ingredientMob && filters.ingredient)
-    ) {
-      setInputs(prev => ({ ...prev, ingredientMob: '', categoryMob: '' }));
-      dispatch(setFilters({ category: '', ingredient: '' }));
-      if (onChange) onChange({ category: '', ingredient: '' });
-    } else {
-      setInputs(prev => ({ ...prev, [field]: value }));
-    }
-    setDropdowns(prev => ({ ...prev, [field]: true }));
-  };
-
-  const handleDropdownSelect = (field, value, filterKey) => {
-    // For ingredients, we need to set the name in input but pass ID to filters
-    if (filterKey === 'ingredient') {
-      const ingredient = ingredients.find(
-        ing => (typeof ing === 'string' ? ing : ing._id) === value
-      );
-      const displayName =
-        typeof ingredient === 'string' ? ingredient : ingredient?.name || value;
-      setInputs(prev => ({ ...prev, [field]: displayName }));
-    } else {
-      setInputs(prev => ({ ...prev, [field]: value }));
-    }
-    setDropdowns(prev => ({ ...prev, [field]: false }));
-    const newFilters = { ...filters, [filterKey]: value };
-    dispatch(setFilters(newFilters));
-    if (onChange) onChange(newFilters);
-  };
-
-  const handleDropdownReset = (field1, field2) => {
-    setInputs(prev => ({ ...prev, [field1]: '', [field2]: '' }));
-
-    const newFilters = { category: '', ingredient: '' };
-
-    // Викликаємо setFilters тільки якщо фільтри дійсно змінилися
-    if (filters.category !== '' || filters.ingredient !== '') {
-      dispatch(setFilters(newFilters));
-      if (onChange) onChange(newFilters);
-    }
-
-    // Оновлюємо URL параметри - useEffect автоматично синхронізує Redux
-    setSearchParams(params => {
-      const newParams = new URLSearchParams(params);
-      newParams.delete('category');
-      newParams.delete('ingredient');
-      newParams.delete('search');
-      return newParams;
-    });
-  };
-
   const handleReset = () => {
+    // Викликаємо зовнішню функцію скидання, якщо вона передана
+    if (onReset) {
+      onReset();
+    } else {
+      // Fallback: скидаємо тільки фільтри
+      const newFilters = { category: '', ingredient: '' };
+      dispatch(setFilters(newFilters));
+
+      // Скидаємо пошук
+      dispatch(setSearchQuery(''));
+
+      // Викликаємо onChange з порожніми фільтрами
+      if (onChange) {
+        onChange(newFilters);
+      }
+    }
+
+    // Скидаємо локальні стани
     setInputs({
       category: '',
       ingredient: '',
@@ -210,26 +175,66 @@ const Filters = ({ totalItems, onChange }) => {
       ingredientMob: '',
     });
 
-    const newFilters = { category: '', ingredient: '' };
-
-    // Викликаємо setFilters тільки якщо фільтри дійсно змінилися
-    if (filters.category !== '' || filters.ingredient !== '') {
-      dispatch(setFilters(newFilters));
-      if (onChange) onChange(newFilters);
-    }
-
-    // Оновлюємо URL параметри - useEffect автоматично синхронізує Redux
-    setSearchParams(params => {
-      const newParams = new URLSearchParams(params);
-      newParams.delete('category');
-      newParams.delete('ingredient');
-      newParams.delete('search');
-      return newParams;
+    // Закриваємо всі dropdown
+    setDropdowns({
+      category: false,
+      ingredient: false,
+      categoryMob: false,
+      ingredientMob: false,
     });
+
+    // Показуємо повідомлення
+    toast.success('Filters and search have been reset');
   };
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
+  };
+
+  // Handler functions for inputs and dropdowns
+  const handleInput = inputKey => e => {
+    const value = e.target.value;
+    setInputs(prev => ({ ...prev, [inputKey]: value }));
+    setDropdowns(prev => ({ ...prev, [inputKey]: true }));
+  };
+
+  const handleDropdownSelect = (inputKey, value, filterKey) => {
+    // Для інгредієнтів зберігаємо ID, для категорій - назву
+    let filterValue = value;
+    let inputValue = value;
+
+    if (filterKey === 'ingredient') {
+      // Знаходимо інгредієнт за ID і отримуємо назву для відображення
+      const ingredient = ingredients.find(ing => ing._id === value);
+      if (ingredient) {
+        inputValue = ingredient.name;
+      }
+      filterValue = value; // ID
+    } else {
+      // Для категорій зберігаємо назву
+      filterValue = value; // назва
+      inputValue = value; // назва
+    }
+
+    setInputs(prev => ({ ...prev, [inputKey]: inputValue }));
+    setDropdowns(prev => ({ ...prev, [inputKey]: false }));
+
+    const newFilters = { ...filters, [filterKey]: filterValue };
+    dispatch(setFilters(newFilters));
+    if (onChange) {
+      onChange(newFilters);
+    }
+  };
+
+  const handleDropdownReset = (inputKey, filterKey) => {
+    setInputs(prev => ({ ...prev, [inputKey]: '' }));
+    setDropdowns(prev => ({ ...prev, [inputKey]: false }));
+
+    const newFilters = { ...filters, [filterKey]: '' };
+    dispatch(setFilters(newFilters));
+    if (onChange) {
+      onChange(newFilters);
+    }
   };
 
   if (error) {
@@ -308,22 +313,23 @@ const Filters = ({ totalItems, onChange }) => {
               )}
               {dropdowns.categoryMob && filteredCategoriesMob.length > 0 && (
                 <ul className={s.dropdown} ref={dropdownRefs.categoryMob}>
-                  {filteredCategoriesMob.map(cat => {
-                    const name = typeof cat === 'string' ? cat : cat.name;
-                    return (
-                      <li
-                        key={name}
-                        className={s.dropdownItem}
-                        onClick={e => {
-                          e.preventDefault();
-                          e.stopPropagation();
-                          handleDropdownSelect('categoryMob', name, 'category');
-                        }}
-                      >
-                        {name}
-                      </li>
-                    );
-                  })}
+                  {filteredCategoriesMob.map(cat => (
+                    <li
+                      key={cat.name}
+                      className={s.dropdownItem}
+                      onClick={e => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        handleDropdownSelect(
+                          'categoryMob',
+                          cat.name,
+                          'category'
+                        );
+                      }}
+                    >
+                      {cat.name}
+                    </li>
+                  ))}
                 </ul>
               )}
             </div>
@@ -346,9 +352,7 @@ const Filters = ({ totalItems, onChange }) => {
                   if (e.key === 'Enter' && filteredIngredientsMob.length > 0) {
                     handleDropdownSelect(
                       'ingredientMob',
-                      typeof filteredIngredientsMob[0] === 'string'
-                        ? filteredIngredientsMob[0]
-                        : filteredIngredientsMob[0]._id,
+                      filteredIngredientsMob[0]._id,
                       'ingredient'
                     );
                   }
@@ -387,19 +391,19 @@ const Filters = ({ totalItems, onChange }) => {
                 <ul className={s.dropdown} ref={dropdownRefs.ingredientMob}>
                   {filteredIngredientsMob.map(ing => (
                     <li
-                      key={typeof ing === 'string' ? ing : ing._id}
+                      key={ing._id}
                       className={s.dropdownItem}
                       onClick={e => {
                         e.preventDefault();
                         e.stopPropagation();
                         handleDropdownSelect(
                           'ingredientMob',
-                          typeof ing === 'string' ? ing : ing._id,
+                          ing._id,
                           'ingredient'
                         );
                       }}
                     >
-                      {typeof ing === 'string' ? ing : ing.name}
+                      {ing.name}
                     </li>
                   ))}
                 </ul>
@@ -460,22 +464,19 @@ const Filters = ({ totalItems, onChange }) => {
             )}
             {dropdowns.category && filteredCategories.length > 0 && (
               <ul className={s.dropdown} ref={dropdownRefs.category}>
-                {filteredCategories.map(cat => {
-                  const name = typeof cat === 'string' ? cat : cat.name;
-                  return (
-                    <li
-                      key={name}
-                      className={s.dropdownItem}
-                      onClick={e => {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        handleDropdownSelect('category', name, 'category');
-                      }}
-                    >
-                      {name}
-                    </li>
-                  );
-                })}
+                {filteredCategories.map(cat => (
+                  <li
+                    key={cat.name}
+                    className={s.dropdownItem}
+                    onClick={e => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      handleDropdownSelect('category', cat.name, 'category');
+                    }}
+                  >
+                    {cat.name}
+                  </li>
+                ))}
               </ul>
             )}
           </div>
@@ -499,9 +500,7 @@ const Filters = ({ totalItems, onChange }) => {
                 if (e.key === 'Enter' && filteredIngredients.length > 0) {
                   handleDropdownSelect(
                     'ingredient',
-                    typeof filteredIngredients[0] === 'string'
-                      ? filteredIngredients[0]
-                      : filteredIngredients[0]._id,
+                    filteredIngredients[0]._id,
                     'ingredient'
                   );
                 }
@@ -538,19 +537,15 @@ const Filters = ({ totalItems, onChange }) => {
               <ul className={s.dropdown} ref={dropdownRefs.ingredient}>
                 {filteredIngredients.map(ing => (
                   <li
-                    key={typeof ing === 'string' ? ing : ing._id}
+                    key={ing._id}
                     className={s.dropdownItem}
                     onClick={e => {
                       e.preventDefault();
                       e.stopPropagation();
-                      handleDropdownSelect(
-                        'ingredient',
-                        typeof ing === 'string' ? ing : ing._id,
-                        'ingredient'
-                      );
+                      handleDropdownSelect('ingredient', ing._id, 'ingredient');
                     }}
                   >
-                    {typeof ing === 'string' ? ing : ing.name}
+                    {ing.name}
                   </li>
                 ))}
               </ul>

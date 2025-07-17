@@ -35,9 +35,11 @@ const SaveRecipeButton = ({ recipeId }) => {
     }
 
     if (isLoading) {
-      return;
+      return; // Запобігаємо подвійним клікам
     }
+
     setIsLoading(true);
+
     try {
       const action = isFavorite
         ? removeFromFavorites(recipeId)
@@ -119,7 +121,7 @@ const SaveRecipeButton = ({ recipeId }) => {
       >
         {isLoading ? (
           <div className={s.loaderContainer}>
-            <Loader />
+            <Loader className={s.loader} />
           </div>
         ) : isRecipeView ? (
           <>

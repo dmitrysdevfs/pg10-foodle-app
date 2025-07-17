@@ -8,6 +8,7 @@ import Container from '../../assets/Container.png';
 import RecipeAddIngredient from '../RecipeAddIngredient/RecipeAddIngredient';
 import { addRecipeSchema } from '../../utils/validationSchemas';
 import toast from 'react-hot-toast';
+import Modal from '../Modal/Modal';
 import {
   fetchCategoriesAsync,
   fetchIngredientsAsync,
@@ -19,7 +20,6 @@ import {
   selectIsLoading,
   selectError,
 } from '../../redux/recipes/selectors';
-import Modal from '../Modal/Modal';
 
 const AddRecipeForm = () => {
   const dispatch = useDispatch();

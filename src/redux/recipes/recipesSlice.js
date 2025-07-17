@@ -80,13 +80,15 @@ const recipesSlice = createSlice({
   reducers: {
     setSearchQuery: (state, action) => {
       state.searchQuery = action.payload;
-      state.totalItems = 0;
       state.currentPage = 1; // Скидаємо на першу сторінку
+      state.items = []; // Очищаємо список рецептів
+      state.totalItems = 0; // Скидаємо загальну кількість
     },
     setFilters: (state, action) => {
       state.filters = action.payload;
-      state.totalItems = 0;
       state.currentPage = 1; // Скидаємо на першу сторінку
+      state.items = []; // Очищаємо список рецептів
+      state.totalItems = 0; // Скидаємо загальну кількість
     },
     clearRecipes: state => {
       state.items = [];
@@ -101,6 +103,8 @@ const recipesSlice = createSlice({
       .addCase(fetchRecipes.pending, state => {
         state.isLoading = true;
         state.error = null;
+        state.items = [];
+        state.totalItems = 0;
       })
       .addCase(fetchRecipes.fulfilled, (state, action) => {
         state.isLoading = false;

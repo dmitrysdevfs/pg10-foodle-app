@@ -39,6 +39,11 @@
   flex-shrink: 0;
 }
 
+.loader {
+  width: 28px;
+  height: 28px;
+}
+
 .saved {
   background-color: #9b6c43;
   color: #fff;
@@ -67,6 +72,7 @@
 .button:disabled {
   opacity: 0.6;
   cursor: not-allowed;
+  pointer-events: none;
 }
 
 .iconBtn:disabled:hover,
@@ -85,12 +91,12 @@
 }
 
 .loaderContainer :global(.loader) {
-  min-height: 24px;
+  min-height: 16px;
 }
 
 .loaderContainer :global(.spinner) {
-  width: 20px;
-  height: 20px;
+  width: 16px;
+  height: 16px;
   border: 2px solid #e0e0e0;
-  border-top: 2px solid var(--white);
+  border-top: 2px solid var(--light-brown);
 }

@@ -12,6 +12,14 @@
   width: 100%;
 }
 
+.loaderContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 400px;
+  width: 100%;
+}
+
 @media (min-width: 768px) {
   .container {
     padding: 0 32px;
